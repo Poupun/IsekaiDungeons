@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    THE TOWER FOLK - whoever it is that lives on the friendly floors.
+
+    INHERITS OutlanderFactionBase rather than being written from scratch. That
+    parent supplies the four things RimWorld's own error checker demands of any
+    humanlike faction - backstoryFilters, maxPawnCostPerTotalPointsCurve,
+    raidLootValueFromPointsCurve and a pawnGroupMakers list that is actually
+    populated - and getting them by inheritance means they stay correct when
+    the base game changes them.
+
+    HIDDEN, and that is the whole point. Faction.HasGoodwill returns false for a
+    hidden faction, so TryAffectGoodwillWith is a no-op in both directions:
+    trading here buys no free goodwill, and massacring a market floor costs the
+    player nothing in their real world relations. It also keeps them out of the
+    Factions tab, which is right - these people are not a power on the planet,
+    they are somebody's neighbours inside a tower.
+
+    Explicitly NOT the Adventurers' Guild faction. That one is visible with real
+    goodwill, so tower violence would leak outward in a way the player could not
+    see coming.
+
+    requiredCountAtGameStart 0 with canMakeRandomly false: the faction is created
+    at runtime by TowerVillage.EnsureFaction the first time a village floor
+    generates, so mid-save installs work and worlds without a tower never carry
+    a faction they have no use for.
+  -->
+  <FactionDef ParentName="OutlanderFactionBase">
+    <defName>IsekaiDungeons_TowerFolk</defName>
+    <label>tower folk</label>
+    <description>People who live inside the tower, on the floors that turned out to be worth living on. They did not climb here and they are not trying to leave. They will trade with anyone who is not currently trying to kill them.</description>
+    <pawnSingular>tower dweller</pawnSingular>
+    <pawnsPlural>tower dwellers</pawnsPlural>
+    <hidden>true</hidden>
+    <humanlikeFaction>true</humanlikeFaction>
+    <canMakeRandomly>false</canMakeRandomly>
+    <requiredCountAtGameStart>0</requiredCountAtGameStart>
+    <maxCountAtGameStart>0</maxCountAtGameStart>
+    <!-- No presence on the planet: the tower is the only place they exist. -->
+    <settlementGenerationWeight>0</settlementGenerationWeight>
+    <canSiege>false</canSiege>
+    <canStageAttacks>false</canStageAttacks>
+    <raidsForbidden>true</raidsForbidden>
+    <canGenerateQuestSites>false</canGenerateQuestSites>
+    <permanentEnemy>false</permanentEnemy>
+    <leaderTitle>elder</leaderTitle>
+    <techLevel>Medieval</techLevel>
+    <colorSpectrum>
+      <li>(0.85, 0.78, 0.60)</li>
+      <li>(0.70, 0.66, 0.55)</li>
+    </colorSpectrum>
+  </FactionDef>
+
+
+  <!--
+    THE MIRROR FACTION - the tower's blank hand, for enemies who are supposed
+    to be NOBODY'S: floor 50's copies of the player's own party, and any
+    future authored tower enemy that must carry no faction identity at all.
+
+    It exists because "no faction" is not actually available. A hostile
+    humanlike needs SOME faction for lords and hostility, and resolving "the
+    first permanently hostile faction" handed mirrors to whatever the modlist
+    provided - whose xenotypeSet then drove pawn generation. That is how a
+    baseliner colonist's copy generated with another faction's Yttakin
+    germline before its genes were overwritten. This faction pins generation
+    to baseliner (the gene copy then rebuilds the real xenotype verbatim), and
+    its apparel/ideo influence is irrelevant because the character spec clears
+    and rewrites all of it.
+
+    Same lifecycle as the tower folk above: hidden, no planet presence,
+    created at runtime (MirrorForge.EnsureMirrorFaction) the first time it is
+    needed. permanentEnemy where the folk are neutral - a mirror exists to be
+    fought, and goodwill must never leak from killing one.
+  -->
+  <FactionDef ParentName="OutlanderFactionBase">
+    <defName>IsekaiDungeons_MirrorFaction</defName>
+    <label>the tower's hand</label>
+    <description>The tower does not need to recruit. When it wants soldiers, it makes them - out of whatever, and whoever, is available.</description>
+    <pawnSingular>reflection</pawnSingular>
+    <pawnsPlural>reflections</pawnsPlural>
+    <hidden>true</hidden>
+    <humanlikeFaction>true</humanlikeFaction>
+    <canMakeRandomly>false</canMakeRandomly>
+    <requiredCountAtGameStart>0</requiredCountAtGameStart>
+    <maxCountAtGameStart>0</maxCountAtGameStart>
+    <settlementGenerationWeight>0</settlementGenerationWeight>
+    <canSiege>false</canSiege>
+    <canStageAttacks>false</canStageAttacks>
+    <raidsForbidden>true</raidsForbidden>
+    <canGenerateQuestSites>false</canGenerateQuestSites>
+    <permanentEnemy>true</permanentEnemy>
+    <leaderTitle>hand</leaderTitle>
+    <techLevel>Spacer</techLevel>
+    <!-- Generation-neutral: an EMPTY chance list is vanilla's way of saying
+         "always baseliner" (Baseliner is the implicit remainder and is never
+         listed as an entry). Inherit False wipes whatever spread the
+         outlander base carries, so nothing here can ever bleed into a pawn
+         whose real identity is applied on top. -->
+    <xenotypeSet Inherit="False">
+      <xenotypeChances />
+    </xenotypeSet>
+    <colorSpectrum>
+      <li>(0.55, 0.55, 0.62)</li>
+      <li>(0.35, 0.35, 0.42)</li>
+    </colorSpectrum>
+  </FactionDef>
+
+</Defs>

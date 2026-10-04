@@ -1,0 +1,713 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    ═══ CATALOGUE ROWS 19-40 — ranks C, B and A ═══
+
+    Every def here inherits IsekaiDungeonBase (Dungeons_Low.xml), which owns
+    gateDef, the five rank curves, roomSizeRange, treasureRoomCountRange,
+    corridorWidth, bossIsElite and placeDoors.
+    Only three defs override an inherited field, each flagged inline:
+    #26 Metal Slime Vault (treasure rooms), #31 and #39 (room count / maze).
+
+    RANK BANDS. minRank == maxRank throughout: the catalogue assigns each of
+    these dungeons exactly one rank, and selection rolls RANK FIRST and only
+    then picks among the dungeons valid at that rank. Widening the bands would
+    let a C dungeon soak rolls that belong to the B and A pools.
+
+    THEME PER ENVIRONMENT (CATALOGUE.md "Environments" table). Reused verbatim
+    by every def of that environment so the ten environments stay recognisable:
+
+      Cavern    Carve  roofed     floor: none  — see the null-floor note below
+      Crypt     Carve  roofed     floor: IsekaiDungeons_TileSlate (cut stone, tomb tile;
+                                         the refund-free twin of vanilla TileSlate)
+      Abyss     Carve  roofed     floor: none  — see the null-floor note below
+      Verdant   OPEN   open sky   floor: the biome's
+      Ruins     OPEN   open sky   floor: the biome's
+      Ashland   OPEN   open sky   floor: the biome's
+      Snowfield OPEN   open sky   floor: the biome's
+      Foundry   OPEN   open sky   floor: the biome's
+
+    THE SIX SURFACE ENVIRONMENTS ARE OPEN FIELDS. There are no walls, no
+    corridors and no doors on any of them, and the terrain is never touched.
+    Fencing an open biome into a walled compound only produced a cave dungeon
+    wearing a snow texture, so the architecture is gone entirely: the biome is
+    the dungeon, and difficulty is nothing but WHERE the creature groups stand.
+    Each surface def therefore states layoutMode Open, roofed false, placeDoors
+    false and an openZoneRadiusRange, and states no wallDef, no wallStuff and
+    no floorTerrain — Open mode reads none of those, and writing them down
+    would describe architecture that never generates.
+
+    ZONE SIZING. openZoneRadiusRange is the radius of one encounter zone: the
+    patch of open ground a group holds. Bigger at higher rank and on dungeons
+    meant to sprawl, smaller on the two labyrinths (whose roomCountByRank
+    override packs far more zones onto the same map). Zones are placed with a
+    hard 3-cell separation, so these stay small enough that they never touch.
+
+    NULL FLOOR ON CAVERN AND ABYSS is deliberate, not an omission. floorTerrain
+    null makes GenStep_DungeonLayout keep the MINED ROCK'S own naturalTerrain
+    (Gravel only as a last-resort fallback) — which is exactly what "classic
+    rough rock tunnels" and "scorched infernal rock" mean: the stone belongs to
+    the environment generator, not to the dungeon. Crypt overrides it because a
+    tomb floor is a LAID floor.
+
+    ROSTERS. Entry kinds are defName STRINGS resolved lazily, so a missing
+    add-on drops the entry instead of erroring. Weights read front-to-back:
+    chaff heavy, the signature kind mid, the elite entry light AND gated with
+    minDepth >= ~0.5 so it can only turn up in the back half of the crawl (the
+    room-tier ramp is already climbing there — the two ramps compound).
+    Where the catalogue's roster column names fewer than three kinds, one
+    related kind is added to reach a workable roster; each such addition is
+    commented. requiresFullRoster is true everywhere except the two vanilla-only
+    rows (#24 Thrumbo Vale, #34 Elephant Graveyard), which must keep working
+    when no add-on at all is installed.
+
+    Carve dungeons do not set <roofed>: they are holes in rock and the field
+    already defaults to true. Open dungeons state it false — the field is dead
+    in Open mode, but the default is true and an inherited "roofed" on an open
+    field would read as a building.
+  -->
+
+  <!-- ══════════════════════════ RANK C ══════════════════════════ -->
+
+  <!-- #19 -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_GoblinKingsWarren</defName>
+    <label>goblin king's warren</label>
+    <description>The tunnels widen into a warren cut by hands that knew what they were doing — barricaded chokepoints, firing slits, a war camp underground. Archers hold the galleries while hobgoblins work the front line. Somewhere at the back, something wearing a crown gives orders the whole warren obeys.</description>
+    <mapGenerator>IsekaiDungeons_Dungeon</mapGenerator>
+    <!-- Earthy: allows loose ground (dirtyOnly decor). -->
+    <dirty>true</dirty>
+    <minRank>C</minRank>
+    <maxRank>C</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+    <layoutMode>Carve</layoutMode>
+    <roster>
+      <li><kind>IsekaiGoblin_Warrior</kind><weight>2.2</weight></li>
+      <li><kind>IsekaiGoblin_Archer</kind><weight>1.6</weight></li>
+      <!-- Marksmen hold the deeper galleries; hobgoblins are the elite gate. -->
+      <li><kind>IsekaiGoblin_Marksman</kind><weight>0.9</weight><minDepth>0.35</minDepth></li>
+      <li><kind>IsekaiGoblin_Hobgoblin</kind><weight>0.8</weight><minDepth>0.5</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiGoblin_King</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- #20 -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_TrollBridgeChasm</defName>
+    <label>troll bridge chasm</label>
+    <description>A split in the rock too wide to jump, bridged with slabs the trolls dragged into place themselves. They hold the crossings and eat whatever tries to use one. Trolls knit their wounds shut faster than most parties can open them, so bring something that burns.</description>
+    <mapGenerator>IsekaiDungeons_Dungeon</mapGenerator>
+    <minRank>C</minRank>
+    <maxRank>C</maxRank>
+    <selectionWeight>0.9</selectionWeight>
+    <layoutMode>Carve</layoutMode>
+    <roster>
+      <li><kind>IsekaiTroll_Baby</kind><weight>2.5</weight></li>
+      <li><kind>IsekaiTroll_Adult</kind><weight>1.4</weight><minDepth>0.45</minDepth></li>
+      <!-- Added to reach a workable roster: wargs den in the chasm and scavenge
+           the trolls' leavings. Vanilla, so it resolves even without the
+           creature add-on — but the boss list is add-on only, which is what
+           actually gates this dungeon's availability. -->
+      <li><kind>Warg</kind><weight>0.8</weight></li>
+    </roster>
+    <bosses>
+      <li>IsekaiTroll_Adult</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- #21 -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_DemonGate</defName>
+    <label>demon gate</label>
+    <description>A second gate stands at the far end of this one — smaller, older, and leaking heat into the rock. Imps swarm the approach in numbers, and the things stepping through behind them are not imps. Shut it before the traffic gets heavier.</description>
+    <mapGenerator>IsekaiDungeons_Abyss</mapGenerator>
+    <minRank>C</minRank>
+    <maxRank>C</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+    <layoutMode>Carve</layoutMode>
+    <roster>
+      <li><kind>IsekaiImp_Common</kind><weight>2.2</weight></li>
+      <li><kind>IsekaiImp_Greater</kind><weight>1.5</weight></li>
+      <li><kind>IsekaiImp_Lesser</kind><weight>0.9</weight></li>
+      <li><kind>IsekaiDemon_Lesser</kind><weight>1.0</weight><minDepth>0.5</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiDemon_Common</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- #22 — OPEN-FIELD dungeon: the grove itself, unfenced. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_TreantGrove</defName>
+    <label>treant grove</label>
+    <description>An old grove under a sky the wrong colour, open ground between trunks that are counted and watched. Saplings pull themselves out of the soil as strangers cross it; the full-grown ones further out do not need to move quickly to be a problem. Fire opens a way across, and makes every trunk in the grove hate you at once.</description>
+    <mapGenerator>IsekaiDungeons_Verdant</mapGenerator>
+    <minRank>C</minRank>
+    <maxRank>C</maxRank>
+    <selectionWeight>0.9</selectionWeight>
+    <layoutMode>Open</layoutMode>
+    <roofed>false</roofed>
+    <placeDoors>false</placeDoors>
+    <!-- No floorTerrain: the Verdant biome supplies the forest floor. -->
+    <!-- Treants hold specific stands of the grove — mid-sized, well spaced. -->
+    <openZoneRadiusRange>12~15</openZoneRadiusRange>
+    <roster>
+      <li><kind>IsekaiTreant_Sapling</kind><weight>2.5</weight></li>
+      <li><kind>IsekaiTreant_Adult</kind><weight>1.3</weight><minDepth>0.45</minDepth></li>
+      <!-- Added to reach a workable roster: the grove's own beasts fight for it. -->
+      <li><kind>Cougar</kind><weight>0.7</weight></li>
+    </roster>
+    <bosses>
+      <li>IsekaiTreant_Adult</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- #23 — OPEN-FIELD dungeon: a ruin field, not a rebuilt stronghold. The
+       Ruins generator's own scatter is the architecture. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_AncientVault</defName>
+    <label>ancient vault</label>
+    <description>Sandstone that was a stronghold before anyone alive was born, worn down to a broken field of it under an empty sky. The mechanoid garrison never received an order to stand down: scythers hold the near ground while lancers cover the long sightlines from further out. Whatever the vault was built to keep is still out there under the rubble, and something heavy is sitting on it.</description>
+    <mapGenerator>IsekaiDungeons_Ruins</mapGenerator>
+    <minRank>C</minRank>
+    <maxRank>C</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+    <layoutMode>Open</layoutMode>
+    <roofed>false</roofed>
+    <placeDoors>false</placeDoors>
+    <!-- No floorTerrain: the Ruins biome supplies the ground. -->
+    <!-- Mechs cover long approaches, so generous zones. -->
+    <openZoneRadiusRange>12~16</openZoneRadiusRange>
+    <roster>
+      <li><kind>Mech_Scyther</kind><weight>1.8</weight></li>
+      <li><kind>Mech_Lancer</kind><weight>1.4</weight></li>
+      <!-- Pikemen are the heaviest thing short of the boss: back half only. -->
+      <li><kind>Mech_Pikeman</kind><weight>1.0</weight><minDepth>0.5</minDepth></li>
+    </roster>
+    <bosses>
+      <li>Mech_CentipedeGunner</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- #24 — vanilla-only roster: must stay offerable with no add-on installed.
+       OPEN-FIELD dungeon, and the purest example of the design: an open valley
+       with megafauna grazing on it. Walling this row was always absurd. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_ThrumboVale</defName>
+    <!-- Stand-in for missing add-on content: stepped down whenever
+         themed dungeons exist at the same rank. See DungeonKindDef. -->
+    <vanillaBackbone>true</vanillaBackbone>
+    <label>thrumbo vale</label>
+    <description>A green valley on the far side of the gate, unpeopled and unhurried, grazed by animals that have never had a reason to be afraid. Nothing in it hunts you. Everything in it can kill you if you make that necessary — and a thrumbo horn is worth enough that most parties decide it is.</description>
+    <mapGenerator>IsekaiDungeons_Verdant</mapGenerator>
+    <minRank>C</minRank>
+    <maxRank>C</maxRank>
+    <!-- Lower weight: a vale of grazing megafauna is the odd one out in the C
+         pool and should read as a rare find, not the default C dungeon. -->
+    <selectionWeight>0.7</selectionWeight>
+    <layoutMode>Open</layoutMode>
+    <roofed>false</roofed>
+    <placeDoors>false</placeDoors>
+    <!-- No floorTerrain: the vale's own grass and soil are the ground. -->
+    <!-- The most sprawling C dungeon: grazing herds spread out, and the whole
+         row is "an unhurried valley you happen to be walking across". -->
+    <openZoneRadiusRange>13~16</openZoneRadiusRange>
+    <roster>
+      <li><kind>Megasloth</kind><weight>1.6</weight></li>
+      <li><kind>Rhinoceros</kind><weight>1.3</weight></li>
+      <li><kind>Thrumbo</kind><weight>0.7</weight><minDepth>0.5</minDepth></li>
+    </roster>
+    <bosses>
+      <li>Thrumbo</li>
+    </bosses>
+    <requiresFullRoster>false</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- #25 -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_SkeletonLegionCrypt</defName>
+    <label>skeleton legion crypt</label>
+    <description>Rank on rank of burial niches cut into the stone, filled, sealed, and stirring. The dead here were an army once and they still remember the drill — they come in ordered lines, not in mobs. Whatever woke them is sitting in the last chamber, and it is still awake.</description>
+    <mapGenerator>IsekaiDungeons_Crypt</mapGenerator>
+    <minRank>C</minRank>
+    <maxRank>C</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+    <layoutMode>Carve</layoutMode>
+    <floorTerrain>IsekaiDungeons_TileSlate</floorTerrain>
+    <roster>
+      <li><kind>IsekaiSkeleton_Common</kind><weight>2.5</weight></li>
+      <li><kind>IsekaiSkeleton_Goblin</kind><weight>1.6</weight></li>
+      <li><kind>IsekaiSkeleton_Orc</kind><weight>1.0</weight><minDepth>0.5</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiLich_Adult</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- #26 — THE loot dungeon. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_MetalSlimeVault</defName>
+    <label>metal slime vault</label>
+    <description>A sealed chamber where mana congealed around a seam of ore instead of around flesh. The slimes that grew out of it carry the metal inside them; break one and it spills across the floor. Word of a vault travels fast, so clear it before someone else does.</description>
+    <mapGenerator>IsekaiDungeons_Dungeon</mapGenerator>
+    <minRank>C</minRank>
+    <maxRank>C</maxRank>
+    <!-- Deliberately the rarest C dungeon: it pays roughly double a normal
+         clear, so it has to be a find rather than a farm. -->
+    <selectionWeight>0.4</selectionWeight>
+    <layoutMode>Carve</layoutMode>
+    <!-- OVERRIDE (base 0~2). The whole identity of the vault is side rooms full
+         of loot; guaranteeing at least three is what makes it worth the roll. -->
+    <treasureRoomCountRange>3~5</treasureRoomCountRange>
+    <roster>
+      <li><kind>IsekaiSlime_Metal_Small</kind><weight>2.5</weight></li>
+      <li><kind>IsekaiSlime_Metal_Medium</kind><weight>1.6</weight></li>
+      <li><kind>IsekaiSlime_Metal_Large</kind><weight>0.8</weight><minDepth>0.5</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiSlime_Metal_Large</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- ══════════════════════════ RANK B ══════════════════════════ -->
+
+  <!-- #27 — OPEN-FIELD dungeon: the warband drills on open ruin ground; the
+       Ruins generator's standing stonework is all the fortification there is. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_OrcWarlordFortress</defName>
+    <label>orc warlord's fortress</label>
+    <description>The fortress came down centuries ago; what is left of it is broken sandstone strewn across open ground, and the orcs have simply moved onto it. The warband drills in the open and does not scatter when it takes losses. Their warlord stands at the far end of the field and has not yet had to move for anyone.</description>
+    <mapGenerator>IsekaiDungeons_Ruins</mapGenerator>
+    <minRank>B</minRank>
+    <maxRank>B</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+    <layoutMode>Open</layoutMode>
+    <roofed>false</roofed>
+    <placeDoors>false</placeDoors>
+    <!-- No floorTerrain: the Ruins biome supplies the ground. -->
+    <!-- Courtyard-scale zones: a warband that does not scatter fights as one
+         block, and it needs room to be one. -->
+    <openZoneRadiusRange>13~16</openZoneRadiusRange>
+    <roster>
+      <li><kind>IsekaiOrc_Warrior</kind><weight>2.5</weight></li>
+      <li><kind>IsekaiOrc_Whelp</kind><weight>1.6</weight></li>
+      <!-- Lieutenants: the warlord kind again, deep and rare, so the keep fight
+           is foreshadowed before it happens. -->
+      <li><kind>IsekaiOrc_Warlord</kind><weight>0.5</weight><minDepth>0.6</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiOrc_Warlord</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- #28 -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_LichCatacombs</defName>
+    <label>lich catacombs</label>
+    <description>Level on level of cold vaults, each one worse than the one above it. Skeletons fill the outer halls and the liches behind them keep raising more, so a slow party fights the same corridor twice. Kill the one at the bottom or none of it stays dead.</description>
+    <mapGenerator>IsekaiDungeons_Crypt</mapGenerator>
+    <minRank>B</minRank>
+    <maxRank>B</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+    <layoutMode>Carve</layoutMode>
+    <floorTerrain>IsekaiDungeons_TileSlate</floorTerrain>
+    <roster>
+      <li><kind>IsekaiSkeleton_Common</kind><weight>2.2</weight></li>
+      <li><kind>IsekaiSkeleton_Goblin</kind><weight>1.4</weight></li>
+      <li><kind>IsekaiSkeleton_Orc</kind><weight>1.4</weight></li>
+      <li><kind>IsekaiLich_Adult</kind><weight>0.7</weight><minDepth>0.5</minDepth></li>
+    </roster>
+    <bosses>
+      <!-- Adult lich [A]: one tier over the B band, which is exactly the elite
+           margin the roster band guard allows, and the identity of the place.
+           The arc lich [S] used to stand here - an S boss in a B dungeon,
+           rolled blind - and now belongs only to the necropolis defs that
+           actually run at S. -->
+      <li>IsekaiLich_Adult</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- #29 -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_HellOgrePit</defName>
+    <label>hell ogre pit</label>
+    <description>A pit cut into burning rock where demons keep something bigger than themselves and let it out to feed. The lesser ones get out of the way when it moves. It does not get out of the way for anything.</description>
+    <mapGenerator>IsekaiDungeons_Abyss</mapGenerator>
+    <minRank>B</minRank>
+    <maxRank>B</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+    <layoutMode>Carve</layoutMode>
+    <roster>
+      <li><kind>IsekaiDemon_Lesser</kind><weight>2.2</weight></li>
+      <li><kind>IsekaiDemon_Common</kind><weight>1.4</weight></li>
+      <li><kind>IsekaiHellOgre_Common</kind><weight>0.7</weight><minDepth>0.55</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiHellOgre_Common</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- #30 — OPEN-FIELD dungeon. Foundry is a SURFACE environment, so it
+       converts with the rest: an open industrial site under the sky, garrison
+       standing in the yards, no bulkheads and no roof. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_MechanoidOutpost</defName>
+    <label>mechanoid outpost</label>
+    <description>An open steel yard under a sky the colour of static, still lit by something that has not needed maintenance in centuries. The garrison has been on standby longer than your colony has existed: lancers hold the near ground, centipedes anchor the lines behind them. Something further out noticed the gate open and is already redeploying.</description>
+    <mapGenerator>IsekaiDungeons_Foundry</mapGenerator>
+    <minRank>B</minRank>
+    <maxRank>B</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+    <layoutMode>Open</layoutMode>
+    <!-- roofed false, not the old true: Open never roofs anything, and an
+         inherited/stated "roofed" would describe a building that is not built. -->
+    <roofed>false</roofed>
+    <placeDoors>false</placeDoors>
+    <!-- No floorTerrain: the Foundry biome supplies the ground. -->
+    <!-- Tight for its rank — a garrison holds its posts rather than dispersing. -->
+    <openZoneRadiusRange>12~15</openZoneRadiusRange>
+    <roster>
+      <li><kind>Mech_Lancer</kind><weight>2.0</weight></li>
+      <li><kind>Mech_CentipedeBlaster</kind><weight>1.1</weight></li>
+      <li><kind>Mech_CentipedeGunner</kind><weight>1.1</weight></li>
+      <li><kind>Mech_CentipedeBurner</kind><weight>0.8</weight><minDepth>0.5</minDepth></li>
+    </roster>
+    <bosses>
+      <li>Mech_Diabolus</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- #31 — OPEN-FIELD dungeon. There is no maze to build any more: what
+       survives of the labyrinth is its ROOM COUNT, which on an open field
+       becomes an unusually long chain of small encounter zones. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_MinotaurLabyrinth</defName>
+    <label>minotaur labyrinth</label>
+    <description>Whatever was laid out here to confuse people came down a long time ago; nothing is left of it but ankle-high stubs of stone, and the open ground they once marked out runs further than it should. Minotaurs range across it by sound, and there is always one more group standing between you and the middle. You hear the one you are walking toward long before you see it.</description>
+    <mapGenerator>IsekaiDungeons_Ruins</mapGenerator>
+    <minRank>B</minRank>
+    <maxRank>B</maxRank>
+    <!-- Long crawl, so slightly rarer than the other B dungeons. -->
+    <selectionWeight>0.8</selectionWeight>
+    <layoutMode>Open</layoutMode>
+    <roofed>false</roofed>
+    <placeDoors>false</placeDoors>
+    <!-- No floorTerrain: the Ruins biome supplies the ground. -->
+    <!-- SMALLEST zones in the B pool, on purpose. The roomCountByRank override
+         below puts ~11 combat zones plus entry, boss and treasure on a rank-B
+         map; zones this size are the largest that still keep a clear 3-cell
+         separation at that density, which is what preserves the "one more
+         group, and another" pacing the maze used to get from its walls. -->
+    <openZoneRadiusRange>10~13</openZoneRadiusRange>
+    <!-- OVERRIDE (base peaks at 12). A labyrinth is zone COUNT, not zone size:
+         ~11 combat zones at B against the base 7. The layout planner clamps
+         the count at 16 regardless. -->
+    <roomCountByRank>
+      <points>
+        <li>(0, 6)</li>
+        <li>(2, 8)</li>
+        <li>(4, 11)</li>
+        <li>(6, 14)</li>
+        <li>(8, 17)</li>
+        <li>(9, 18)</li>
+      </points>
+    </roomCountByRank>
+    <roster>
+      <li><kind>IsekaiMinotaur_Adult</kind><weight>2.5</weight></li>
+      <li><kind>IsekaiMinotaur_Upper</kind><weight>0.6</weight><minDepth>0.6</minDepth></li>
+      <!-- Added to reach a workable roster: the maze keeps what it kills, and
+           the crypt-cold parts of the ruin walk it. -->
+      <li><kind>IsekaiSkeleton_Orc</kind><weight>1.1</weight></li>
+    </roster>
+    <bosses>
+      <li>IsekaiMinotaur_Upper</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- #32 — OPEN-FIELD dungeon: bare ice and meltwater, nothing built. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_FrozenWyrmLair</defName>
+    <label>frozen wyrm lair</label>
+    <description>An ice plain under an open, colourless sky, veined with meltwater channels that all run the same way. Frost slimes crust the ice in slow drifts, and the cold does half the wyrm's work before you are anywhere near it. The ice wyvern nests out at the end of the plain and does not tolerate company.</description>
+    <mapGenerator>IsekaiDungeons_Snowfield</mapGenerator>
+    <minRank>B</minRank>
+    <maxRank>B</maxRank>
+    <selectionWeight>0.9</selectionWeight>
+    <layoutMode>Open</layoutMode>
+    <roofed>false</roofed>
+    <placeDoors>false</placeDoors>
+    <!-- No floorTerrain: the Snowfield biome's ice is the ground. -->
+    <!-- Wide: a wyvern lair is approach ground, and the cold is meant to do
+         half its work before you reach the nest. -->
+    <openZoneRadiusRange>13~16</openZoneRadiusRange>
+    <roster>
+      <li><kind>IsekaiSlime_Frost_Small</kind><weight>1.8</weight></li>
+      <li><kind>IsekaiSlime_Frost_Medium</kind><weight>1.8</weight></li>
+      <li><kind>IsekaiSlime_Frost_Large</kind><weight>1.0</weight><minDepth>0.35</minDepth></li>
+      <li><kind>IsekaiWyvern_Ice</kind><weight>0.6</weight><minDepth>0.55</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiWyvern_Ice</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- #33 -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_FleshmassWomb</defName>
+    <label>fleshmass womb</label>
+    <description>The rock here has been replaced by something warm that is still growing. Fleshbeasts peel off the walls fully formed, which means a room you cleared does not stay cleared for long. Cut out the thing at the centre before it finishes making more.</description>
+    <mapGenerator>IsekaiDungeons_Abyss</mapGenerator>
+    <minRank>B</minRank>
+    <maxRank>B</maxRank>
+    <selectionWeight>0.8</selectionWeight>
+    <layoutMode>Carve</layoutMode>
+    <roster>
+      <li><kind>Fingerspike</kind><weight>2.2</weight></li>
+      <li><kind>Toughspike</kind><weight>1.4</weight></li>
+      <li><kind>Trispike</kind><weight>1.0</weight><minDepth>0.5</minDepth></li>
+    </roster>
+    <bosses>
+      <li>Bulbfreak</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- #34 — vanilla-only roster: must stay offerable with no DLC or add-on.
+       OPEN-FIELD dungeon: ash fields under an open sky, herds standing on them. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_ElephantGraveyard</defName>
+    <!-- Stand-in for missing add-on content: stepped down whenever
+         themed dungeons exist at the same rank. See DungeonKindDef. -->
+    <vanillaBackbone>true</vanillaBackbone>
+    <label>elephant graveyard</label>
+    <description>Ash fields under an open sky, bone-white with the old dead. The herds come here to finish and the living ones escorting them do not want visitors. There is nothing to take but ivory and whatever the ash has buried — which turns out to be plenty.</description>
+    <mapGenerator>IsekaiDungeons_Ashland</mapGenerator>
+    <minRank>B</minRank>
+    <maxRank>B</maxRank>
+    <selectionWeight>0.7</selectionWeight>
+    <layoutMode>Open</layoutMode>
+    <roofed>false</roofed>
+    <placeDoors>false</placeDoors>
+    <!-- No floorTerrain: the Ashland biome supplies the ash and grit. -->
+    <!-- Herds range widely across open ash. -->
+    <openZoneRadiusRange>13~16</openZoneRadiusRange>
+    <roster>
+      <li><kind>Elephant</kind><weight>2.0</weight></li>
+      <li><kind>Rhinoceros</kind><weight>1.5</weight></li>
+      <li><kind>Megasloth</kind><weight>1.2</weight><minDepth>0.4</minDepth></li>
+    </roster>
+    <bosses>
+      <li>Elephant</li>
+    </bosses>
+    <requiresFullRoster>false</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- ══════════════════════════ RANK A ══════════════════════════ -->
+
+  <!-- #35 — OPEN-FIELD dungeon: ash to the horizon. "Nothing here has any
+       reason to come down to your level" only reads on open ground. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_FlamewyrmRoost</defName>
+    <label>flamewyrm roost</label>
+    <description>Volcanic ash out to the horizon, broken by basalt spires the wyverns nest on. Pyromancer imps work the ground beneath the roosts and sand wyverns take the flanks in the open. Nothing here has any reason to come down to your level, so the fight happens on theirs.</description>
+    <mapGenerator>IsekaiDungeons_Ashland</mapGenerator>
+    <minRank>A</minRank>
+    <maxRank>A</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+    <layoutMode>Open</layoutMode>
+    <roofed>false</roofed>
+    <placeDoors>false</placeDoors>
+    <!-- No floorTerrain: the Ashland biome supplies the ash and grit. -->
+    <!-- Wyverns take the flanks in the open — wide zones are the encounter. -->
+    <openZoneRadiusRange>13~16</openZoneRadiusRange>
+    <roster>
+      <li><kind>IsekaiImp_Greater</kind><weight>1.8</weight></li>
+      <li><kind>IsekaiWyvern_Sand</kind><weight>1.3</weight></li>
+      <li><kind>IsekaiWyvern_Normal</kind><weight>0.8</weight><minDepth>0.5</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiWyvern_Normal</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- #36 — OPEN-FIELD dungeon: "nothing on this map counts as cover for long"
+       is literally true now. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_DuskwyrmEyrie</defName>
+    <label>duskwyrm eyrie</label>
+    <description>Ledges of black rock over an ice plain, streaked white by generations of nesting. Ice wyverns hold the lower roosts and the dark ones own the height above them. They hunt in the open, so nothing on this map counts as cover for long.</description>
+    <mapGenerator>IsekaiDungeons_Snowfield</mapGenerator>
+    <minRank>A</minRank>
+    <maxRank>A</maxRank>
+    <selectionWeight>0.9</selectionWeight>
+    <layoutMode>Open</layoutMode>
+    <roofed>false</roofed>
+    <placeDoors>false</placeDoors>
+    <!-- No floorTerrain: the Snowfield biome's ice is the ground. -->
+    <!-- They hunt in the open; the zones have to be that open. -->
+    <openZoneRadiusRange>13~16</openZoneRadiusRange>
+    <roster>
+      <li><kind>IsekaiWyvern_Ice</kind><weight>1.8</weight></li>
+      <li><kind>IsekaiWyvern_Dark</kind><weight>1.0</weight><minDepth>0.5</minDepth></li>
+      <!-- Added to reach a workable roster: frost slimes feed on the leavings
+           under the roosts, and they are the chaff that lets the wyverns read
+           as apex rather than as rank-and-file. -->
+      <li><kind>IsekaiSlime_Frost_Large</kind><weight>1.2</weight></li>
+    </roster>
+    <bosses>
+      <li>IsekaiWyvern_Dark</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- #37 -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_DemonLordCourt</defName>
+    <label>demon lord's court</label>
+    <description>A hall cut into the burning rock and kept in proper order — greater demons in attendance, hell ogres standing the doors. They will let you walk in. Reaching the throne is the fight; leaving afterwards is a second one.</description>
+    <mapGenerator>IsekaiDungeons_Abyss</mapGenerator>
+    <minRank>A</minRank>
+    <maxRank>A</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+    <layoutMode>Carve</layoutMode>
+    <roster>
+      <!-- Common demons are the court's rank-and-file at this tier. -->
+      <li><kind>IsekaiDemon_Common</kind><weight>2.0</weight></li>
+      <li><kind>IsekaiHellOgre_Common</kind><weight>1.2</weight></li>
+      <li><kind>IsekaiDemon_Greater</kind><weight>0.8</weight><minDepth>0.5</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiDemon_Greater</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- #38 — OPEN-FIELD dungeon. Foundry is a surface environment: an open
+       command site, not a sealed core. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_MechanoidCommandNode</defName>
+    <label>mechanoid command node</label>
+    <description>Open ground churned to slag and rust, where a standby garrison stopped being a garrison and started being an army. Termites come up out of the ground behind you while legionaries advance across the front, so no direction stays quiet for long. The thing coordinating all of it waits at the far end and does not fight until everything else has failed.</description>
+    <mapGenerator>IsekaiDungeons_Foundry</mapGenerator>
+    <minRank>A</minRank>
+    <maxRank>A</maxRank>
+    <!-- An Apocriton clear is the hardest fight in the A pool: kept rarer. -->
+    <selectionWeight>0.8</selectionWeight>
+    <layoutMode>Open</layoutMode>
+    <!-- roofed false, not the old true: Open never roofs anything. -->
+    <roofed>false</roofed>
+    <placeDoors>false</placeDoors>
+    <!-- No floorTerrain: the Foundry biome supplies the ground. -->
+    <!-- Tightest zones in the A pool: a command garrison holds its posts. -->
+    <openZoneRadiusRange>12~15</openZoneRadiusRange>
+    <roster>
+      <li><kind>Mech_Legionary</kind><weight>1.8</weight></li>
+      <li><kind>Mech_Termite_Breach</kind><weight>1.3</weight></li>
+      <li><kind>Mech_CentipedeBlaster</kind><weight>1.1</weight></li>
+      <li><kind>Mech_CentipedeGunner</kind><weight>1.0</weight><minDepth>0.5</minDepth></li>
+    </roster>
+    <bosses>
+      <li>Mech_Apocriton</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- #39 — OPEN-FIELD dungeon, the big sibling of #31: same long zone chain,
+       one rank up and with heavier things standing in it. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_TitanLabyrinth</defName>
+    <label>titan labyrinth</label>
+    <description>The same flattened ruin ground as the labyrinth one rank below it, scaled for things that would otherwise have had to duck. Upper minotaurs and upper trolls share the field and long since stopped fighting each other over it. There is no way around them — there is only the walk, and what is standing on it.</description>
+    <mapGenerator>IsekaiDungeons_Ruins</mapGenerator>
+    <minRank>A</minRank>
+    <maxRank>A</maxRank>
+    <!-- Longest crawl in the catalogue at this rank, and two elite families in
+         one roster: the rarest A dungeon. -->
+    <selectionWeight>0.7</selectionWeight>
+    <layoutMode>Open</layoutMode>
+    <roofed>false</roofed>
+    <placeDoors>false</placeDoors>
+    <!-- No floorTerrain: the Ruins biome supplies the ground. -->
+    <!-- Slightly wider than #31 because the things standing in these zones are
+         bigger, but still well under the A-pool norm: the roomCountByRank
+         override below puts ~13 combat zones on the map and they must not
+         crowd into each other. -->
+    <openZoneRadiusRange>11~14</openZoneRadiusRange>
+    <!-- OVERRIDE, same maze curve as #31 (~13 combat zones at A vs the base 8).
+         Deliberately identical so the two labyrinths read as one shape at two
+         scales; the difference between them is the roster, not the plan. -->
+    <roomCountByRank>
+      <points>
+        <li>(0, 6)</li>
+        <li>(2, 8)</li>
+        <li>(4, 11)</li>
+        <li>(6, 14)</li>
+        <li>(8, 17)</li>
+        <li>(9, 18)</li>
+      </points>
+    </roomCountByRank>
+    <roster>
+      <!-- Adult minotaurs are the chaff here — the same kind that was the
+           backbone of #31 one rank down. -->
+      <li><kind>IsekaiMinotaur_Adult</kind><weight>1.8</weight></li>
+      <li><kind>IsekaiTroll_Upper</kind><weight>1.2</weight></li>
+      <li><kind>IsekaiMinotaur_Upper</kind><weight>1.0</weight><minDepth>0.5</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiMinotaur_Upper</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- #40 -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_ChimeraWarren</defName>
+    <label>chimera warren</label>
+    <description>Old tomb galleries taken over and rebuilt out of meat. Gorehulks fire down the long straight corridors while devourers wait in the side niches for anyone who breaks formation. The chimera at the back has been eating everything that failed to become one.</description>
+    <mapGenerator>IsekaiDungeons_Crypt</mapGenerator>
+    <minRank>A</minRank>
+    <maxRank>A</maxRank>
+    <selectionWeight>0.8</selectionWeight>
+    <layoutMode>Carve</layoutMode>
+    <floorTerrain>IsekaiDungeons_TileSlate</floorTerrain>
+    <roster>
+      <li><kind>Toughspike</kind><weight>1.8</weight></li>
+      <!-- Added to reach a workable roster: the warren's failed attempts still
+           crawl the galleries. -->
+      <li><kind>Trispike</kind><weight>1.3</weight></li>
+      <li><kind>Devourer</kind><weight>1.0</weight><minDepth>0.45</minDepth></li>
+    </roster>
+    <bosses>
+      <!-- Chimera, Nociosphere and Gorehulk are LORD-DRIVEN, not
+           mental-state driven: their Anomaly think trees contain no
+           MentalState node, so DungeonMapComponent's forced
+           ManhunterPermanent is a silent no-op and they never fight.
+           (Nociosphere additionally needs 12-16 days of CompActivity to
+           wake, far longer than a gate lives.) Bosses must be kinds that
+           actually engage, so the fleshbeast family is used instead - it
+           is the one Anomaly tree that consumes mental states. Keeping
+           the passive ones as ROSTER flavour is fine; an inert BOSS is
+           not, because the boss is what gates the clear. -->
+      <li>Bulbfreak</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+</Defs>

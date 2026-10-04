@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    World object owning a dungeon pocket map. Clone of core's PocketMap def
+    (which is bare — no ParentName, no comps: pocket maps never render on the
+    world layer, vanilla hides them entirely) with our subclass so rank/kind
+    survive save/load even if the colony-side gate is gone.
+  -->
+  <WorldObjectDef>
+    <defName>IsekaiDungeons_DungeonMapParent</defName>
+    <label>dungeon</label> <!-- hidden in normal play; DungeonMapParent.Label prepends the rank -->
+    <worldObjectClass>IsekaiDungeons.DungeonMapParent</worldObjectClass>
+  </WorldObjectDef>
+
+  <!--
+    World object owning one live TOWER FLOOR. Same shape as the dungeon parent,
+    but TowerFloors.Open overwrites its ID with a pinned value before
+    generating: a pocket map's seed is HashCombineInt(worldSeed, parent.ID) and
+    vanilla re-seeds every gen step from that, so pinning the ID is what makes a
+    rebuilt floor come back identical rather than merely similar.
+  -->
+  <WorldObjectDef>
+    <defName>IsekaiDungeons_TowerFloorParent</defName>
+    <label>tower floor</label>
+    <worldObjectClass>IsekaiDungeons.TowerFloorMapParent</worldObjectClass>
+  </WorldObjectDef>
+
+  <!--
+    FLOOR PARENT for the multi-floor dungeons.
+
+    Same shape as the tower's, and separate for the same reason the stair is:
+    a multi-floor floor has to carry WHOSE it is, because unlike the tower
+    there can be several of these open at once.
+  -->
+  <WorldObjectDef>
+    <defName>IsekaiDungeons_MultiFloorParent</defName>
+    <label>dungeon floor</label>
+    <worldObjectClass>IsekaiDungeons.MultiFloorMapParent</worldObjectClass>
+  </WorldObjectDef>
+
+  <!--
+    THE DUNGEON ITSELF, as a place on the planet.
+
+    A structure you caravan to, with no gate and no break timer: you arrive and
+    walk down into it. One def for all ten, because what differs between them
+    is authored on MultiFloorDungeonDef rather than here.
+  -->
+  <WorldObjectDef>
+    <defName>IsekaiDungeons_MultiFloorDungeon</defName>
+    <label>dungeon</label>
+    <worldObjectClass>IsekaiDungeons.WorldObject_MultiFloorDungeon</worldObjectClass>
+    <texture>World/WorldObjects/Sites/GenericSite</texture>
+    <expandingIcon>true</expandingIcon>
+    <!-- Core art so it resolves without DLCs. Patches/DungeonIcons_Ideology.xml
+         swaps in the Ancient Complex stairway when Ideology is active. -->
+    <expandingIconTexture>World/WorldObjects/Expanding/Sites/Manhunters</expandingIconTexture>
+    <expandingIconPriority>60</expandingIconPriority>
+    <canBePlayerHome>false</canBePlayerHome>
+    <selectable>true</selectable>
+    <neverMultiSelect>true</neverMultiSelect>
+    <useDynamicDrawer>false</useDynamicDrawer>
+  </WorldObjectDef>
+
+  <!--
+    THE TOWER ITSELF, as a place on the planet.
+
+    A plain WorldObject on its own world tile, reached the way any other
+    destination is reached: by sending a caravan. It has NO MAP of its own -
+    there is no ground floor and no gate to walk into. Right-clicking it with a
+    caravan offers floor 1 plus every floor already climbed to, and arriving
+    puts the party straight onto that floor. The tower is nothing but its
+    floors.
+
+    This is the ONLY thing that uses the tower icon art; the buildings have
+    their own textures.
+  -->
+  <WorldObjectDef>
+    <defName>IsekaiDungeons_Tower</defName>
+    <label>the tower</label>
+    <!-- THIS is the text the info card shows, not WorldObject.GetDescription:
+         the card reads the DEF. It therefore cannot mention the current floor,
+         which is fine - the floor is in the label. -->
+    <description>A tower that was not there before, standing on ground nobody had any use for. It is taller than the distance to it can account for, and it throws no shadow that anyone has been willing to write down.
+
+Nobody built it. The registers are unanimous on that much and on nothing else: there is no quarry, no mason, no foundation trench, and no year. What they do agree on is the order of events. Something was pinned to this ground first. The first course was laid over it afterwards, and every course since has been laid on top of that. The tower is the weight, and the weight is the point.
+
+A floor is not a room in a building. It is a place the tower has decided to keep - its own ground, its own weather, its own things living on it - and the stair up is always at the far end, so climbing means crossing. Those who turn back find the way down exactly where they left it. The upper registers are short because those who did not turn back wrote nothing.
+
+The hundredth floor is spoken of in the past tense by people who have never seen it. What waits there has been waiting a long time, and is not free to leave.</description>
+    <worldObjectClass>IsekaiDungeons.WorldObject_Tower</worldObjectClass>
+    <texture>UI/Tower_Of_Gods_Map_Icon</texture>
+    <expandingIcon>true</expandingIcon>
+    <expandingIconTexture>UI/Tower_Of_Gods_Map_Icon</expandingIconTexture>
+    <expandingIconPriority>60</expandingIconPriority>
+    <useDynamicDrawer>false</useDynamicDrawer>
+    <canHaveFaction>false</canHaveFaction>
+    <selectable>true</selectable>
+    <neverMultiSelect>true</neverMultiSelect>
+  </WorldObjectDef>
+
+</Defs>

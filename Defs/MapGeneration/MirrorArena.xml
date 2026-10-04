@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    THE MIRROR HALL — floor 50's dedicated generator.
+
+    A clone of the Crypt generator with two deliberate differences:
+
+     1. IsekaiDungeons_Layout is replaced by IsekaiDungeons_MirrorArenaLayout.
+        A room-chain planner has nothing to plan here: the layout is one giant
+        pillared hall plus the portal alcove, carved directly.
+     2. IsekaiDungeons_Population is ABSENT, not configured-to-zero. The
+        floor's population is copies of whoever walks in, and they cannot be
+        cloned at generation time — the map is built while the party still
+        stands on floor 49. DungeonMapComponent spawns the mirrors on the
+        first tick a player pawn is present (see DungeonKindDef.mirrorArena).
+
+    The crypt's environment extension is reused on purpose: the hall IS a
+    sanctum, and the arrival card should read like one.
+  -->
+  <MapGeneratorDef>
+    <defName>IsekaiDungeons_MirrorArena</defName>
+    <modExtensions>
+      <li Class="IsekaiDungeons.DungeonEnvironmentExtension">
+        <entryFlavorKey>IsekaiDungeons.Env.Crypt.Flavor</entryFlavorKey>
+        <titleSubtitleKey>IsekaiDungeons.Env.Crypt.Subtitle</titleSubtitleKey>
+        <roomNounKey>IsekaiDungeons.Env.Crypt.RoomNoun</roomNounKey>
+      </li>
+    </modExtensions>
+    <label>mirror hall</label>
+    <isUnderground>true</isUnderground>
+    <forceCaves>true</forceCaves>
+    <ignoreAreaRevealedLetter>true</ignoreAreaRevealedLetter>
+    <disableCallAid>true</disableCallAid>
+    <customMapComponents>
+      <li>IsekaiDungeons.DungeonMapComponent</li>
+    </customMapComponents>
+    <pocketMapProperties>
+      <biome>IsekaiDungeons_Dungeon</biome>
+      <temperature>5</temperature>
+    </pocketMapProperties>
+    <genSteps>
+      <li>IsekaiDungeons_TowerWhiteout</li>
+      <li>ElevationFertility</li>
+      <li>IsekaiDungeons_Underground_RocksFromGrid</li>
+      <li>Terrain</li>
+      <li>IsekaiDungeons_MirrorArenaLayout</li>
+      <li>IsekaiDungeons_Entrance</li>
+      <li>Fog</li>
+    </genSteps>
+  </MapGeneratorDef>
+
+  <!-- Same order slot as the layout step it replaces (410), before the
+       entrance (420) that needs the entry room it registers. -->
+  <GenStepDef>
+    <defName>IsekaiDungeons_MirrorArenaLayout</defName>
+    <order>410</order>
+    <genStep Class="IsekaiDungeons.GenStep_MirrorArenaLayout" />
+  </GenStepDef>
+
+</Defs>

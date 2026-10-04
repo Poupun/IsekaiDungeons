@@ -1,0 +1,665 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    ════════════════════════════════════════════════════════════════════
+    THE SEVEN THAT WERE GIVEN  —  the bow line
+    ════════════════════════════════════════════════════════════════════
+    THE DIRECTION, and it is a third register again. The Three Gods are
+    instruments of a founding act, cosmic and unowned. The recovered five
+    are inheritances, named by a guild clerk after whatever habit got the
+    last owner killed. These are neither: every one of them was GIVEN.
+
+    The accounts are all the same shape. Somebody was standing somewhere
+    they had no business surviving, something put a bow in their hands,
+    and nobody was asked whether they wanted it. So the guild files these
+    apart from the recovered weapons - a recovered weapon has a previous
+    OWNER, and these have a previous BEARER, which is a different
+    relationship and a worse one. You do not pick one of these up. It is
+    handed to you, and the difficulty has always been handing it back.
+
+    The Harp God is the exception that makes the frame legible: it is the
+    only one that was never given to anyone. Every other file in the vault
+    names a bearer. That one names the people who put it down again.
+
+    ────────────────────────────────────────────────────────────────────
+    THE YARDSTICK, and why it had to be worked out rather than assumed.
+
+    The melee line had an obvious reference: a persona monosword. RANGED
+    HAS NO PERSONA WEAPONS AT ALL. Odyssey ships a "unique" line that
+    looks like the equivalent and is not - CompProperties_UniqueWeapon
+    rolls traits onto UNCHANGED base stats, so a unique greatbow is a
+    greatbow. Measured against the actual files, the vanilla ranged
+    ceiling is:
+
+        charge rifle    8.13 effective DPS   (14.12 raw)
+        minigun         9.81 effective DPS   (41.67 raw, terrible accuracy)
+        unique greatbow 3.64 effective DPS
+
+    "Effective" is raw DPS weighted across the range bands a firefight
+    actually happens in (15% touch, 40% short, 35% medium, 10% long),
+    because a sniper rifle and a minigun are not comparable on raw damage.
+
+    These seven are deliberately parked ABOVE that, at the melee line's
+    own numbers - 2.3x a charge rifle at S rank and 3.4x at Nation. That
+    is a decision, not an accident: it makes a bow from a gate strictly
+    better than anything a colony can build or buy, which is the point of
+    an artifact, and it means these should stay gate rewards rather than
+    ever entering a trader pool as ordinary stock.
+
+        Snow Flake      19.1    Butterfly Heart 22.2    Nebula Star  25.0
+        Lavander Rose   18.9    Sea Will        22.1    Unicorn Star 25.0
+                                                        Harp God     28.0
+
+    Each still owns exactly ONE axis and gives ground on the others, the
+    same rule the recovered five follow, so the pairs inside a rank are
+    not one bow printed twice.
+
+    ────────────────────────────────────────────────────────────────────
+    QUALITY WORKS DIFFERENTLY HERE, and it caught me out. Melee quality
+    runs through MeleeWeapon_DamageMultiplier, where Good is already
+    1.10. Ranged runs through RangedWeapon_DamageMultiplier and
+    RangedWeapon_ArmorPenetrationMultiplier, whose curve is FLAT:
+
+        awful 0.9   poor 1.0   normal 1.0   good 1.0
+        excellent 1.0   masterwork 1.25   legendary 1.5
+
+    Two consequences worth writing down. First, the damage numbers below
+    ARE the published figures - there is no 1.10 divisor the way there is
+    in the melee files, and copying that pattern here would have quietly
+    underpowered the whole line by ten percent. Second, ACCURACY IS NOT
+    AFFECTED BY QUALITY AT ALL - AccuracyTouch and its siblings carry no
+    StatPart_Quality, and VerbProperties.AdjustedAccuracy reads them
+    straight off the equipment - so a legendary bow shoots no straighter
+    than a normal one, only harder.
+
+    That makes CompArtifactQuality nearly inert here: it floors the roll
+    at Good, and Good is worth exactly what Normal is. It stays on anyway,
+    for three reasons - it blocks the one roll that DOES cost damage
+    (awful, 0.9), it keeps market value and hit points where an artifact
+    should be, and it means the whole artifact line answers to one comp
+    instead of these seven quietly being the exception.
+
+    A legendary roll therefore multiplies damage and AP by 1.5, which puts
+    the Harp God at 42 effective DPS and Snow Flake at 28.6.
+    ────────────────────────────────────────────────────────────────────
+
+    drawSize matches the TEXTURE CANVAS aspect, not the inked shape.
+    RimWorld stretches the whole file, so an aspect taken off the ink
+    bounding box distorts every one of these by the width of its own
+    padding. Heights climb slightly by rank so the Harp God reads as the
+    biggest thing on the field.
+
+    No equippedAngleOffset, matching vanilla bows: these are drawn with
+    the limbs vertical and the arrow leaving to the right, which is
+    already the orientation RimWorld expects of a ranged weapon.
+  -->
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- ===== [S] Snow Flake — the quick one ===== -->
+  <ThingDef ParentName="BaseWeapon">
+    <defName>IsekaiDungeons_SnowFlake</defName>
+    <label>[S-Rank] Snow Flake</label>
+    <description>Two limbs of clear ice that have never once wept, joined by a grip somebody wrapped in ordinary leather — the only part of it that has ever needed replacing. It looses twice before a drawn breath is finished, and neither arrow is heavy. Against a padded coat that is more than enough. Against plate it is a great deal of very fast nothing, and every bearer learns the difference in a single engagement.\n\nIt was given on a mountain, to someone who had stopped walking. The account does not say what did the giving, only that it was already snowing indoors by then.</description>
+    <graphicData>
+      <texPath>Things/Weapons/Snow_Flake</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.55,1.50)</drawSize>
+    </graphicData>
+    <techLevel>Spacer</techLevel>
+    <ignoreIllegalLabelCharacterConfigError>true</ignoreIllegalLabelCharacterConfigError>
+    <uiIconScale>1.05</uiIconScale>
+    <soundInteract>Bow_Small</soundInteract>
+    <statBases>
+      <MarketValue>5400</MarketValue>
+      <MaxHitPoints>200</MaxHitPoints>
+      <Mass>1.2</Mass>
+      <Flammability>0.1</Flammability>
+      <DeteriorationRate>0.9</DeteriorationRate>
+      <!-- THE SHORTEST REACH OF THE SEVEN, and the best up close. This is
+           the bow you want when something is already inside the wire. -->
+      <AccuracyTouch>0.90</AccuracyTouch>
+      <AccuracyShort>0.96</AccuracyShort>
+      <AccuracyMedium>0.85</AccuracyMedium>
+      <AccuracyLong>0.62</AccuracyLong>
+      <RangedWeapon_Cooldown>0.90</RangedWeapon_Cooldown>
+    </statBases>
+    <weaponClasses><li>Ranged</li><li>RangedLight</li><li>ShortShots</li></weaponClasses>
+    <weaponTags><li>IsekaiDungeonArtifact</li></weaponTags>
+    <tradeability>Sellable</tradeability>   <!-- gate rewards only: players may sell, traders never stock -->
+    <thingCategories><li>WeaponsRanged</li></thingCategories>
+    <!-- Light enough to run with. Its cost is written into the projectile:
+         0.30 AP is the lowest in the line and ice does not punch plate. -->
+    <equippedStatOffsets>
+      <MoveSpeed>0.25</MoveSpeed>
+      <MeleeDodgeChance>0.10</MeleeDodgeChance>
+    </equippedStatOffsets>
+    <comps>
+      <!-- CompQuality FIRST, the Good floor SECOND. Both react to the trader
+           generation hook and comps are walked in def order, so the floor has
+           to be the one that runs last or a trader roll wipes it. -->
+      <li><compClass>CompQuality</compClass></li>
+      <li><compClass>IsekaiDungeons.CompArtifactQuality</compClass></li>
+    </comps>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>IsekaiDungeons_Arrow_SnowFlake</defaultProjectile>
+        <warmupTime>0.90</warmupTime>
+        <burstShotCount>2</burstShotCount>
+        <ticksBetweenBurstShots>8</ticksBetweenBurstShots>
+        <range>26.9</range>
+        <soundCast>Bow_Small</soundCast>
+      </li>
+    </verbs>
+    <tools>
+      <li><label>limb</label><capacities><li>Blunt</li><li>Poke</li></capacities><power>12</power><cooldownTime>1.8</cooldownTime><armorPenetration>0.12</armorPenetration></li>
+    </tools>
+  </ThingDef>
+
+  <!-- ===== [S] Lavander Rose — the patient one ===== -->
+  <ThingDef ParentName="BaseWeapon">
+    <defName>IsekaiDungeons_LavanderRose</defName>
+    <label>[S-Rank] Lavander Rose</label>
+    <description>A crescent of pale gold closed around a stem of violet wood that is still, unmistakably, growing. There are thorns on the underside of the grip; they come back if you file them off. It draws slowly and it draws hard, and it puts one heavy shaft through things at a distance where the target has not yet decided to be worried.\n\nIts bearers are remembered as patient people. The register is careful to note that most of them were not, beforehand.</description>
+    <graphicData>
+      <texPath>Things/Weapons/Lavander_Rose</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.63,1.50)</drawSize>
+    </graphicData>
+    <techLevel>Spacer</techLevel>
+    <ignoreIllegalLabelCharacterConfigError>true</ignoreIllegalLabelCharacterConfigError>
+    <uiIconScale>1.05</uiIconScale>
+    <soundInteract>Bow_Large</soundInteract>
+    <statBases>
+      <MarketValue>5600</MarketValue>
+      <MaxHitPoints>260</MaxHitPoints>
+      <Mass>2.6</Mass>
+      <Flammability>0.3</Flammability>
+      <DeteriorationRate>0.7</DeteriorationRate>
+      <!-- The mirror of Snow Flake: bad in your face, excellent at reach. -->
+      <AccuracyTouch>0.68</AccuracyTouch>
+      <AccuracyShort>0.90</AccuracyShort>
+      <AccuracyMedium>0.94</AccuracyMedium>
+      <AccuracyLong>0.86</AccuracyLong>
+      <RangedWeapon_Cooldown>1.00</RangedWeapon_Cooldown>
+    </statBases>
+    <weaponClasses><li>Ranged</li><li>RangedHeavy</li><li>LongShots</li></weaponClasses>
+    <weaponTags><li>IsekaiDungeonArtifact</li></weaponTags>
+    <tradeability>Sellable</tradeability>   <!-- gate rewards only: players may sell, traders never stock -->
+    <thingCategories><li>WeaponsRanged</li></thingCategories>
+    <!-- Steadies the hand and slows the feet. A 56-damage shaft is the
+         biggest single hit at S rank in either line, melee included. -->
+    <equippedStatOffsets>
+      <ShootingAccuracyPawn>0.15</ShootingAccuracyPawn>
+      <MoveSpeed>-0.12</MoveSpeed>
+    </equippedStatOffsets>
+    <comps>
+      <li><compClass>CompQuality</compClass></li>
+      <li><compClass>IsekaiDungeons.CompArtifactQuality</compClass></li>
+    </comps>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>IsekaiDungeons_Arrow_LavanderRose</defaultProjectile>
+        <warmupTime>1.60</warmupTime>
+        <range>33.9</range>
+        <soundCast>Bow_Large</soundCast>
+      </li>
+    </verbs>
+    <tools>
+      <li><label>limb</label><capacities><li>Blunt</li><li>Poke</li></capacities><power>16</power><cooldownTime>2.0</cooldownTime><armorPenetration>0.15</armorPenetration></li>
+    </tools>
+  </ThingDef>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- ===== [SS] Butterfly Heart — the flurry ===== -->
+  <ThingDef ParentName="BaseWeapon">
+    <defName>IsekaiDungeons_ButterflyHeart</defName>
+    <label>[SS-Rank] Butterfly Heart</label>
+    <description>The wings open when it is drawn and fold when it is set down, and nobody has established what they are made of, because the material stops being interesting the moment the bow is no longer held. Three shafts leave it together and spread as they fly.\n\nThat is a wonderful thing to watch happen to a crowd and a disappointing thing to watch happen to one armoured man. It was given to somebody who was already dying, which is the detail every account agrees on and none of them explains.</description>
+    <graphicData>
+      <texPath>Things/Weapons/Butterfly_Heart</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.66,1.58)</drawSize>
+    </graphicData>
+    <techLevel>Spacer</techLevel>
+    <ignoreIllegalLabelCharacterConfigError>true</ignoreIllegalLabelCharacterConfigError>
+    <uiIconScale>1.05</uiIconScale>
+    <soundInteract>Bow_Recurve</soundInteract>
+    <statBases>
+      <MarketValue>7400</MarketValue>
+      <MaxHitPoints>230</MaxHitPoints>
+      <Mass>1.6</Mass>
+      <Flammability>0.2</Flammability>
+      <DeteriorationRate>0.8</DeteriorationRate>
+      <AccuracyTouch>0.88</AccuracyTouch>
+      <AccuracyShort>0.94</AccuracyShort>
+      <AccuracyMedium>0.84</AccuracyMedium>
+      <AccuracyLong>0.60</AccuracyLong>
+      <RangedWeapon_Cooldown>1.00</RangedWeapon_Cooldown>
+    </statBases>
+    <weaponClasses><li>Ranged</li><li>RangedLight</li><li>ShortShots</li></weaponClasses>
+    <weaponTags><li>IsekaiDungeonArtifact</li></weaponTags>
+    <tradeability>Sellable</tradeability>   <!-- gate rewards only: players may sell, traders never stock -->
+    <thingCategories><li>WeaponsRanged</li></thingCategories>
+    <!-- Three shafts of 20 is the most ARROWS in the air of any bow here,
+         and the least behind each one. Crowd weapon, plainly. -->
+    <equippedStatOffsets>
+      <MoveSpeed>0.30</MoveSpeed>
+      <MeleeDodgeChance>0.15</MeleeDodgeChance>
+    </equippedStatOffsets>
+    <comps>
+      <li><compClass>CompQuality</compClass></li>
+      <li><compClass>IsekaiDungeons.CompArtifactQuality</compClass></li>
+    </comps>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>IsekaiDungeons_Arrow_ButterflyHeart</defaultProjectile>
+        <warmupTime>1.10</warmupTime>
+        <burstShotCount>3</burstShotCount>
+        <ticksBetweenBurstShots>7</ticksBetweenBurstShots>
+        <range>27.9</range>
+        <soundCast>Bow_Recurve</soundCast>
+      </li>
+    </verbs>
+    <tools>
+      <li><label>limb</label><capacities><li>Blunt</li><li>Poke</li></capacities><power>13</power><cooldownTime>1.9</cooldownTime><armorPenetration>0.12</armorPenetration></li>
+    </tools>
+  </ThingDef>
+
+  <!-- ===== [SS] Sea Will — the steady one ===== -->
+  <ThingDef ParentName="BaseWeapon">
+    <defName>IsekaiDungeons_SeaWill</defName>
+    <label>[SS-Rank] Sea Will</label>
+    <description>Blue the whole way through, and the blue moves — slowly, the way deep water moves, whether or not anyone is holding it. It is the steadiest thing in the vault. It does not hit hardest and it does not reach furthest. It does the same correct thing every time it is asked, for as long as it is asked, which over a long engagement is worth more than either.\n\nThe bearer it was given to walked out of a flooded gate eleven days after the gate closed. She would not say what she had agreed to and she never put it down again.</description>
+    <graphicData>
+      <texPath>Things/Weapons/Sea_Will</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.58,1.58)</drawSize>
+    </graphicData>
+    <techLevel>Spacer</techLevel>
+    <ignoreIllegalLabelCharacterConfigError>true</ignoreIllegalLabelCharacterConfigError>
+    <uiIconScale>1.05</uiIconScale>
+    <soundInteract>Bow_Recurve</soundInteract>
+    <statBases>
+      <MarketValue>7600</MarketValue>
+      <MaxHitPoints>300</MaxHitPoints>
+      <Mass>2.0</Mass>
+      <Flammability>0.1</Flammability>
+      <DeteriorationRate>0.5</DeteriorationRate>
+      <!-- No weak band. The flattest accuracy profile in the line, which is
+           the whole identity: it is never the wrong bow for the range. -->
+      <AccuracyTouch>0.86</AccuracyTouch>
+      <AccuracyShort>0.97</AccuracyShort>
+      <AccuracyMedium>0.93</AccuracyMedium>
+      <AccuracyLong>0.78</AccuracyLong>
+      <RangedWeapon_Cooldown>1.10</RangedWeapon_Cooldown>
+    </statBases>
+    <weaponClasses><li>Ranged</li><li>RangedHeavy</li></weaponClasses>
+    <weaponTags><li>IsekaiDungeonArtifact</li></weaponTags>
+    <tradeability>Sellable</tradeability>   <!-- gate rewards only: players may sell, traders never stock -->
+    <thingCategories><li>WeaponsRanged</li></thingCategories>
+    <!-- AimingDelayFactor is a multiplier with default 1, so a NEGATIVE
+         offset is the buff: it aims faster. Paired with the accuracy
+         bonus this is the bow that simply does not miss. -->
+    <equippedStatOffsets>
+      <ShootingAccuracyPawn>0.25</ShootingAccuracyPawn>
+      <AimingDelayFactor>-0.15</AimingDelayFactor>
+    </equippedStatOffsets>
+    <comps>
+      <li><compClass>CompQuality</compClass></li>
+      <li><compClass>IsekaiDungeons.CompArtifactQuality</compClass></li>
+    </comps>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>IsekaiDungeons_Arrow_SeaWill</defaultProjectile>
+        <warmupTime>1.00</warmupTime>
+        <burstShotCount>2</burstShotCount>
+        <ticksBetweenBurstShots>9</ticksBetweenBurstShots>
+        <range>30.9</range>
+        <soundCast>Bow_Recurve</soundCast>
+      </li>
+    </verbs>
+    <tools>
+      <li><label>limb</label><capacities><li>Blunt</li><li>Poke</li></capacities><power>15</power><cooldownTime>1.9</cooldownTime><armorPenetration>0.14</armorPenetration></li>
+    </tools>
+  </ThingDef>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- ===== [SSS] Nebula Star — the storm ===== -->
+  <ThingDef ParentName="BaseWeapon">
+    <defName>IsekaiDungeons_NebulaStar</defName>
+    <label>[SSS-Rank] Nebula Star</label>
+    <description>There is a four-pointed star set where the arrow rest should be, and it is not attached to anything. It holds its position when the bow moves and it stays the same distance out. Four shafts leave together, and they do not go where the bow is pointed so much as where the star has already decided.\n\nAimed fire is not what this is for. A line of things coming at you is. Nobody has ever reported it being given to them indoors, or in daylight.</description>
+    <graphicData>
+      <texPath>Things/Weapons/Nebula_Star</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.70,1.66)</drawSize>
+    </graphicData>
+    <techLevel>Ultra</techLevel>
+    <ignoreIllegalLabelCharacterConfigError>true</ignoreIllegalLabelCharacterConfigError>
+    <uiIconScale>1.05</uiIconScale>
+    <soundInteract>Bow_Large</soundInteract>
+    <statBases>
+      <MarketValue>10500</MarketValue>
+      <MaxHitPoints>270</MaxHitPoints>
+      <Mass>2.4</Mass>
+      <Flammability>0.1</Flammability>
+      <DeteriorationRate>0.5</DeteriorationRate>
+      <!-- THE WORST ACCURACY IN THE LINE, deliberately. It puts 80 damage
+           into the air per cycle - far and away the most - and loses a
+           fifth of it to spread. A barrage is allowed to be wasteful. -->
+      <AccuracyTouch>0.82</AccuracyTouch>
+      <AccuracyShort>0.90</AccuracyShort>
+      <AccuracyMedium>0.78</AccuracyMedium>
+      <AccuracyLong>0.55</AccuracyLong>
+      <RangedWeapon_Cooldown>1.10</RangedWeapon_Cooldown>
+    </statBases>
+    <weaponClasses><li>Ranged</li><li>RangedHeavy</li><li>Ultratech</li></weaponClasses>
+    <weaponTags><li>IsekaiDungeonArtifact</li></weaponTags>
+    <tradeability>Sellable</tradeability>   <!-- gate rewards only: players may sell, traders never stock -->
+    <thingCategories><li>WeaponsRanged</li></thingCategories>
+    <equippedStatOffsets>
+      <MoveSpeed>0.20</MoveSpeed>
+      <MeleeDodgeChance>0.12</MeleeDodgeChance>
+    </equippedStatOffsets>
+    <comps>
+      <li><compClass>CompQuality</compClass></li>
+      <li><compClass>IsekaiDungeons.CompArtifactQuality</compClass></li>
+    </comps>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>IsekaiDungeons_Arrow_NebulaStar</defaultProjectile>
+        <warmupTime>1.20</warmupTime>
+        <burstShotCount>4</burstShotCount>
+        <ticksBetweenBurstShots>6</ticksBetweenBurstShots>
+        <range>29.9</range>
+        <soundCast>Bow_Large</soundCast>
+      </li>
+    </verbs>
+    <tools>
+      <li><label>limb</label><capacities><li>Blunt</li><li>Poke</li></capacities><power>17</power><cooldownTime>1.9</cooldownTime><armorPenetration>0.16</armorPenetration></li>
+    </tools>
+  </ThingDef>
+
+  <!-- ===== [SSS] Unicorn Star — the lance ===== -->
+  <ThingDef ParentName="BaseWeapon">
+    <defName>IsekaiDungeons_UnicornStar</defName>
+    <label>[SSS-Rank] Unicorn Star</label>
+    <description>A single spiral horn bent into a bow, which should not be possible and has never been repeated. It looses one shaft, slowly, and that shaft arrives at a range where the archer is not yet a shape to the people it lands among.\n\nThere is no second arrow because there has never yet needed to be one. The bearer it was given to was seven years old and gave it back within the hour; the guild has her statement, and it is one line long.</description>
+    <graphicData>
+      <texPath>Things/Weapons/Unicorn_Star</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.77,1.66)</drawSize>
+    </graphicData>
+    <techLevel>Ultra</techLevel>
+    <ignoreIllegalLabelCharacterConfigError>true</ignoreIllegalLabelCharacterConfigError>
+    <uiIconScale>1.05</uiIconScale>
+    <soundInteract>Bow_Large</soundInteract>
+    <statBases>
+      <MarketValue>10800</MarketValue>
+      <MaxHitPoints>290</MaxHitPoints>
+      <Mass>3.0</Mass>
+      <Flammability>0.1</Flammability>
+      <DeteriorationRate>0.4</DeteriorationRate>
+      <!-- Longest reach in the mod and it barely drops off at all. Bad in
+           your face, on purpose: this is an opening weapon, not a last
+           resort. -->
+      <AccuracyTouch>0.72</AccuracyTouch>
+      <AccuracyShort>0.94</AccuracyShort>
+      <AccuracyMedium>0.98</AccuracyMedium>
+      <AccuracyLong>0.94</AccuracyLong>
+      <RangedWeapon_Cooldown>1.00</RangedWeapon_Cooldown>
+    </statBases>
+    <weaponClasses><li>Ranged</li><li>RangedHeavy</li><li>LongShots</li><li>Ultratech</li></weaponClasses>
+    <weaponTags><li>IsekaiDungeonArtifact</li></weaponTags>
+    <tradeability>Sellable</tradeability>   <!-- gate rewards only: players may sell, traders never stock -->
+    <thingCategories><li>WeaponsRanged</li></thingCategories>
+    <!-- 76 damage at 0.70 AP in one shaft: the single biggest hit anywhere
+         in the mod, melee included. It is also the slowest bow here and it
+         weighs three kilos, which is the whole trade. -->
+    <equippedStatOffsets>
+      <ShootingAccuracyPawn>0.30</ShootingAccuracyPawn>
+      <MoveSpeed>-0.15</MoveSpeed>
+    </equippedStatOffsets>
+    <comps>
+      <li><compClass>CompQuality</compClass></li>
+      <li><compClass>IsekaiDungeons.CompArtifactQuality</compClass></li>
+    </comps>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>IsekaiDungeons_Arrow_UnicornStar</defaultProjectile>
+        <warmupTime>1.80</warmupTime>
+        <range>37.9</range>
+        <soundCast>Bow_Large</soundCast>
+      </li>
+    </verbs>
+    <tools>
+      <li><label>horn</label><capacities><li>Poke</li><li>Blunt</li></capacities><power>22</power><cooldownTime>2.0</cooldownTime><armorPenetration>0.25</armorPenetration></li>
+    </tools>
+  </ThingDef>
+
+  <!-- ═══════════════════════════════════════════════════════════════ -->
+  <!-- ===== [Nation] Harp God — the one nobody was given ===== -->
+  <ThingDef ParentName="BaseWeapon">
+    <defName>IsekaiDungeons_HarpGod</defName>
+    <label>[Nation-Rank] Harp God</label>
+    <description>Five strings run the length of the riser and only one of them is the bowstring. The other four are tuned. They answer when it is drawn, and what they are tuned to is not a note anyone has managed to write down — two people who tried agreed on the shape of it and on nothing else.\n\nIt is the only one of the seven that was never given to anybody. Every other file in the vault names a bearer. This one names the people who put it down again, and the list is longer than the guild is comfortable with.</description>
+    <graphicData>
+      <texPath>Things/Weapons/Harp_God</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(0.75,1.80)</drawSize>
+    </graphicData>
+    <techLevel>Ultra</techLevel>
+    <ignoreIllegalLabelCharacterConfigError>true</ignoreIllegalLabelCharacterConfigError>
+    <uiIconScale>1.08</uiIconScale>
+    <soundInteract>Bow_Large</soundInteract>
+    <statBases>
+      <MarketValue>16200</MarketValue>
+      <MaxHitPoints>340</MaxHitPoints>
+      <Mass>2.8</Mass>
+      <Flammability>0.05</Flammability>
+      <DeteriorationRate>0.3</DeteriorationRate>
+      <!-- The best accuracy profile in the line at every single band. A
+           Nation weapon is allowed to have no bad range. -->
+      <AccuracyTouch>0.88</AccuracyTouch>
+      <AccuracyShort>0.98</AccuracyShort>
+      <AccuracyMedium>0.96</AccuracyMedium>
+      <AccuracyLong>0.88</AccuracyLong>
+      <RangedWeapon_Cooldown>1.00</RangedWeapon_Cooldown>
+    </statBases>
+    <weaponClasses><li>Ranged</li><li>RangedHeavy</li><li>LongShots</li><li>Ultratech</li></weaponClasses>
+    <weaponTags><li>IsekaiDungeonArtifact</li></weaponTags>
+    <tradeability>Sellable</tradeability>   <!-- gate rewards only: players may sell, traders never stock -->
+    <thingCategories><li>WeaponsRanged</li></thingCategories>
+    <!-- THE COST IS MELEE, and it is the only honest one available to a
+         harp. Everything else here is a straight upgrade because that is
+         what Nation rank is for, and because the last time this line got a
+         heavy MoveSpeed penalty the verdict was that -0.55 is punishing on
+         a weapon this hard to get. A -0.35 melee hit chance is felt
+         exactly when the bow has already failed you and never before. -->
+    <equippedStatOffsets>
+      <ShootingAccuracyPawn>0.35</ShootingAccuracyPawn>
+      <AimingDelayFactor>-0.25</AimingDelayFactor>
+      <MoveSpeed>0.20</MoveSpeed>
+      <MeleeHitChance>-0.35</MeleeHitChance>
+    </equippedStatOffsets>
+    <comps>
+      <li><compClass>CompQuality</compClass></li>
+      <li><compClass>IsekaiDungeons.CompArtifactQuality</compClass></li>
+    </comps>
+    <verbs>
+      <li>
+        <verbClass>Verb_Shoot</verbClass>
+        <hasStandardCommand>true</hasStandardCommand>
+        <defaultProjectile>IsekaiDungeons_Arrow_HarpGod</defaultProjectile>
+        <warmupTime>1.10</warmupTime>
+        <burstShotCount>3</burstShotCount>
+        <ticksBetweenBurstShots>7</ticksBetweenBurstShots>
+        <range>35.9</range>
+        <soundCast>Bow_Large</soundCast>
+      </li>
+    </verbs>
+    <tools>
+      <li><label>frame</label><capacities><li>Blunt</li><li>Poke</li></capacities><power>18</power><cooldownTime>2.0</cooldownTime><armorPenetration>0.18</armorPenetration></li>
+    </tools>
+  </ThingDef>
+
+  <!--
+    ════════════════════════════════════════════════════════════════════
+    THE SHAFTS
+    ════════════════════════════════════════════════════════════════════
+    All seven use damageDef Arrow rather than an elemental type. That is a
+    deliberate restraint: Burn and Frostbite carry real side effects (fire
+    spread, hypothermia, different armour interaction, different injury
+    tables) that would make each bow behave in ways its stat block does
+    not admit to. These are stat weapons, so the damage type stays honest.
+
+    Speed climbs with rank. It is not cosmetic - a faster shaft spends
+    less time in flight, so it is harder for a moving target to walk out
+    of, which is a real advantage that costs no DPS on the info card.
+
+    stoppingPower is set above a vanilla arrow's 1.5 on the heavy single
+    shots, so Lavander Rose and Unicorn Star actually interrupt what they
+    hit rather than just hurting it.
+  -->
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>IsekaiDungeons_Arrow_SnowFlake</defName>
+    <label>rime shaft</label>
+    <graphicData>
+      <texPath>Things/Projectile/Arrow_Small</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <damageDef>Arrow</damageDef>
+      <damageAmountBase>21</damageAmountBase>
+      <stoppingPower>1.0</stoppingPower>
+      <armorPenetrationBase>0.30</armorPenetrationBase>
+      <speed>65</speed>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>IsekaiDungeons_Arrow_LavanderRose</defName>
+    <label>thorn shaft</label>
+    <graphicData>
+      <!-- Arrow_Small at 1.4x. There is no Arrow_Big in the game: vanilla
+           ships exactly ONE arrow texture and every bow in it, greatbow
+           included, points at Things/Projectile/Arrow_Small. A texPath that
+           resolves to nothing draws no projectile at all, silently. -->
+      <texPath>Things/Projectile/Arrow_Small</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.4,1.4)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Arrow</damageDef>
+      <damageAmountBase>56</damageAmountBase>
+      <stoppingPower>2.2</stoppingPower>
+      <armorPenetrationBase>0.55</armorPenetrationBase>
+      <speed>62</speed>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>IsekaiDungeons_Arrow_ButterflyHeart</defName>
+    <label>wing shaft</label>
+    <graphicData>
+      <texPath>Things/Projectile/Arrow_Small</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <damageDef>Arrow</damageDef>
+      <damageAmountBase>20</damageAmountBase>
+      <stoppingPower>1.0</stoppingPower>
+      <armorPenetrationBase>0.35</armorPenetrationBase>
+      <speed>75</speed>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>IsekaiDungeons_Arrow_SeaWill</defName>
+    <label>tide shaft</label>
+    <graphicData>
+      <texPath>Things/Projectile/Arrow_Small</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <damageDef>Arrow</damageDef>
+      <damageAmountBase>27</damageAmountBase>
+      <stoppingPower>1.5</stoppingPower>
+      <armorPenetrationBase>0.45</armorPenetrationBase>
+      <speed>72</speed>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>IsekaiDungeons_Arrow_NebulaStar</defName>
+    <label>star shaft</label>
+    <graphicData>
+      <texPath>Things/Projectile/Arrow_Small</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <projectile>
+      <damageDef>Arrow</damageDef>
+      <damageAmountBase>20</damageAmountBase>
+      <stoppingPower>1.0</stoppingPower>
+      <armorPenetrationBase>0.40</armorPenetrationBase>
+      <speed>85</speed>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>IsekaiDungeons_Arrow_UnicornStar</defName>
+    <label>horn shaft</label>
+    <graphicData>
+      <!-- Arrow_Small at 1.4x. There is no Arrow_Big in the game: vanilla
+           ships exactly ONE arrow texture and every bow in it, greatbow
+           included, points at Things/Projectile/Arrow_Small. A texPath that
+           resolves to nothing draws no projectile at all, silently. -->
+      <texPath>Things/Projectile/Arrow_Small</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.4,1.4)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Arrow</damageDef>
+      <damageAmountBase>76</damageAmountBase>
+      <stoppingPower>2.5</stoppingPower>
+      <armorPenetrationBase>0.70</armorPenetrationBase>
+      <speed>80</speed>
+    </projectile>
+  </ThingDef>
+
+  <ThingDef ParentName="BaseBullet">
+    <defName>IsekaiDungeons_Arrow_HarpGod</defName>
+    <label>chord shaft</label>
+    <graphicData>
+      <!-- Arrow_Small at 1.4x. There is no Arrow_Big in the game: vanilla
+           ships exactly ONE arrow texture and every bow in it, greatbow
+           included, points at Things/Projectile/Arrow_Small. A texPath that
+           resolves to nothing draws no projectile at all, silently. -->
+      <texPath>Things/Projectile/Arrow_Small</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.4,1.4)</drawSize>
+    </graphicData>
+    <projectile>
+      <damageDef>Arrow</damageDef>
+      <damageAmountBase>23</damageAmountBase>
+      <stoppingPower>1.4</stoppingPower>
+      <armorPenetrationBase>0.62</armorPenetrationBase>
+      <speed>95</speed>
+    </projectile>
+  </ThingDef>
+
+</Defs>

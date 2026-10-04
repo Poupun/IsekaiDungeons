@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    HIGH-RANK INDOOR DUNGEONS.
+
+    WHY THIS FILE EXISTS. The top of the catalogue had drifted almost entirely
+    to open fields. Excluding IsekaiDungeons_UnstableGate (the F-to-Nation
+    catch-all, which pads every rank's count without being a real dungeon), the
+    pool was:
+
+        A      3 Carve / 4 Open
+        S      2 Carve / 2 Open
+        SS     1 Carve / 2 Open
+        SSS    0 Carve / 2 Open    <- an indoor dungeon was UNROLLABLE at SSS
+        Nation 1 Carve / 2 Open
+
+    Six of the ten shipped environments are Open, so every new environment made
+    the drift worse, and the endgame ended up being fields with monsters
+    standing on them. These five put walls back on at the top, and deliberately
+    spread across ALL FOUR underground environments rather than piling onto the
+    Abyss, which was carrying the high end almost alone.
+
+    Everything shared lives on IsekaiDungeonBase in Dungeons_Low.xml. A def here
+    states only what makes it a different dungeon: environment, rank band,
+    layout and roster. Rosters are defName STRINGS on purpose (see MODDING.md) —
+    an entry whose creature is missing drops out instead of erroring, which is
+    what requiresFullRoster then guards against.
+  -->
+
+  <!-- ═══ CAVERN, S-SS ═══
+       The Cavern environment had nothing above C. It is the mod's oldest and
+       plainest generator, and giving it a genuine endgame entry means the
+       classic "rock tunnels" look is still reachable at the top instead of
+       being a low-rank memory. Deliberately the indoor counterpart to True
+       Dragon's Hoard: same creature, opposite space. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_WyrmUndervault</defName>
+    <label>wyrm undervault</label>
+    <description>A dragon went underground here and never came back up. The tunnels widen as they descend, the last of them tall enough to fly in, and everything on the way down is something that used to be somebody's expedition. The wyverns nesting in the upper galleries are not guards. They are what is left of the ones that tried this before.</description>
+
+    <mapGenerator>IsekaiDungeons_Dungeon</mapGenerator>
+    <minRank>S</minRank>
+    <maxRank>SS</maxRank>
+    <selectionWeight>1.1</selectionWeight>
+
+    <layoutMode>Carve</layoutMode>
+    <roofed>true</roofed>
+    <floorTerrain>Gravel</floorTerrain>
+
+    <roster>
+      <li><kind>IsekaiWyvern_Rock</kind><weight>1.2</weight></li>
+      <li><kind>IsekaiWyvern_Sand</kind><weight>1.0</weight></li>
+      <li><kind>IsekaiSkeleton_Orc</kind><weight>0.8</weight></li>
+      <li><kind>IsekaiWyvern_Normal</kind><weight>0.9</weight><minDepth>0.45</minDepth></li>
+      <li><kind>IsekaiWyvern_Dark</kind><weight>0.7</weight><minDepth>0.7</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiDragon_True</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- ═══ CRYPT, SS-SSS ═══
+       Half of the SSS gap on its own. Crypt only reached S (Lich King's
+       Necropolis), so the "cut stone, sealed deliberately" vocabulary stopped
+       one rank short of the top. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_SunkenOssuary</defName>
+    <label>sunken ossuary</label>
+    <description>Someone buried an army standing up. The vaults go down in tiers, each one a ring of niches facing inward, and the deeper tiers are the ones where the niches are empty. Whatever is still keeping order down there has had a very long time to get the arrangement right.</description>
+
+    <mapGenerator>IsekaiDungeons_Crypt</mapGenerator>
+    <minRank>SS</minRank>
+    <maxRank>SSS</maxRank>
+    <selectionWeight>1.1</selectionWeight>
+
+    <layoutMode>Carve</layoutMode>
+    <roofed>true</roofed>
+    <!-- Cut stone: this one WAS built, unlike the raw dens. -->
+    <floorTerrain>FlagstoneLimestone</floorTerrain>
+
+    <roster>
+      <li><kind>IsekaiSkeleton_Orc</kind><weight>1.3</weight></li>
+      <li><kind>IsekaiSkeleton_Common</kind><weight>1.1</weight></li>
+      <li><kind>IsekaiDemon_Lesser</kind><weight>0.7</weight><minDepth>0.35</minDepth></li>
+      <li><kind>IsekaiLich_Adult</kind><weight>0.8</weight><minDepth>0.55</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiLich_Upper</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- ═══ HIVE, SS-SSS ═══
+       Hive topped out at D (Megaspider Hive) — the whole environment was a
+       low-rank environment. A brood that something else moved into gives it a
+       top-end identity without needing a new generator. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_BroodHollow</defName>
+    <label>brood hollow</label>
+    <description>The insects dug it and something with wings took it off them. The galleries still smell of hive, but the egg clutches in the back are the wrong shape and the wrong size, and the tunnel walls above them are scored where something too big for the passage forced its way through anyway.</description>
+
+    <mapGenerator>IsekaiDungeons_Hive</mapGenerator>
+    <!-- Earthy: allows loose ground (dirtyOnly decor). -->
+    <dirty>true</dirty>
+    <minRank>SS</minRank>
+    <maxRank>SSS</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+
+    <layoutMode>Carve</layoutMode>
+    <roofed>true</roofed>
+    <floorTerrain>Gravel</floorTerrain>
+
+    <roster>
+      <li><kind>Megaspider</kind><weight>1.2</weight></li>
+      <li><kind>Spelopede</kind><weight>1.0</weight></li>
+      <li><kind>IsekaiSlime_Poison_Large</kind><weight>0.8</weight></li>
+      <li><kind>IsekaiWyvern_Poison</kind><weight>0.9</weight><minDepth>0.4</minDepth></li>
+      <li><kind>IsekaiWyvern_Ice</kind><weight>0.6</weight><minDepth>0.65</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiWyvern_Poison</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- ═══ ABYSS, SSS ═══
+       The other half of the SSS gap. Abyss already carries S, SS and Nation, so
+       this fills its own hole rather than opening a new front. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_InvertedSpire</defName>
+    <label>inverted spire</label>
+    <description>A tower built downward, floor by floor, by something that did not need stairs. Each level is wider than the one above it and worse lit, and the heat comes up rather than down. The court at the bottom has been waiting for a visitor long enough to have prepared.</description>
+
+    <mapGenerator>IsekaiDungeons_Abyss</mapGenerator>
+    <minRank>SSS</minRank>
+    <maxRank>SSS</maxRank>
+    <selectionWeight>1.1</selectionWeight>
+
+    <layoutMode>Carve</layoutMode>
+    <roofed>true</roofed>
+    <!-- Built, and built well — this is not a hollow in the rock. -->
+    <floorTerrain>FlagstoneSlate</floorTerrain>
+
+    <roster>
+      <li><kind>IsekaiDemon_Lesser</kind><weight>1.2</weight></li>
+      <li><kind>IsekaiImp_Greater</kind><weight>1.0</weight></li>
+      <li><kind>IsekaiDemon_Common</kind><weight>1.0</weight><minDepth>0.3</minDepth></li>
+      <li><kind>IsekaiHellOgre_Common</kind><weight>0.8</weight><minDepth>0.6</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiDemon_Greater</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- ═══ CAVERN, NATION ═══
+       Nation had one indoor dungeon (Midhir's Deep) against two fields. This is
+       the second, and it closes the Cavern arc: the environment the player met
+       at F rank as a slime pit is the one they finish in. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_WorldRoot</defName>
+    <!-- NATION GATE. Only a guild contract rolls Nation, and only for a
+         colony whose best fighter is Nation-rank (the contract ceiling
+         roll). Local gates never reach it. Was briefly towerOnly as the
+         tower's floor-1 "cell"; that endgame was removed 2026-09-30. -->
+    <label>the world-root</label>
+    <description>The gate opens into a shaft that should not have a bottom, and it has one. Everything down here is older than the surface: roots the width of a barracks, stone that was never molten, air that has not moved in an age. The thing coiled at the base of it has been asleep since before there was anything worth waking for.</description>
+
+    <mapGenerator>IsekaiDungeons_Dungeon</mapGenerator>
+    <!-- Earthy: allows loose ground (dirtyOnly decor). -->
+    <dirty>true</dirty>
+    <minRank>Nation</minRank>
+    <maxRank>Nation</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+
+    <layoutMode>Carve</layoutMode>
+    <roofed>true</roofed>
+    <floorTerrain>Soil</floorTerrain>
+
+    <roster>
+      <li><kind>IsekaiTreant_Adult</kind><weight>1.2</weight></li>
+      <li><kind>Dryad_Clawer</kind><weight>1.0</weight></li>
+      <li><kind>IsekaiTreant_Upper</kind><weight>0.9</weight><minDepth>0.35</minDepth></li>
+      <li><kind>Dryad_Barkskin</kind><weight>0.8</weight><minDepth>0.5</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiGrandBeast_Midhir_Minion</li>
+    </bosses>
+    <requiresFullRoster>false</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- ═══ CAVERN, A-S ═══
+       A was the last band still weighted to open fields (3 Carve / 4 Open).
+       Orcs only ever appeared on the surface — a warcamp, a broken fortress —
+       so putting a hold UNDER the ground gives the faction somewhere to live
+       that is not a field, and gives Cavern its missing A entry. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_UnderforgeHold</defName>
+    <label>underforge hold</label>
+    <description>Somebody cut this hold properly, with square corners and drainage, and then somebody else took it off them. The forges at the back are still lit because the current owners found them useful, not because they know how they work. Every hall between here and there has been widened by something that did not fit.</description>
+
+    <mapGenerator>IsekaiDungeons_Dungeon</mapGenerator>
+    <minRank>A</minRank>
+    <maxRank>S</maxRank>
+    <selectionWeight>1.1</selectionWeight>
+
+    <layoutMode>Carve</layoutMode>
+    <roofed>true</roofed>
+    <!-- Cut and dressed: this was a built hold before it was taken. -->
+    <floorTerrain>FlagstoneGranite</floorTerrain>
+
+    <roster>
+      <li><kind>IsekaiOrc_Whelp</kind><weight>1.2</weight></li>
+      <li><kind>IsekaiOrc_Warrior</kind><weight>1.1</weight></li>
+      <li><kind>IsekaiTroll_Adult</kind><weight>0.8</weight><minDepth>0.3</minDepth></li>
+      <li><kind>IsekaiTroll_Upper</kind><weight>0.7</weight><minDepth>0.6</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiOrc_Warlord</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+</Defs>

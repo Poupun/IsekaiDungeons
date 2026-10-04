@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    THE CLIMATE PAIR, for Coldreach Deep and the Hell Hole.
+
+    Both use the VANILLA GameCondition_TemperatureOffset unchanged. Its offset
+    field is public and scribed, so the spine worker writes a per-floor value
+    onto the live condition and the save keeps it without a condition class of
+    our own.
+
+    temperatureOffset below is therefore only the fallback the class stamps in
+    Init(). SpineWorker_Climate overwrites it immediately AFTER registering the
+    condition, because RegisterCondition is what calls Init() - setting it
+    before would be silently thrown away. The values here are the mid-ramp
+    figures, so a floor that somehow missed the override is still cold or hot
+    rather than neutral.
+
+    natural is false and allowUnderground true: these are never rolled by a
+    storyteller and never apply to a colony map. A floor of the dungeon is the
+    only place either one is ever registered.
+  -->
+
+  <GameConditionDef>
+    <defName>IsekaiDungeons_DeepCold</defName>
+    <conditionClass>GameCondition_TemperatureOffset</conditionClass>
+    <label>the deep cold</label>
+    <description>The stone is colder than the mountain around it, and it gets colder the further down you go.</description>
+    <temperatureOffset>-30</temperatureOffset>
+    <canBePermanent>true</canBePermanent>
+    <natural>false</natural>
+    <allowUnderground>true</allowUnderground>
+    <endMessage>The cold eases.</endMessage>
+  </GameConditionDef>
+
+  <GameConditionDef>
+    <defName>IsekaiDungeons_DeepHeat</defName>
+    <conditionClass>GameCondition_TemperatureOffset</conditionClass>
+    <label>the deep heat</label>
+    <description>The rock is hot to the touch and the air above the floor moves on its own. It gets worse the further down you go.</description>
+    <temperatureOffset>30</temperatureOffset>
+    <canBePermanent>true</canBePermanent>
+    <natural>false</natural>
+    <allowUnderground>true</allowUnderground>
+    <endMessage>The heat eases.</endMessage>
+  </GameConditionDef>
+
+</Defs>

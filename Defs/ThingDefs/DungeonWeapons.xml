@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    ════════════════════════════════════════════════════════════════════
+    DUNGEON ARTIFACT WEAPONS  —  THE THREE GODS
+    ════════════════════════════════════════════════════════════════════
+    The dungeon line, sibling to IsekaiCreatures' nine creature artifacts.
+    Same construction contract, different provenance: a creature artifact
+    is cut off something that died, a dungeon artifact was already down
+    there when the place was sealed.
+
+    THE SET. Three weapons, one act. Not gods - what was used ON one, and
+    each is named for the verb it performed. The Tower's registers agree
+    that something was pinned before the first course was laid and
+    disagree about everything else; these are what did it, and the order
+    is in the names:
+
+        Piercing God    held it still     the point
+        Slashing God    opened it         the edge
+        Destroying God  ended it          the weight
+
+    They are found apart because they were laid down apart. Nothing in
+    the game requires the player to collect all three - the set is a
+    story, not a mechanic - but the stat spread is built so that owning
+    one still leaves the other two worth having.
+
+    THE FIGHTING TRIANGLE, which is the actual design. Three Nation
+    weapons that were all "big damage" would be one weapon with three
+    skins, so each corner is the BEST at one thing - but at this rank the
+    difference has to be which kind of excellent, never one of them being
+    crippled. A first pass hung -0.55 MoveSpeed on Destroying God, which
+    is nearly twice the penalty on Archangel's Wrath and made the mod's
+    most valuable weapon actively unpleasant to carry. A drawback on a
+    Nation artifact should be flavour; the separation comes from the
+    upside each one owns.
+
+        Piercing    armour negation - 0.95 AP, the mod's highest
+                    + the most mobile of the three (+0.40 move)
+        Slashing    speed and accuracy - 1.8s, +0.45 hit, +0.30 dodge
+                    and a 0.85x cooldown factor on top: highest DPS
+        Destroying  raw power - 78 cut, nothing in the mod is close
+                    and it is a BULWARK: -15% damage taken, +0.15 pain
+                    threshold, 0.65x stagger. It plants and swings.
+
+    Rough DPS, weighting each tool by its chanceFactor:
+
+        Piercing  ~25.7     Slashing ~27.9     Destroying ~25.9
+        (at Good; x1.50 of these at Legendary)
+
+    Piercing sits lowest on paper and is still the correct pick against
+    anything armoured, because 0.95 AP is worth more there than raw
+    numbers. Slashing leads on unarmoured DPS and has the softest AP, so
+    it falls off exactly where Piercing takes over. Destroying trades
+    swings-per-minute for the largest single hit and the ability to stand
+    in the middle of things. Do not "fix" one of these upward without
+    checking it against the other two.
+
+    WHY THE NUMBERS ARE THIS HIGH: A LEGENDARY PERSONA WEAPON.
+    StatPart_Quality on MeleeWeapon_DamageMultiplier pays legendary x1.65,
+    and a persona monosword is 13.7 base tool DPS - so a legendary one is
+    effectively 22.6. That is the bar these had to clear at their GOOD
+    baseline, not at their ceiling.
+
+    Forge refinement does NOT settle it. ForgeCompInjector stamps every
+    weapon in the game, the monosword included, so +10 refine (x1.80 damage,
+    x1.30 speed) multiplies both sides equally and cancels. The x1.65 is a
+    handicap we can never roll out of, so the base tools have to carry it:
+    the first pass sat at 20.1 and 21.1, i.e. two of the three LOST to a
+    legendary monosword. All three now clear it by 13-24%.
+
+    QUALITY, AND WHY GOOD IS THE BASELINE. These carry CompQuality plus
+    IsekaiDungeons.CompArtifactQuality, which floors the roll at Good. Every
+    DPS figure quoted in this file is the GOOD number, and quality climbs
+    from there:
+
+        Good 1.10   Excellent 1.20   Masterwork 1.45   Legendary 1.65
+
+    so the tool powers below are the published figure divided by 1.10. The
+    floor comp exists because CompQuality has NO PostPostMake - it simply
+    starts at Normal and only moves when something calls SetQuality - so a
+    plain ThingMaker.MakeThing would hand out a Normal one, under baseline,
+    and a trader roll could go lower still. The floor comp must stay listed
+    AFTER CompQuality: RimWorld APPENDS <li> nodes on inheritance rather
+    than replacing them (XmlInheritance.RecursiveNodeCopyOverwriteElements
+    treats a list element as an append), so the parent's CompEquippable
+    survives and ours run last, which is what lets the floor win.
+
+    ONE CONSEQUENCE WORTH KNOWING: TreasurePool.MakePrize maps the RARITY
+    BAND an item was drawn from onto quality (Common->Good ... Legendary->
+    Legendary). These artifacts declare 5,000-16,500 market value, which
+    puts them in the Legendary band of their tier, so a chest-awarded one
+    will nearly always arrive Legendary. The Good..Legendary spread is
+    therefore mostly about artifacts acquired some other way. If the range
+    should apply to chest drops too, MakePrize has to roll quality
+    independently of the band it drew from - that is a change there, not
+    here.
+
+    HOW THEY DROP, and why there is no drop code here. TreasurePool
+    auto-discovers everything the forge claims, and ForgeCompInjector
+    claims every weapon at startup - so a weapon in this file is in the
+    chest pool the moment it exists. techLevel Ultra is what places it:
+    the pool's tier windows put Ultra in the JADE band only, so a
+    Nation-rank weapon can only come out of a jade chest, which only
+    drops from an SSS-Nation clear. Set the tech level and the rank lands
+    itself. Anything Nation-rank in this file must therefore be Ultra, or
+    it will start falling out of bronze chests.
+
+    Built on BaseWeapon (NOT BaseMeleeWeapon):
+      - proper equippable weapon (CompEquippable)
+      - no recipeMaker (that lives on BaseMeleeWeapon) -> drop-only,
+        never craftable
+      - CompQuality IS present now (see the quality note above); the
+        Good floor is what replaces the old "fixed power" guarantee
+
+    Naming: every weapon carries a [Rank] prefix, matching the creature
+    line so the two read as one collection in a stockpile.
+
+    ART. These three are authored at 404x404 rather than the 256 the
+    creature line uses, because they are meant to be BIG. drawSize 2.05
+    puts them at about 2.6 tiles along the blade against roughly 1.7 for
+    the existing Nation artifacts - the three textures ink out within 2%
+    of each other (506/515/511 px diagonal), so one value keeps the set
+    visually consistent. Textures point NE, hence equippedAngleOffset -45.
+  -->
+
+  <!-- ===== [Nation] Piercing God — the point ===== -->
+  <ThingDef ParentName="BaseWeapon">
+    <defName>IsekaiDungeons_PiercingGod</defName>
+    <label>[Nation-Rank] Piercing God</label>
+    <description>Black tomb-marble in collars of worked gold, drawn out to a point so fine the eye loses it before the metal does. There are no barbs on the head and no edge along the shaft: it was made for one motion, and everything that would have helped it do anything else was deliberately left off. Every register of the Tower agrees that something was pinned before the first course was laid, and every one of them disagrees about what. The stone stays cold in any weather, and it has never once wanted sharpening.</description>
+    <graphicData>
+      <texPath>Things/Weapons/Piercing_God</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>2.05</drawSize>
+    </graphicData>
+    <techLevel>Ultra</techLevel>
+    <!-- The "[Nation-Rank]" style label uses [] which RimWorld reserves for
+         grammar resolution; these are fixed artifact names, so opt out of
+         the illegal-character check. -->
+    <ignoreIllegalLabelCharacterConfigError>true</ignoreIllegalLabelCharacterConfigError>
+    <equippedAngleOffset>-45</equippedAngleOffset>
+    <uiIconScale>1.0</uiIconScale>
+    <statBases>
+      <MarketValue>15000</MarketValue>
+      <MaxHitPoints>480</MaxHitPoints>
+      <Mass>3.2</Mass>
+      <Flammability>0.1</Flammability>
+      <DeteriorationRate>0.4</DeteriorationRate>
+    </statBases>
+    <weaponClasses><li>Melee</li><li>MeleePiercer</li></weaponClasses>
+    <!-- NOT "Artillery" or "Mechanoid" in this string: TreasurePool
+         .IsTreasureWorthy rejects any weaponTag containing those, and a tag
+         that tripped it would silently drop these out of the chest pool. -->
+    <weaponTags><li>IsekaiDungeonArtifact</li></weaponTags>
+    <tradeability>Sellable</tradeability>   <!-- gate rewards only: players may sell, traders never stock -->
+    <thingCategories><li>WeaponsMelee</li></thingCategories>
+    <!-- Reach and precision. Fast enough to matter, mobile because a spear
+         wants distance, and it gives up raw damage for the penetration. -->
+    <equippedStatOffsets>
+      <MeleeHitChance>0.32</MeleeHitChance>
+      <MoveSpeed>0.40</MoveSpeed>
+      <MeleeDodgeChance>0.12</MeleeDodgeChance>
+    </equippedStatOffsets>
+    <comps>
+      <!-- CompQuality FIRST, the Good floor SECOND. Both react to the trader
+           generation hook and comps are walked in def order, so the floor has
+           to be the one that runs last or a trader roll wipes it. -->
+      <li><compClass>CompQuality</compClass></li>
+      <li><compClass>IsekaiDungeons.CompArtifactQuality</compClass></li>
+    </comps>
+    <tools>
+      <!-- 0.95 AP is the whole weapon: the mod's next best piercer is
+           Archangel's Wrath at 0.85, so this is the clear top of the ladder
+           without being the literal 1.00 that would delete armour outright
+           from the game. The name argues for 1.00; one number here if so. -->
+      <li><label>point</label><capacities><li>Stab</li></capacities><power>64</power><cooldownTime>2.0</cooldownTime><armorPenetration>0.95</armorPenetration></li>
+      <li><label>collar</label><capacities><li>Cut</li></capacities><power>38</power><cooldownTime>2.0</cooldownTime><armorPenetration>0.58</armorPenetration></li>
+      <li><label>fork</label><capacities><li>Blunt</li></capacities><power>16</power><cooldownTime>1.9</cooldownTime><armorPenetration>0.14</armorPenetration><chanceFactor>0.3</chanceFactor></li>
+    </tools>
+  </ThingDef>
+
+  <!-- ===== [Nation] Slashing God — the edge ===== -->
+  <ThingDef ParentName="BaseWeapon">
+    <defName>IsekaiDungeons_SlashingGod</defName>
+    <label>[Nation-Rank] Slashing God</label>
+    <description>A long blade of blued steel in a gilt hilt that looks grown rather than forged, the guard running out into leaf and scrollwork and closing again without a seam anywhere along it. It is lighter in the hand than its length has any right to be and it goes where it is looked, which is a harder thing to build than an edge. The old accounts are careful with the wording here: this is not the weapon that killed what lay under the Tower. This is the one that opened it.</description>
+    <graphicData>
+      <texPath>Things/Weapons/Slashing_God</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>2.05</drawSize>
+    </graphicData>
+    <techLevel>Ultra</techLevel>
+    <ignoreIllegalLabelCharacterConfigError>true</ignoreIllegalLabelCharacterConfigError>
+    <equippedAngleOffset>-45</equippedAngleOffset>
+    <uiIconScale>1.0</uiIconScale>
+    <statBases>
+      <MarketValue>15500</MarketValue>
+      <MaxHitPoints>460</MaxHitPoints>
+      <Mass>3.6</Mass>
+      <Flammability>0.1</Flammability>
+      <DeteriorationRate>0.4</DeteriorationRate>
+    </statBases>
+    <weaponClasses><li>Melee</li><li>MeleePiercer</li></weaponClasses>
+    <weaponTags><li>IsekaiDungeonArtifact</li></weaponTags>
+    <tradeability>Sellable</tradeability>   <!-- gate rewards only: players may sell, traders never stock -->
+    <thingCategories><li>WeaponsMelee</li></thingCategories>
+    <!-- The duelist corner. Best hit chance and best dodge in the mod, and
+         the fastest Nation weapon by a clear margin - it wins on swings per
+         minute rather than on any single swing. MeleeCooldownFactor is an
+         offset onto a MULTIPLIER whose default is 1, so -0.15 means 0.85x:
+         the cooldowns below are already the shortest here and this shortens
+         them again. -->
+    <equippedStatOffsets>
+      <MeleeHitChance>0.45</MeleeHitChance>
+      <MeleeDodgeChance>0.30</MeleeDodgeChance>
+      <MoveSpeed>0.20</MoveSpeed>
+      <MeleeCooldownFactor>-0.15</MeleeCooldownFactor>
+    </equippedStatOffsets>
+    <comps>
+      <!-- CompQuality FIRST, the Good floor SECOND. Both react to the trader
+           generation hook and comps are walked in def order, so the floor has
+           to be the one that runs last or a trader roll wipes it. -->
+      <li><compClass>CompQuality</compClass></li>
+      <li><compClass>IsekaiDungeons.CompArtifactQuality</compClass></li>
+    </comps>
+    <tools>
+      <li><label>edge</label><capacities><li>Cut</li></capacities><power>48</power><cooldownTime>1.8</cooldownTime><armorPenetration>0.78</armorPenetration></li>
+      <li><label>point</label><capacities><li>Stab</li></capacities><power>36</power><cooldownTime>1.8</cooldownTime><armorPenetration>0.70</armorPenetration></li>
+      <li><label>guard</label><capacities><li>Blunt</li></capacities><power>13</power><cooldownTime>1.6</cooldownTime><armorPenetration>0.12</armorPenetration><chanceFactor>0.3</chanceFactor></li>
+    </tools>
+  </ThingDef>
+
+  <!-- ===== [Nation] Destroying God — the weight ===== -->
+  <ThingDef ParentName="BaseWeapon">
+    <defName>IsekaiDungeons_DestroyingGod</defName>
+    <label>[Nation-Rank] Destroying God</label>
+    <description>Not a sword so much as a decision. The blade is a hand's breadth of pale metal flared out into fins and set with red stones that stay warm when nothing else in the room is. It is too heavy to fence with, too heavy to parry with and too heavy to carry all day, none of which is any concern of its own. When the thing beneath the Tower had been held still and opened, this is what came down.</description>
+    <graphicData>
+      <texPath>Things/Weapons/Destroying_God</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>2.05</drawSize>
+    </graphicData>
+    <techLevel>Ultra</techLevel>
+    <ignoreIllegalLabelCharacterConfigError>true</ignoreIllegalLabelCharacterConfigError>
+    <equippedAngleOffset>-45</equippedAngleOffset>
+    <uiIconScale>1.0</uiIconScale>
+    <statBases>
+      <MarketValue>16500</MarketValue>
+      <MaxHitPoints>520</MaxHitPoints>
+      <Mass>7.5</Mass>
+      <Flammability>0.1</Flammability>
+      <DeteriorationRate>0.4</DeteriorationRate>
+    </statBases>
+    <weaponClasses><li>Melee</li><li>MeleePiercer</li><li>MeleeBlunt</li></weaponClasses>
+    <weaponTags><li>IsekaiDungeonArtifact</li></weaponTags>
+    <tradeability>Sellable</tradeability>   <!-- gate rewards only: players may sell, traders never stock -->
+    <thingCategories><li>WeaponsMelee</li></thingCategories>
+    <!-- THE UPSIDE IS THE POINT, which is the correction. 96 cut is far and
+         away the largest single hit in the mod - roughly twice a legendary
+         persona monosword's swing - and it is still paid for honestly, with
+         the slowest cooldown here and the worst accuracy of the three. But
+         the cost is no longer a movement tax. -0.55 move made a
+         15,000-silver artifact feel like a punishment; it is now a token
+         -0.15, and what the weapon actually asks of you is that you PLANT
+         and swing. So it pays you to stand there: less damage taken, a
+         higher pain threshold, and far shorter staggers. An immovable
+         object rather than a clumsy one. -->
+    <equippedStatOffsets>
+      <MeleeHitChance>0.22</MeleeHitChance>
+      <MoveSpeed>-0.15</MoveSpeed>
+      <IncomingDamageFactor>-0.15</IncomingDamageFactor>
+      <PainShockThreshold>0.15</PainShockThreshold>
+      <StaggerDurationFactor>-0.35</StaggerDurationFactor>
+    </equippedStatOffsets>
+    <comps>
+      <!-- CompQuality FIRST, the Good floor SECOND. Both react to the trader
+           generation hook and comps are walked in def order, so the floor has
+           to be the one that runs last or a trader roll wipes it. -->
+      <li><compClass>CompQuality</compClass></li>
+      <li><compClass>IsekaiDungeons.CompArtifactQuality</compClass></li>
+    </comps>
+    <tools>
+      <li><label>edge</label><capacities><li>Cut</li></capacities><power>87</power><cooldownTime>3.0</cooldownTime><armorPenetration>0.85</armorPenetration></li>
+      <li><label>flat</label><capacities><li>Blunt</li></capacities><power>67</power><cooldownTime>3.0</cooldownTime><armorPenetration>0.62</armorPenetration></li>
+      <li><label>fins</label><capacities><li>Stab</li></capacities><power>36</power><cooldownTime>2.9</cooldownTime><armorPenetration>0.62</armorPenetration><chanceFactor>0.4</chanceFactor></li>
+    </tools>
+  </ThingDef>
+
+</Defs>

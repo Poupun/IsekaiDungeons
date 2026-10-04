@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    Raises the tower. Fires at most once per playthrough - the worker refuses
+    while one already stands, and a tower only stops standing when it is
+    finished or abandoned.
+
+    baseChance is low and minRefireDays enormous because this is a landmark,
+    not weather. earliestDay 20 plus the colony-rank gate in the worker keeps
+    it away from a colony that could not survive floor one.
+  -->
+  <IncidentDef>
+    <defName>IsekaiDungeons_TowerRises</defName>
+    <label>the tower rises</label>
+    <category>ThreatBig</category>
+    <targetTags>
+      <li>Map_PlayerHome</li>
+    </targetTags>
+    <workerClass>IsekaiDungeons.IncidentWorker_TowerRises</workerClass>
+    <baseChance>0.6</baseChance>
+    <minRefireDays>999</minRefireDays>
+    <!-- The real trigger is TowerComponent.TryRaiseOnSchedule, one day in.
+         This incident survives only as a fallback and as the target of the
+         "Raise the tower (run incident)" dev tool, so its day matches. -->
+    <earliestDay>1</earliestDay>
+    <allowedBiomes />
+  </IncidentDef>
+
+</Defs>

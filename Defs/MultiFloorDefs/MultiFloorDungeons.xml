@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    THE MULTI-FLOOR DUNGEONS.
+
+    Structures on the planet that you caravan to and walk down into. No gate,
+    so no break timer and no countdown: they sit there until somebody goes in.
+
+    Each one is a floor plan and nothing more. The environment lives on the
+    DungeonKindDef in Dungeons_MultiFloor.xml, and everything else — layout,
+    population, loot, room events, treasure chests — already keys off that kind
+    and the floor's rank, and works here untouched.
+
+    LADDERS FIT THE FAMILY. A creature with an authored rank is never promoted
+    to suit a floor (placement, not promotion), so a floor can only be as high
+    as the dungeon's own creatures reach. Every ladder below was checked floor
+    by floor against the band filter (rank -2 .. +1): each floor has themed
+    creatures and a themed boss in band. The Hell Hole stops at S and Coldreach
+    at S for that reason - nothing infernal or cold exists above it.
+    BOSSES: floors 1..n-1 draw a lieutenant from the kind's bosses list;
+    finalBosses (first available) holds the bottom floor alone.
+    RANK RAMPS ACROSS THE FLOORS. minRank is floor 1 and maxRank is the last
+    floor; the floors between interpolate continuously, so a ten-floor descent
+    steps through the ladder rather than jumping tiers. The backing kind's own
+    band only has to CONTAIN this range.
+
+    THE SPINE is the thing that carries between floors, and it is what makes
+    one of these a dungeon rather than several dungeons in a row. Eight are wired
+    below and live in MultiFloorSpines.cs; the Choir Spire's judgment is still
+    unwritten, and
+    the Titan Pit has none deliberately (see MULTIFLOOR_DESIGN.md for why the
+    tithe was cut). A dungeon with no spine is a plainer dungeon, not a broken
+    one — it ships as a working themed descent and gains its mechanic when the
+    worker lands.
+  -->
+
+  <!-- ═══ THE SHALLOW END ═══ -->
+
+  <IsekaiDungeons.MultiFloorDungeonDef>
+    <defName>IsekaiDungeons_SlimeCistern</defName>
+    <label>the slime cistern</label>
+    <description>A flooded cistern complex three levels deep. The tanks were cut to hold water; what lives in them now is only mostly water.</description>
+    <floorCount>3</floorCount>
+    <kindDef>IsekaiDungeons_MF_SlimeCistern</kindDef>
+    <structureArt>MultiFloor/SlimeCistern</structureArt>
+    <minRank>F</minRank>
+    <maxRank>C</maxRank>
+    <minColonyRank>E</minColonyRank>
+    <selectionWeight>1.4</selectionWeight>
+    <!-- Splitting. A medium or large slime that dies bursts into two of the next size down. -->
+    <spineWorkerClass>IsekaiDungeons.SpineWorker_Split</spineWorkerClass>
+    <!-- The bottom floor's boss, and ONLY the bottom floor's: the floors above
+         draw their bosses from the kind's list, which never includes these. -->
+    <finalBosses>
+      <li>IsekaiSlime_Metal_Large</li>
+      <li>IsekaiSlime_Poison_Large</li>
+    </finalBosses>
+    <mapSizeByFloor>
+      <points>
+        <li>(1, 150)</li>
+        <li>(3, 160)</li>
+      </points>
+    </mapSizeByFloor>
+  </IsekaiDungeons.MultiFloorDungeonDef>
+
+  <IsekaiDungeons.MultiFloorDungeonDef>
+    <defName>IsekaiDungeons_KoboldUndercity</defName>
+    <label>the kobold undercity</label>
+    <description>Four levels of somebody else's cellars, taken over and widened. The queen is at the bottom and everything above her answers to her.</description>
+    <floorCount>4</floorCount>
+    <kindDef>IsekaiDungeons_MF_KoboldUndercity</kindDef>
+    <structureArt>MultiFloor/KoboldUndercity</structureArt>
+    <minRank>E</minRank>
+    <maxRank>B</maxRank>
+    <minColonyRank>E</minColonyRank>
+    <selectionWeight>1.3</selectionWeight>
+    <!-- The retreat. Anything alive when you take the stair flees down and joins the next floor's garrison. -->
+    <spineWorkerClass>IsekaiDungeons.SpineWorker_Retreat</spineWorkerClass>
+    <!-- The bottom floor's boss, and ONLY the bottom floor's: the floors above
+         draw their bosses from the kind's list, which never includes these. -->
+    <finalBosses>
+      <li>IsekaiKobold_Queen</li>
+      <li>IsekaiKobold_Chieftain</li>
+    </finalBosses>
+    <mapSizeByFloor>
+      <points>
+        <li>(1, 155)</li>
+        <li>(4, 170)</li>
+      </points>
+    </mapSizeByFloor>
+  </IsekaiDungeons.MultiFloorDungeonDef>
+
+  <!-- ═══ THE MIDDLE ═══ -->
+
+  <IsekaiDungeons.MultiFloorDungeonDef>
+    <defName>IsekaiDungeons_SunkenOssuary</defName>
+    <label>the sunken ossuary</label>
+    <description>Five shelves of sorted bone going down into the water table. Somebody keeps this place, and the keeping is the part to worry about.</description>
+    <floorCount>5</floorCount>
+    <kindDef>IsekaiDungeons_MF_SunkenOssuary</kindDef>
+    <structureArt>MultiFloor/SunkenOssuary</structureArt>
+    <minRank>C</minRank>
+    <maxRank>S</maxRank>
+    <minColonyRank>C</minColonyRank>
+    <selectionWeight>1.1</selectionWeight>
+    <!-- Your dead rise. Enemy corpses left on a floor get back up and follow you down. -->
+    <spineWorkerClass>IsekaiDungeons.SpineWorker_RisingDead</spineWorkerClass>
+    <!-- The bottom floor's boss, and ONLY the bottom floor's: the floors above
+         draw their bosses from the kind's list, which never includes these. -->
+    <finalBosses>
+      <li>IsekaiLich_Upper</li>
+      <li>IsekaiLich_Adult</li>
+    </finalBosses>
+    <mapSizeByFloor>
+      <points>
+        <li>(1, 160)</li>
+        <li>(5, 180)</li>
+      </points>
+    </mapSizeByFloor>
+  </IsekaiDungeons.MultiFloorDungeonDef>
+
+  <IsekaiDungeons.MultiFloorDungeonDef>
+    <defName>IsekaiDungeons_GoreHell</defName>
+    <label>gore hell</label>
+    <description>Six levels of a building that something has finished redecorating. The walls are warm and they give slightly under a hand.</description>
+    <floorCount>6</floorCount>
+    <kindDef>IsekaiDungeons_MF_GoreHell</kindDef>
+    <structureArt>MultiFloor/GoreHell</structureArt>
+    <minRank>D</minRank>
+    <maxRank>S</maxRank>
+    <minColonyRank>D</minColonyRank>
+    <selectionWeight>1.0</selectionWeight>
+    <!-- Regrowth. A cleared floor grows back once, and the way out is up through all of them. -->
+    <spineWorkerClass>IsekaiDungeons.SpineWorker_Regrowth</spineWorkerClass>
+    <!-- The bottom floor's boss, and ONLY the bottom floor's: the floors above
+         draw their bosses from the kind's list, which never includes these. -->
+    <finalBosses>
+      <li>FleshmassNucleus</li>
+      <li>Devourer</li>
+      <li>Megaspider</li>
+    </finalBosses>
+    <mapSizeByFloor>
+      <points>
+        <li>(1, 160)</li>
+        <li>(6, 180)</li>
+      </points>
+    </mapSizeByFloor>
+  </IsekaiDungeons.MultiFloorDungeonDef>
+
+  <IsekaiDungeons.MultiFloorDungeonDef>
+    <defName>IsekaiDungeons_ColdreachDeep</defName>
+    <label>coldreach deep</label>
+    <description>Seven levels down into a mountain, and colder on every one of them. The last two are lethal to anybody who packed for the walk rather than the arrival.</description>
+    <floorCount>7</floorCount>
+    <kindDef>IsekaiDungeons_MF_ColdreachDeep</kindDef>
+    <structureArt>MultiFloor/ColdreachDeep</structureArt>
+    <minRank>B</minRank>
+    <maxRank>S</maxRank>
+    <minColonyRank>B</minColonyRank>
+    <selectionWeight>0.9</selectionWeight>
+    <!-- The cold. Ambient temperature drops floor by floor; the bottom two need gear you packed. -->
+    <spineWorkerClass>IsekaiDungeons.SpineWorker_Cold</spineWorkerClass>
+    <!-- The bottom floor's boss, and ONLY the bottom floor's: the floors above
+         draw their bosses from the kind's list, which never includes these. -->
+    <finalBosses>
+      <li>IsekaiMinotaur_Upper</li>
+      <li>IsekaiTroll_Upper</li>
+    </finalBosses>
+    <mapSizeByFloor>
+      <points>
+        <li>(1, 170)</li>
+        <li>(7, 190)</li>
+      </points>
+    </mapSizeByFloor>
+  </IsekaiDungeons.MultiFloorDungeonDef>
+
+  <IsekaiDungeons.MultiFloorDungeonDef>
+    <defName>IsekaiDungeons_FoundryStack</defName>
+    <label>the foundry stack</label>
+    <description>Six levels of plant that never stopped running. Nothing here has decayed, and nothing here has needed a person in a very long time.</description>
+    <floorCount>6</floorCount>
+    <kindDef>IsekaiDungeons_MF_FoundryStack</kindDef>
+    <structureArt>MultiFloor/FoundryStack</structureArt>
+    <minRank>B</minRank>
+    <maxRank>SSS</maxRank>
+    <minColonyRank>B</minColonyRank>
+    <selectionWeight>0.9</selectionWeight>
+    <!-- Alert level. Rises per floor and per day spent, and reinforces every floor below. -->
+    <spineWorkerClass>IsekaiDungeons.SpineWorker_Alert</spineWorkerClass>
+    <!-- The bottom floor's boss, and ONLY the bottom floor's: the floors above
+         draw their bosses from the kind's list, which never includes these. -->
+    <finalBosses>
+      <li>Mech_Apocriton</li>
+      <li>Mech_Diabolus</li>
+      <li>Mech_CentipedeBurner</li>
+    </finalBosses>
+    <mapSizeByFloor>
+      <points>
+        <li>(1, 170)</li>
+        <li>(6, 185)</li>
+      </points>
+    </mapSizeByFloor>
+  </IsekaiDungeons.MultiFloorDungeonDef>
+
+  <!-- ═══ THE DEEP END ═══ -->
+
+  <IsekaiDungeons.MultiFloorDungeonDef>
+    <defName>IsekaiDungeons_DragonNest</defName>
+    <label>the dragon nest</label>
+    <description>Eight shelves cut into one shaft, each swept clear by something with a wingspan. The heat comes up rather than down.</description>
+    <floorCount>8</floorCount>
+    <kindDef>IsekaiDungeons_MF_DragonNest</kindDef>
+    <structureArt>MultiFloor/DragonNest</structureArt>
+    <minRank>A</minRank>
+    <maxRank>SSS</maxRank>
+    <minColonyRank>A</minColonyRank>
+    <selectionWeight>0.7</selectionWeight>
+    <!-- The hoard. Floors pay nothing on the way down; everything they would
+         have paid waits in one hoard on the bottom shelf. -->
+    <spineWorkerClass>IsekaiDungeons.SpineWorker_Hoard</spineWorkerClass>
+    <!-- The bottom floor's boss, and ONLY the bottom floor's: the floors above
+         draw their bosses from the kind's list, which never includes these. -->
+    <finalBosses>
+      <li>IsekaiDragon_Ancient</li>
+      <li>IsekaiDragon_True</li>
+    </finalBosses>
+    <mapSizeByFloor>
+      <points>
+        <li>(1, 175)</li>
+        <li>(8, 200)</li>
+      </points>
+    </mapSizeByFloor>
+  </IsekaiDungeons.MultiFloorDungeonDef>
+
+  <IsekaiDungeons.MultiFloorDungeonDef>
+    <defName>IsekaiDungeons_HellHole</defName>
+    <label>the hell hole</label>
+    <description>Ten levels, and hotter on each one. It goes down further than the rock it is cut through is thick, and nobody local wants to discuss that.</description>
+    <floorCount>10</floorCount>
+    <kindDef>IsekaiDungeons_MF_HellHole</kindDef>
+    <structureArt>MultiFloor/HellHole</structureArt>
+    <minRank>C</minRank>
+    <maxRank>S</maxRank>
+    <minColonyRank>C</minColonyRank>
+    <selectionWeight>0.8</selectionWeight>
+    <!-- Heat. The mirror of Coldreach, ten floors long and at the other end of the ladder. -->
+    <spineWorkerClass>IsekaiDungeons.SpineWorker_Heat</spineWorkerClass>
+    <!-- The bottom floor's boss, and ONLY the bottom floor's: the floors above
+         draw their bosses from the kind's list, which never includes these. -->
+    <finalBosses>
+      <li>IsekaiDemon_Greater</li>
+      <li>IsekaiHellOgre_Common</li>
+    </finalBosses>
+    <mapSizeByFloor>
+      <points>
+        <li>(1, 165)</li>
+        <li>(10, 195)</li>
+      </points>
+    </mapSizeByFloor>
+  </IsekaiDungeons.MultiFloorDungeonDef>
+
+  <!-- The one that goes UP. descends false is not decoration: the stair, the
+       labels and the letters all read from it, and a spire that talked about
+       descending would undo its own premise. -->
+  <IsekaiDungeons.MultiFloorDungeonDef>
+    <defName>IsekaiDungeons_ChoirSpire</defName>
+    <label>the choir spire</label>
+    <description>Five landings of white stone, each cleaner than the one below. The singing does not stop when you enter, and it does not change.</description>
+    <floorCount>5</floorCount>
+    <kindDef>IsekaiDungeons_MF_ChoirSpire</kindDef>
+    <structureArt>MultiFloor/ChoirSpire</structureArt>
+    <minRank>S</minRank>
+    <maxRank>Nation</maxRank>
+    <minColonyRank>S</minColonyRank>
+    <descends>false</descends>
+    <selectionWeight>0.6</selectionWeight>
+    <!-- The bottom floor's boss, and ONLY the bottom floor's: the floors above
+         draw their bosses from the kind's list, which never includes these. -->
+    <finalBosses>
+      <li>IsekaiArchangel_Common</li>
+      <li>IsekaiValkyrie_Common</li>
+    </finalBosses>
+    <mapSizeByFloor>
+      <points>
+        <li>(1, 170)</li>
+        <li>(5, 185)</li>
+      </points>
+    </mapSizeByFloor>
+  </IsekaiDungeons.MultiFloorDungeonDef>
+
+  <IsekaiDungeons.MultiFloorDungeonDef>
+    <defName>IsekaiDungeons_TitanPit</defName>
+    <label>the titan pit</label>
+    <description>Ten flights of steps cut for something four times your size, and Corcera at the bottom of them. Everything on the way down serves him.</description>
+    <floorCount>10</floorCount>
+    <kindDef>IsekaiDungeons_MF_TitanPit</kindDef>
+    <structureArt>MultiFloor/TitanPit</structureArt>
+    <minRank>SSS</minRank>
+    <maxRank>Nation</maxRank>
+    <minColonyRank>SSS</minColonyRank>
+    <selectionWeight>0.4</selectionWeight>
+    <!-- The bottom floor's boss, and ONLY the bottom floor's: the floors above
+         draw their bosses from the kind's list, which never includes these. -->
+    <finalBosses>
+      <li>IsekaiGrandBeast_Corcera</li>
+    </finalBosses>
+    <mapSizeByFloor>
+      <points>
+        <li>(1, 180)</li>
+        <li>(10, 210)</li>
+      </points>
+    </mapSizeByFloor>
+  </IsekaiDungeons.MultiFloorDungeonDef>
+
+</Defs>

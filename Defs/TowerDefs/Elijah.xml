@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       ELIJAH, THE HUNDREDTH — the warden at the top of the Tower of Gods.
+
+       She climbed it. She won. Godhood settled on her exactly as it settles
+       on the player who kills her, and then the tower kept her: the order
+       that ran this place promoted her into it and afterwards died out, which
+       is the same order whose verdict the Archangel's Wrath still carries
+       with nobody left to enforce it. She has held the post ever since, for a
+       purpose that died with the people who assigned it, and she cannot tell
+       the player what the tower is for because she was never told either.
+
+       Named for the prophet taken up alive in a whirlwind — Hebrew Eliyahu,
+       "my God is Yahweh": an oath of service, worn by someone nobody came
+       back to relieve.
+
+       SHE IS DATA. Everything except four runtime details (white aura, the
+       ascendant hediff, the VPE grant, the wing overlay) lives in this file,
+       so she can be rebalanced without touching C#. See ElijahWarden.cs.
+       ═══════════════════════════════════════════════════════════════════════ -->
+
+  <!-- Her aura. AuraSystem overrides the rank palette with the pawn's
+       favoriteColor, so one ColorDef is the entire "her aura is white"
+       feature. Shipped here rather than borrowed from Ideology's LightGrey
+       because that def is DLC-gated and is not actually white. -->
+  <ColorDef>
+    <defName>IsekaiDungeons_AngelicWhite</defName>
+    <label>angelic white</label>
+    <color>(1, 1, 1)</color>
+  </ColorDef>
+
+  <!--
+    THE ASCENDANT BODY. Half of "she never goes down" is here and half is on
+    her PawnKindDef, because vanilla splits the two causes:
+
+      pain          → PawnKindDef.ignoresPainShock (below), pure data
+      everything else → Pawn_HealthTracker.ShouldBeDowned, which this hediff
+                        gates through a narrowly-scoped Harmony prefix
+
+    PSYCHIC COMA gets its own treatment in the comp: its stage uses
+    setMax 0.1 on Consciousness, and a setMax cannot be beaten by any offset
+    a hediff could add — so it is removed rather than resisted. That covers
+    VPE's neural-heat coma too, which uses the same vanilla def.
+
+    blocksMentalBreaks is the same vanilla field Godhood uses. She is holding
+    a post she cannot leave; she is long past being able to panic about it.
+
+    SHE HAS THE GODHOOD BODY, and that is the floor's lesson. Everything the
+    trait will shortly do FOR the player is done first TO them: she cannot die
+    of damage, of blood loss, of a failed organ or of shock, and the only thing
+    that ends her is a destroyed brain. A player who has fought that knows
+    exactly what the letter is handing them.
+
+    ElijahWarden attaches IsekaiDungeons_GodhoodBody at generation, so the rule
+    is literally the same comp a colonist carries rather than a copy of it.
+  -->
+  <HediffDef>
+    <defName>IsekaiDungeons_Ascendant</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>ascendant</label>
+    <labelNoun>ascension</labelNoun>
+    <description>This one went up the tower and did not come back down. Whatever she is now does not tire, does not faint, and does not lose consciousness for any reason short of death — the body has been held upright for longer than anyone has been counting, and it has forgotten how to stop.</description>
+    <defaultLabelColor>(255, 223, 128)</defaultLabelColor>
+    <isBad>false</isBad>
+    <scenarioCanAdd>false</scenarioCanAdd>
+    <everCurableByItem>false</everCurableByItem>
+    <initialSeverity>1.0</initialSeverity>
+    <maxSeverity>1.0</maxSeverity>
+    <stages>
+      <li>
+        <blocksMentalBreaks>true</blocksMentalBreaks>
+        <statOffsets>
+          <!-- Belt and braces with ignoresPainShock: this also keeps her
+               fighting normally at high pain rather than merely upright. -->
+          <PainShockThreshold>10.0</PainShockThreshold>
+          <PsychicSensitivity>4.0</PsychicSensitivity>
+        </statOffsets>
+      </li>
+    </stages>
+    <comps>
+      <li Class="IsekaiDungeons.HediffCompProperties_Ascendant"/>
+    </comps>
+  </HediffDef>
+
+  <!--
+    HER BODY IS THE ART. Elijah_body_{south,north,east}.png is a complete
+    character - head, hair, wings and halo in one sprite - so it is installed
+    as a BodyTypeDef graphic rather than layered on as an overlay. That is the
+    vanilla path: bodyNakedGraphicPath is a Graphic_Multi prefix, and the three
+    facings are exactly the files that were drawn.
+
+    HER SIZE IS NOT SET HERE. bodyGraphicScale looks like the size lever and is
+    not one: the entire game reads it in two places, PawnRenderNodeWorker
+    .OffsetFor (behind drawData.scaleOffsetByBodySize) and
+    PawnRenderNodeWorker_AttachmentBody, and both scale the OFFSET of
+    attachment nodes. Neither touches the body graphic. Two attempts at sizing
+    her this way (1.35, then 2.0) changed nothing whatsoever.
+
+    What resizes her is the base mod's render-scale registry
+    (WorldBossSizePatch.RegisterRenderScale). For a humanlike the part that
+    matters is its postfix on HumanlikeMeshPoolUtility, since a humanlike's
+    mesh never reads the graphic's drawSize. She opts into it with
+    ElijahWarden.RenderScale, which is where her size actually lives. Left at 1
+    here because she wears no apparel and her head node is a transparent
+    placeholder, so there is no attachment offset worth scaling.
+
+    THE WINGS ARE WHY THE NUMBER IS LARGE. Measured on the art, her body is
+    only 0.54 of the texture width and the outstretched wings take the rest, so
+    any scale applied to the whole texture buys a bit over half as much body as
+    it looks like it should.
+
+    The art must stay SQUARE and consistent across facings. Graphic_Multi hands
+    every facing one drawSize, so three different aspects (they shipped at
+    1.152, 1.085 and 0.868) get squeezed onto the square quad by three
+    different amounts - which is what made her look stretched vertically. All
+    three are now 1024x1024, a power of two, so they also get the full mip
+    chain instead of a clamped one.
+  -->
+  <BodyTypeDef>
+    <defName>IsekaiDungeons_ElijahBody</defName>
+    <bodyNakedGraphicPath>Pawns/Elijah_body</bodyNakedGraphicPath>
+    <bodyDessicatedGraphicPath>Pawns/Elijah_body</bodyDessicatedGraphicPath>
+    <bodyGraphicScale>(1.0, 1.0)</bodyGraphicScale>
+  </BodyTypeDef>
+
+  <!--
+    A DELIBERATELY EMPTY HEAD. The art already contains her face and hair, so
+    the vanilla head node must draw nothing rather than stack a second head on
+    top of the sprite. An 8x8 fully transparent Graphic_Multi is the least
+    invasive way to say that: no render-tree surgery, no Harmony, and every
+    system that expects a pawn to HAVE a head type still finds one.
+
+    Her hair and beard are set to Bald/NoBeard in the spec below for the same
+    reason.
+  -->
+  <HeadTypeDef>
+    <defName>IsekaiDungeons_ElijahHead</defName>
+    <graphicPath>Pawns/Elijah_blankhead</graphicPath>
+    <gender>Female</gender>
+  </HeadTypeDef>
+
+  <!--
+    Her kind. ignoresPainShock is the load-bearing line — Pawn_HealthTracker
+    .InPainShock early-outs on it, so no amount of damage puts her into shock.
+
+    BasePlayerPawnKind generates NOTHING: no weaponTags, no apparelTags, and
+    isFighter false. That is fine and deliberate, because the character spec
+    below dresses and arms her explicitly — but it is also why the spec MUST
+    list gear. A spec with clearExistingApparel and no apparel list would
+    strip her naked, and with no weapon she would fist-fight the endgame.
+
+    combatPower 1200 is documentation, not mechanism: she is only ever spawned
+    by name. (It does not read as Nation to the roster band guard either —
+    MobRankUtility.CalculateBaseRankFromThreatScore tops out at S — which
+    costs nothing here precisely because she is never rolled from a roster.)
+  -->
+  <PawnKindDef ParentName="BasePlayerPawnKind">
+    <defName>IsekaiDungeons_ElijahKind</defName>
+    <label>the hundredth</label>
+    <race>Human</race>
+    <combatPower>1200</combatPower>
+    <isFighter>true</isFighter>
+    <!-- Required of every humanlike kind or RimWorld logs a config error at
+         startup ("initial resistance range is undefined"). 0 is honest: she
+         cannot be captured or recruited, so the number is never consulted. -->
+    <initialResistanceRange>0~0</initialResistanceRange>
+    <ignoresPainShock>true</ignoresPainShock>
+    <!-- 0 as a guard. She can never be downed
+         (Pawn_HealthTracker_ShouldBeDowned_AscendantPatch), so vanilla's
+         death-on-downed roll should never reach her. If something ever downs
+         her anyway, that roll would take her brain, and for a preventsDeath
+         pawn it re-enters itself and crashed ("Tried to restore null body
+         part"); see GodhoodBrainDeathPatch.cs. -->
+    <overrideDeathOnDownedChance>0</overrideDeathOnDownedChance>
+    <destroyGearOnDrop>false</destroyGearOnDrop>
+    <defaultFactionDef>IsekaiDungeons_MirrorFaction</defaultFactionDef>
+  </PawnKindDef>
+
+  <!--
+    THE CHARACTER. Read by IsekaiCharacterForge.Generate through
+    ElijahWarden.CharacterDefName.
+
+    STATS: strength, vitality and wisdom, in that order, and almost nothing
+    else. She is a front-line caster who does not die: she hits like the thing
+    that killed whatever used to guard this floor, she absorbs punishment
+    because she cannot be put down, and her wisdom is what carries the fire.
+    Dexterity, intelligence and charisma are left low on purpose — she is not
+    quick, not clever, and has not spoken to anyone in a very long time.
+
+    Level is left UNSET so the forge derives it from the allocation exactly the
+    way an organic pawn's is; the rank trait then follows the level, and the
+    rank/level mismatch this system exists to prevent cannot happen here.
+    The allocation below lands her at Nation.
+
+    faction is the mirror faction — "the tower's hand". She IS the tower's
+    hand, so it needs no second faction of its own, and it is already hidden,
+    permanently hostile, and generation-neutral (baseliner).
+  -->
+  <IsekaiLeveling.CharacterForge.IsekaiCharacterDef>
+    <defName>IsekaiDungeons_Elijah</defName>
+    <spec>
+      <pawnKind>IsekaiDungeons_ElijahKind</pawnKind>
+      <faction>IsekaiDungeons_MirrorFaction</faction>
+
+      <firstName>Elijah</firstName>
+      <nickName>Elijah</nickName>
+      <lastName>the Hundredth</lastName>
+      <gender>Female</gender>
+      <!-- Biologically stopped on the day she reached the top. The
+           chronological figure is how long ago that was. -->
+      <biologicalAgeYears>24</biologicalAgeYears>
+      <chronologicalAgeYears>1000</chronologicalAgeYears>
+
+      <!-- Her art IS her appearance. -->
+      <bodyType>IsekaiDungeons_ElijahBody</bodyType>
+      <headType>IsekaiDungeons_ElijahHead</headType>
+      <hairDef>Bald</hairDef>
+      <beardDef>NoBeard</beardDef>
+      <!-- PURE WHITE, not the marble Godhood tint: the body graphic is
+           multiplied by skin colour, so anything darker would dim the artwork.
+           White leaves the sprite exactly as it was drawn. -->
+      <skinColorOverride>(1, 1, 1)</skinColorOverride>
+
+      <clearExistingTraits>true</clearExistingTraits>
+      <traits>
+        <!-- The halo and the gold name come free with this: GodhoodHalo draws
+             on the trait, and TraitColorPatch paints on the trait. The
+             GodhoodBody reconciler only ever touches COLONISTS, so the body
+             hediff (and its preventsDeath) is NOT from here: ElijahWarden
+             attaches it deliberately. -->
+        <li><def>Isekai_Godhood</def><degree>0</degree></li>
+        <li><def>Isekai_IronWill</def><degree>0</degree></li>
+      </traits>
+
+      <!-- STR / VIT / WIS. -->
+      <strength>420</strength>
+      <vitality>400</vitality>
+      <wisdom>380</wisdom>
+      <dexterity>90</dexterity>
+      <intelligence>70</intelligence>
+      <charisma>40</charisma>
+
+      <constellation>Mage</constellation>
+
+      <skills>
+        <li><def>Melee</def><level>20</level><passion>2</passion></li>
+        <li><def>Shooting</def><level>12</level><passion>0</passion></li>
+        <li><def>Intellectual</def><level>16</level><passion>1</passion></li>
+        <li><def>Medicine</def><level>10</level><passion>0</passion></li>
+        <li><def>Social</def><level>4</level><passion>0</passion></li>
+      </skills>
+
+      <!-- A WEAPON IS MANDATORY, APPAREL IS FORBIDDEN. Her kind rolls neither
+           (BasePlayerPawnKind has no weapon or apparel tags), so without this
+           she would fist-fight the endgame. Apparel is deliberately absent and
+           cleared: worn clothing renders OVER the body graphic, and the body
+           graphic is a finished character - a duster drawn across those wings
+           would ruin the one thing this floor is for. Her defence is 400
+           vitality and an inability to be knocked down, not a flak vest.
+
+           The longsword is Core so a bare install still arms her;
+           ElijahWarden.UpgradeWeapon swaps in the archangel blade when Isekai
+           Creatures is present. -->
+      <weapon>
+        <def>MeleeWeapon_LongSword</def>
+        <stuff>Plasteel</stuff>
+        <quality>Legendary</quality>
+      </weapon>
+      <clearExistingApparel>true</clearExistingApparel>
+    </spec>
+  </IsekaiLeveling.CharacterForge.IsekaiCharacterDef>
+
+</Defs>

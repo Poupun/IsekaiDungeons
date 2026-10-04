@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    GATE SUMMONING SCROLLS. One per wild-gate rank, F..SSS (no Nation: a
+    Nation gate only ever comes as a guild contract). Reading one opens a gate of that rank next to the
+    reader, through the same kind selection, break clock and red-gate rule as
+    a storyteller gate (Items/CompUseEffect_SummonGate.cs). Refused inside any
+    dungeon or pocket map. The scroll is only consumed once the gate stands.
+
+    Loot faucets (Items/GateScrolls.cs), each a Rewards-tab setting:
+    dungeon clear hoard, treasure rooms, and hunt/bounty/creature quest rewards.
+
+    Art: Textures/Things/Item/GateScroll, rebuilt by Tools/gen_gate_scrolls.py.
+  -->
+  <ThingDef Name="IsekaiDungeons_GateScrollBase" Abstract="True">
+    <thingClass>ThingWithComps</thingClass>
+    <category>Item</category>
+    <drawerType>MapMeshOnly</drawerType>
+    <resourceReadoutPriority>Middle</resourceReadoutPriority>
+    <useHitPoints>true</useHitPoints>
+    <selectable>true</selectable>
+    <altitudeLayer>Item</altitudeLayer>
+    <stackLimit>10</stackLimit>
+    <alwaysHaulable>true</alwaysHaulable>
+    <drawGUIOverlay>true</drawGUIOverlay>
+    <rotatable>false</rotatable>
+    <pathCost>14</pathCost>
+    <thingCategories>
+      <li>Artifacts</li>
+    </thingCategories>
+    <tradeability>Sellable</tradeability>
+    <tradeTags>
+      <li>ExoticMisc</li>
+    </tradeTags>
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>60</MaxHitPoints>
+      <Flammability>1</Flammability>
+      <Mass>0.2</Mass>
+      <DeteriorationRate>1</DeteriorationRate>
+    </statBases>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_GateScrollBase">
+    <defName>IsekaiDungeons_GateScroll_F</defName>
+    <label>F-rank gate summoning scroll</label>
+    <description>A paper scroll inked with a turning gate. Read aloud, it tears a F-rank dungeon gate open right beside the reader.
+
+Barely a tremor on the page. Whatever answers will be something a handful of armed colonists can put down.
+
+A summoned gate behaves like any other: clear its boss and it closes, or leave it and it breaks when its clock runs out. It cannot be read inside a dungeon.</description>
+    <graphicData>
+      <texPath>Things/Item/GateScroll/GateScroll_F</texPath>
+    </graphicData>
+    <statBases>
+      <MarketValue>150</MarketValue>
+    </statBases>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Usable">
+        <useJob>UseItem</useJob>
+        <useLabel>Read F-rank gate summoning scroll</useLabel>
+        <useDuration>180</useDuration>
+      </li>
+      <li Class="IsekaiDungeons.CompProperties_UseEffectSummonGate">
+        <rank>F</rank>
+        <doCameraShake>true</doCameraShake>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_GateScrollBase">
+    <defName>IsekaiDungeons_GateScroll_E</defName>
+    <label>E-rank gate summoning scroll</label>
+    <description>A paper scroll inked with a turning gate. Read aloud, it tears a E-rank dungeon gate open right beside the reader.
+
+The ink sits a little heavy. A weak gate, but a real one.
+
+A summoned gate behaves like any other: clear its boss and it closes, or leave it and it breaks when its clock runs out. It cannot be read inside a dungeon.</description>
+    <graphicData>
+      <texPath>Things/Item/GateScroll/GateScroll_E</texPath>
+    </graphicData>
+    <statBases>
+      <MarketValue>250</MarketValue>
+    </statBases>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Usable">
+        <useJob>UseItem</useJob>
+        <useLabel>Read E-rank gate summoning scroll</useLabel>
+        <useDuration>180</useDuration>
+      </li>
+      <li Class="IsekaiDungeons.CompProperties_UseEffectSummonGate">
+        <rank>E</rank>
+        <doCameraShake>true</doCameraShake>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_GateScrollBase">
+    <defName>IsekaiDungeons_GateScroll_D</defName>
+    <label>D-rank gate summoning scroll</label>
+    <description>A paper scroll inked with a turning gate. Read aloud, it tears a D-rank dungeon gate open right beside the reader.
+
+The page is cool to the touch. A modest gate: worth the cores, and able to hurt the careless.
+
+A summoned gate behaves like any other: clear its boss and it closes, or leave it and it breaks when its clock runs out. It cannot be read inside a dungeon.</description>
+    <graphicData>
+      <texPath>Things/Item/GateScroll/GateScroll_D</texPath>
+    </graphicData>
+    <statBases>
+      <MarketValue>400</MarketValue>
+    </statBases>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Usable">
+        <useJob>UseItem</useJob>
+        <useLabel>Read D-rank gate summoning scroll</useLabel>
+        <useDuration>180</useDuration>
+      </li>
+      <li Class="IsekaiDungeons.CompProperties_UseEffectSummonGate">
+        <rank>D</rank>
+        <doCameraShake>true</doCameraShake>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_GateScrollBase">
+    <defName>IsekaiDungeons_GateScroll_C</defName>
+    <label>C-rank gate summoning scroll</label>
+    <description>A paper scroll inked with a turning gate. Read aloud, it tears a C-rank dungeon gate open right beside the reader.
+
+The ink shifts when no one is looking at it. A proper gate, the kind guild parties train on.
+
+A summoned gate behaves like any other: clear its boss and it closes, or leave it and it breaks when its clock runs out. It cannot be read inside a dungeon.</description>
+    <graphicData>
+      <texPath>Things/Item/GateScroll/GateScroll_C</texPath>
+    </graphicData>
+    <statBases>
+      <MarketValue>650</MarketValue>
+    </statBases>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Usable">
+        <useJob>UseItem</useJob>
+        <useLabel>Read C-rank gate summoning scroll</useLabel>
+        <useDuration>180</useDuration>
+      </li>
+      <li Class="IsekaiDungeons.CompProperties_UseEffectSummonGate">
+        <rank>C</rank>
+        <doCameraShake>true</doCameraShake>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_GateScrollBase">
+    <defName>IsekaiDungeons_GateScroll_B</defName>
+    <label>B-rank gate summoning scroll</label>
+    <description>A paper scroll inked with a turning gate. Read aloud, it tears a B-rank dungeon gate open right beside the reader.
+
+The parchment hums faintly. A dangerous gate that needs a prepared party.
+
+A summoned gate behaves like any other: clear its boss and it closes, or leave it and it breaks when its clock runs out. It cannot be read inside a dungeon.</description>
+    <graphicData>
+      <texPath>Things/Item/GateScroll/GateScroll_B</texPath>
+    </graphicData>
+    <statBases>
+      <MarketValue>1000</MarketValue>
+    </statBases>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Usable">
+        <useJob>UseItem</useJob>
+        <useLabel>Read B-rank gate summoning scroll</useLabel>
+        <useDuration>180</useDuration>
+      </li>
+      <li Class="IsekaiDungeons.CompProperties_UseEffectSummonGate">
+        <rank>B</rank>
+        <doCameraShake>true</doCameraShake>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_GateScrollBase">
+    <defName>IsekaiDungeons_GateScroll_A</defName>
+    <label>A-rank gate summoning scroll</label>
+    <description>A paper scroll inked with a turning gate. Read aloud, it tears a A-rank dungeon gate open right beside the reader.
+
+The seal burns green at the edges. A gate that ends careless parties and makes careful ones rich.
+
+A summoned gate behaves like any other: clear its boss and it closes, or leave it and it breaks when its clock runs out. It cannot be read inside a dungeon.</description>
+    <graphicData>
+      <texPath>Things/Item/GateScroll/GateScroll_A</texPath>
+    </graphicData>
+    <statBases>
+      <MarketValue>1500</MarketValue>
+    </statBases>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Usable">
+        <useJob>UseItem</useJob>
+        <useLabel>Read A-rank gate summoning scroll</useLabel>
+        <useDuration>180</useDuration>
+      </li>
+      <li Class="IsekaiDungeons.CompProperties_UseEffectSummonGate">
+        <rank>A</rank>
+        <doCameraShake>true</doCameraShake>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_GateScrollBase">
+    <defName>IsekaiDungeons_GateScroll_S</defName>
+    <label>S-rank gate summoning scroll</label>
+    <description>A paper scroll inked with a turning gate. Read aloud, it tears a S-rank dungeon gate open right beside the reader.
+
+The vortex on the page turns on its own. An S-rank gate is a guild-level event, and this scroll opens one on command.
+
+A summoned gate behaves like any other: clear its boss and it closes, or leave it and it breaks when its clock runs out. It cannot be read inside a dungeon.</description>
+    <graphicData>
+      <texPath>Things/Item/GateScroll/GateScroll_S</texPath>
+    </graphicData>
+    <statBases>
+      <MarketValue>2200</MarketValue>
+    </statBases>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Usable">
+        <useJob>UseItem</useJob>
+        <useLabel>Read S-rank gate summoning scroll</useLabel>
+        <useDuration>180</useDuration>
+      </li>
+      <li Class="IsekaiDungeons.CompProperties_UseEffectSummonGate">
+        <rank>S</rank>
+        <doCameraShake>true</doCameraShake>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_GateScrollBase">
+    <defName>IsekaiDungeons_GateScroll_SS</defName>
+    <label>SS-rank gate summoning scroll</label>
+    <description>A paper scroll inked with a turning gate. Read aloud, it tears a SS-rank dungeon gate open right beside the reader.
+
+Holding it makes the air taste of iron. The gate this opens is a disaster that happens to have a door.
+
+A summoned gate behaves like any other: clear its boss and it closes, or leave it and it breaks when its clock runs out. It cannot be read inside a dungeon.</description>
+    <graphicData>
+      <texPath>Things/Item/GateScroll/GateScroll_SS</texPath>
+    </graphicData>
+    <statBases>
+      <MarketValue>3200</MarketValue>
+    </statBases>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Usable">
+        <useJob>UseItem</useJob>
+        <useLabel>Read SS-rank gate summoning scroll</useLabel>
+        <useDuration>180</useDuration>
+      </li>
+      <li Class="IsekaiDungeons.CompProperties_UseEffectSummonGate">
+        <rank>SS</rank>
+        <doCameraShake>true</doCameraShake>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_GateScrollBase">
+    <defName>IsekaiDungeons_GateScroll_SSS</defName>
+    <label>SSS-rank gate summoning scroll</label>
+    <description>A paper scroll inked with a turning gate. Read aloud, it tears a SSS-rank dungeon gate open right beside the reader.
+
+The page is warm as skin and brighter than lamplight. What waits behind an SSS-rank gate is the stuff of guild legends, and very few of the people in those legends came back.
+
+A summoned gate behaves like any other: clear its boss and it closes, or leave it and it breaks when its clock runs out. It cannot be read inside a dungeon.</description>
+    <graphicData>
+      <texPath>Things/Item/GateScroll/GateScroll_SSS</texPath>
+    </graphicData>
+    <statBases>
+      <MarketValue>4500</MarketValue>
+    </statBases>
+    <comps>
+      <li Class="CompProperties_Forbiddable"/>
+      <li Class="CompProperties_Usable">
+        <useJob>UseItem</useJob>
+        <useLabel>Read SSS-rank gate summoning scroll</useLabel>
+        <useDuration>180</useDuration>
+      </li>
+      <li Class="IsekaiDungeons.CompProperties_UseEffectSummonGate">
+        <rank>SSS</rank>
+        <doCameraShake>true</doCameraShake>
+      </li>
+    </comps>
+  </ThingDef>
+
+</Defs>

@@ -1,0 +1,290 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    THE FLOOR VOCABULARY.
+
+    An archetype does not describe a map. It says which of the mod's existing
+    dungeons may back a floor, how to bend it, and what the floor is called.
+    That is what makes a hundred floors affordable: the tower is a SCHEDULER
+    over content that already exists, not a second content pipeline.
+
+    Every entry below is data only. Not one of them adds a gen step, a def
+    type, or a line of C# — they set roomCountFactor, encounterFactor,
+    treasureRooms and layoutModes on one of the 67 shipped dungeons.
+
+    NAMING. floorLabel gives the floor its noun ("Floor 41 - Gauntlet"). An
+    archetype with no floorLabel is named after the dungeon it borrowed
+    ("Floor 2 - Bone Ossuary"), which is what the plain crawl wants.
+  -->
+
+  <!-- ═══ The backbone ═══
+       Two thirds of the tower. Carve and Open are separate archetypes purely
+       so the roll ALTERNATES indoor and outdoor rather than handing out eight
+       caverns in a row - the variety is in the scheduling, not the content. -->
+
+  <IsekaiDungeons.TowerFloorArchetypeDef>
+    <defName>IsekaiDungeons_Floor_Standard</defName>
+    <label>standard floor</label>
+    <weight>4.0</weight>
+    <!-- NO layoutModes, deliberately.
+
+         This was Carve-only, and because it is the heaviest archetype in the
+         file that one line decided 42% of the tower on its own: every
+         standard floor went to whichever two or three indoor dungeons were in
+         band, while the outdoor ones divided the 5.5% that Field had. Rank A
+         came out as 69% furnace-and-fleshworks with the cold floor at 1.8%,
+         which is a player reporting "every floor is the same" and being
+         exactly right.
+
+         Note that this restores the intent stated at the top of this file
+         rather than overriding it. The stated point of splitting Carve and
+         Open into separate archetypes is that the roll ALTERNATES indoor and
+         outdoor - and pinning the backbone to one mode is precisely what
+         stopped it alternating. Field still exists, and still labels its
+         floors "open sky", because a floor that is deliberately outdoors is
+         worth naming; it is no longer the only way to get one. -->
+  </IsekaiDungeons.TowerFloorArchetypeDef>
+
+  <!-- The exception, deliberately. A floor open to the sky should read as
+       something WRONG with this floor, not as the tower's normal weather - so
+       it is roughly one floor in twelve rather than one in three.
+
+       minFloor 5 is not flavour: there is no F-rank Open dungeon in the whole
+       catalogue, so an Open floor below rank E cannot be filled at its own
+       rank. TowerLadder now refuses to cross rank bands to satisfy an
+       archetype, which would silently turn this into an indoor floor anyway;
+       the band just makes that explicit. -->
+  <IsekaiDungeons.TowerFloorArchetypeDef>
+    <defName>IsekaiDungeons_Floor_Field</defName>
+    <label>open floor</label>
+    <!-- Raised from 0.55. "One floor in twelve" was written when Open was a
+         garnish; the outdoor catalogue is now three or four dungeons deep at
+         most ranks, and a twelfth of the tower could not show them. Still a
+         minority of floors, which is the part of the intent that mattered. -->
+    <floorLabel>open sky</floorLabel>
+    <weight>1.0</weight>
+    <minFloor>5</minFloor>
+    <layoutModes><li>Open</li></layoutModes>
+  </IsekaiDungeons.TowerFloorArchetypeDef>
+
+  <!-- ═══ Every tenth floor ═══
+       A fixed cadence on purpose: a climber should be able to count towards
+       the next real fight. Fewer, larger rooms and no treasure - the floor IS
+       the boss. forceEvery wins over every weighted roll. -->
+  <IsekaiDungeons.TowerFloorArchetypeDef>
+    <defName>IsekaiDungeons_Floor_Boss</defName>
+    <label>guardian floor</label>
+    <floorLabel>guardian</floorLabel>
+    <forceEvery>10</forceEvery>
+    <minFloor>10</minFloor>
+    <maxFloor>99</maxFloor>
+    <!-- CARVE ONLY. A guardian floor is a room you walk into and a door that shuts
+         behind you. On open ground the same numbers just make a sparse field. -->
+    <layoutModes><li>Carve</li></layoutModes>
+    <roomCountFactor>0.6</roomCountFactor>
+    <encounterFactor>1.15</encounterFactor>
+    <treasureRooms>0</treasureRooms>
+  </IsekaiDungeons.TowerFloorArchetypeDef>
+
+  <!-- ═══ The first steps ═══
+       Floors 1-4 exist to teach the loop: walk the floor, find the stair,
+       climb. They are deliberately thin. The tower is a hundred floors long and
+       has all the time in the world to get hard - losing the party on floor 2
+       to a full-strength roster teaches nothing except not to come back.
+
+       Carve only, so the opening of the tower reads as being INSIDE something. -->
+  <IsekaiDungeons.TowerFloorArchetypeDef>
+    <defName>IsekaiDungeons_Floor_Threshold</defName>
+    <label>lower floor</label>
+    <weight>1.0</weight>
+    <minFloor>1</minFloor>
+    <maxFloor>4</maxFloor>
+    <exclusiveBand>true</exclusiveBand>
+    <layoutModes><li>Carve</li></layoutModes>
+    <roomCountFactor>0.7</roomCountFactor>
+    <encounterFactor>0.45</encounterFactor>
+    <treasureRooms>1</treasureRooms>
+  </IsekaiDungeons.TowerFloorArchetypeDef>
+
+  <!-- ═══ Flavour ═══ -->
+
+  <!-- One unbranching line, no side rooms, no rest. The shipped layout
+       already does this when the treasure roll is zero and the room count is
+       high; the archetype just asks for it. -->
+  <IsekaiDungeons.TowerFloorArchetypeDef>
+    <defName>IsekaiDungeons_Floor_Gauntlet</defName>
+    <label>gauntlet floor</label>
+    <floorLabel>gauntlet</floorLabel>
+    <weight>0.8</weight>
+    <minFloor>12</minFloor>
+    <!-- CARVE ONLY. A gauntlet IS a corridor - one long unbranching run with no
+         side rooms. roomCountFactor 1.5 builds exactly that underground and is
+         completely invisible on open ground, where "rooms" are only scattered
+         encounter zones. An open-air gauntlet was a name with no map behind it. -->
+    <layoutModes><li>Carve</li></layoutModes>
+    <roomCountFactor>1.5</roomCountFactor>
+    <treasureRooms>0</treasureRooms>
+  </IsekaiDungeons.TowerFloorArchetypeDef>
+
+  <!-- Sprawling, open, easy to get turned around in. Exactly what the shipped
+       Minotaur Labyrinth recipe already is - Open with many wide zones. -->
+  <IsekaiDungeons.TowerFloorArchetypeDef>
+    <defName>IsekaiDungeons_Floor_Labyrinth</defName>
+    <label>labyrinth floor</label>
+    <floorLabel>labyrinth</floorLabel>
+    <weight>0.7</weight>
+    <minFloor>15</minFloor>
+    <layoutModes><li>Carve</li></layoutModes>
+    <roomCountFactor>1.6</roomCountFactor>
+    <encounterFactor>0.8</encounterFactor>
+    <treasureRooms>1</treasureRooms>
+  </IsekaiDungeons.TowerFloorArchetypeDef>
+
+  <!-- Loot, lightly guarded. The reward for a run of bad floors. -->
+  <IsekaiDungeons.TowerFloorArchetypeDef>
+    <defName>IsekaiDungeons_Floor_Vault</defName>
+    <label>vault floor</label>
+    <floorLabel>vault</floorLabel>
+    <weight>0.7</weight>
+    <minFloor>8</minFloor>
+    <layoutModes><li>Carve</li></layoutModes>
+    <roomCountFactor>0.7</roomCountFactor>
+    <encounterFactor>0.6</encounterFactor>
+    <treasureRooms>4</treasureRooms>
+  </IsekaiDungeons.TowerFloorArchetypeDef>
+
+  <!-- One elite, almost no chaff. A duel, not a crawl. -->
+  <IsekaiDungeons.TowerFloorArchetypeDef>
+    <defName>IsekaiDungeons_Floor_Duel</defName>
+    <label>duel floor</label>
+    <floorLabel>duel</floorLabel>
+    <weight>0.5</weight>
+    <minFloor>20</minFloor>
+    <!-- CARVE ONLY. A duel is one room with one thing in it. roomCountFactor 0.35
+         reads as an arena underground and as an ordinary empty field outdoors. -->
+    <layoutModes><li>Carve</li></layoutModes>
+    <roomCountFactor>0.35</roomCountFactor>
+    <encounterFactor>1.3</encounterFactor>
+    <treasureRooms>1</treasureRooms>
+  </IsekaiDungeons.TowerFloorArchetypeDef>
+
+  <!-- The landing between two hard floors. Almost nothing lives here, and the
+       stair is open on arrival - see Building_TowerStair. -->
+  <IsekaiDungeons.TowerFloorArchetypeDef>
+    <defName>IsekaiDungeons_Floor_Rest</defName>
+    <label>quiet floor</label>
+    <floorLabel>quiet floor</floorLabel>
+    <weight>0.45</weight>
+    <minFloor>6</minFloor>
+    <!-- CARVE ONLY. A landing between two hard floors reads as a quiet room, not as
+         a random meadow - the Plains archetype is what covers open-air calm. -->
+    <layoutModes><li>Carve</li></layoutModes>
+    <roomCountFactor>0.5</roomCountFactor>
+    <encounterFactor>0.15</encounterFactor>
+    <treasureRooms>2</treasureRooms>
+    <sealStairUntilCleared>false</sealStairUntilCleared>
+  </IsekaiDungeons.TowerFloorArchetypeDef>
+
+  <!-- ═══ The summit ═══
+       Floor 100 only. Forced Open so there is no roof to remove, forced to the
+       top of the ladder, and it has no stair at all - the only way off it is
+       down through the gate you came in by. -->
+  <IsekaiDungeons.TowerFloorArchetypeDef>
+    <defName>IsekaiDungeons_Floor_Ascension</defName>
+    <label>the summit</label>
+    <floorLabel>the summit</floorLabel>
+    <weight>0</weight>
+    <minFloor>100</minFloor>
+    <maxFloor>100</maxFloor>
+    <layoutModes><li>Open</li></layoutModes>
+    <!-- Pinned: floor 100 is Elijah's floor, on every seed, or it is not the
+         summit. The def carries authoredBoss, so the boss is her by name
+         rather than whatever the rank band happened to roll. -->
+    <dungeonKinds><li>IsekaiDungeons_Tower_Summit_100</li></dungeonKinds>
+    <roomCountFactor>0.5</roomCountFactor>
+    <encounterFactor>1.4</encounterFactor>
+    <treasureRooms>0</treasureRooms>
+  </IsekaiDungeons.TowerFloorArchetypeDef>
+
+  <!-- ═══ The market floor ═══
+       MUST be Open. Not a preference: a village needs unroofed, edge-reachable
+       ground, and a Carve floor is neither.
+
+       Nothing hostile generates here — encounterFactor is near zero rather
+       than exactly zero so the odd wandering thing still turns up and the floor
+       is not a guaranteed safe room. The stair is open on arrival: there is no
+       boss, and sealing it would strand the player on a shopping trip. -->
+  <IsekaiDungeons.TowerFloorArchetypeDef>
+    <defName>IsekaiDungeons_Floor_Village</defName>
+    <label>market floor</label>
+    <floorLabel>village</floorLabel>
+    <weight>0.9</weight>
+    <minFloor>5</minFloor>
+    <layoutModes><li>Open</li></layoutModes>
+    <roomCountFactor>0.4</roomCountFactor>
+    <encounterFactor>0.08</encounterFactor>
+    <treasureRooms>0</treasureRooms>
+    <sealStairUntilCleared>false</sealStairUntilCleared>
+    <village>true</village>
+    <!-- NOTHING HOSTILE. A market floor with a boss at the far end is not a
+         market floor, it is a dungeon with shopkeepers in it. -->
+    <peaceful>true</peaceful>
+    <!-- Pinned to the plains environment: livable ground at every rank, which
+         is the one thing a settlement actually needs. Without this, "Open"
+         would happily put a village on an ash waste or a void plain. -->
+    <dungeonKinds><li>IsekaiDungeons_Tower_Plains</li></dungeonKinds>
+  </IsekaiDungeons.TowerFloorArchetypeDef>
+
+  <!-- ═══ The floors that are not a fight ═══
+       A hundred floors of white corridor is a corridor, not a climb. These are
+       the ones that break the pattern: grass, trees, animals that have never
+       been hunted, and ore worth stopping for.
+
+       encounterFactor 0.1 rather than 0 — a floor with nothing to kill can
+       never be CLEARED, and an uncleared floor seals its own stair. So there is
+       one thing at the far end and calm everywhere else. -->
+  <IsekaiDungeons.TowerFloorArchetypeDef>
+    <defName>IsekaiDungeons_Floor_Plains</defName>
+    <label>plains floor</label>
+    <floorLabel>plains</floorLabel>
+    <!-- Lowered from 0.9. This archetype PINS the plains, and with Standard
+         and Field now both able to roll them too, three routes to one
+         environment made it the most common place in the tower. -->
+    <weight>0.5</weight>
+    <minFloor>3</minFloor>
+    <layoutModes><li>Open</li></layoutModes>
+    <roomCountFactor>0.35</roomCountFactor>
+    <encounterFactor>0.1</encounterFactor>
+    <treasureRooms>1</treasureRooms>
+    <sealStairUntilCleared>false</sealStairUntilCleared>
+    <!-- NOTHING HOSTILE. encounterFactor alone could never reach zero: the
+         first creature in a room always spawns regardless of budget, and the
+         boss ignores the budget entirely. That is why floor 23 was handing out
+         SSS valkyries on a meadow. -->
+    <peaceful>true</peaceful>
+    <dungeonKinds><li>IsekaiDungeons_Tower_Plains</li></dungeonKinds>
+  </IsekaiDungeons.TowerFloorArchetypeDef>
+
+
+  <!--
+    FLOOR 50, EXACTLY. A single-floor band outranks every roll and every
+    forceEvery cadence (TowerLadder checks pinned bands first), so the
+    halfway mark is ALWAYS the mirror duel, on every seed, in every run.
+
+    encounterFactor/roomCountFactor are meaningless here (the arena generator
+    has no population step and no room chain) and stay at their defaults.
+    sealStairUntilCleared keeps its default TRUE: the stair opens when the
+    mirror objective completes - every copy defeated.
+  -->
+  <IsekaiDungeons.TowerFloorArchetypeDef>
+    <defName>IsekaiDungeons_Floor_MirrorDuel</defName>
+    <floorLabel>the mirror</floorLabel>
+    <weight>0</weight>
+    <minFloor>50</minFloor>
+    <maxFloor>50</maxFloor>
+    <layoutModes><li>Carve</li></layoutModes>
+    <dungeonKinds><li>IsekaiDungeons_Tower_MirrorHall_50</li></dungeonKinds>
+  </IsekaiDungeons.TowerFloorArchetypeDef>
+
+</Defs>

@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    DUNGEON-ONLY GROUND.
+
+    WHY THESE EXIST. Vanilla has no white terrain. The obvious candidate,
+    TileMarble, is <color>(132,135,132)</color> — a mid grey — and
+    FlagstoneMarble is the same value; TileLimestone is (158,153,135), which is
+    tan. Painting a "pale marble reach" out of those gives grey-brown ground,
+    and blending several of them together gives grey-brown ground with
+    contrasting patches, which is worse than doing nothing.
+
+    So the sanctum gets a terrain that is actually white.
+
+    NOT BUILDABLE ON PURPOSE. These deliberately do NOT inherit FloorBase,
+    because FloorBase carries <designationCategory>Floors</designationCategory>
+    and would put dungeon ground in the player's build menu. No costList, no
+    research, no designation category: they exist only for GenStep_DungeonTerrainPalette
+    to paint with.
+  -->
+
+  <!-- The Celestial environment's ground: Valkyrie Hall, Archangel's Sanctum,
+       Corcera's Domain. Near-white, faintly warm so it does not read as blue
+       ice. Beauty 2 because standing in it should feel like somewhere. -->
+  <TerrainDef>
+    <defName>IsekaiDungeons_SanctumStone</defName>
+    <label>sanctum stone</label>
+    <description>Pale stone laid edge to edge further than anyone bothered to walk. It is not marble, whatever it looks like. Nothing has stained it.</description>
+    <texturePath>Terrain/Surfaces/TileStone</texturePath>
+    <color>(247,246,241)</color>
+    <edgeType>Hard</edgeType>
+    <renderPrecedence>220</renderPrecedence>
+    <pathCost>0</pathCost>
+    <fertility>0</fertility>
+    <layerable>true</layerable>
+    <canEverTerraform>false</canEverTerraform>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <affordances>
+      <li>Light</li>
+      <li>Medium</li>
+      <li>Heavy</li>
+      <li>Walkable</li>
+    </affordances>
+    <statBases>
+      <Beauty>2</Beauty>
+      <CleaningTimeFactor>0.8</CleaningTimeFactor>
+    </statBases>
+    <tags>
+      <li>Floor</li>
+    </tags>
+  </TerrainDef>
+
+  <!-- The Voidscape environment's ground. Black glass with almost no light in
+       it — the visual opposite of the sanctum, and the point of putting the two
+       at the same rank band. -->
+  <TerrainDef>
+    <defName>IsekaiDungeons_VoidGlass</defName>
+    <label>void glass</label>
+    <description>Ground fused smooth and black by something that is no longer happening. It reflects almost nothing, and what it does reflect is not quite what is standing on it.</description>
+    <texturePath>Terrain/Surfaces/TileStone</texturePath>
+    <color>(31,28,38)</color>
+    <edgeType>Hard</edgeType>
+    <renderPrecedence>220</renderPrecedence>
+    <pathCost>0</pathCost>
+    <fertility>0</fertility>
+    <layerable>true</layerable>
+    <canEverTerraform>false</canEverTerraform>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <affordances>
+      <li>Light</li>
+      <li>Medium</li>
+      <li>Heavy</li>
+      <li>Walkable</li>
+    </affordances>
+    <statBases>
+      <Beauty>1</Beauty>
+      <CleaningTimeFactor>0.8</CleaningTimeFactor>
+    </statBases>
+    <tags>
+      <li>Floor</li>
+    </tags>
+  </TerrainDef>
+
+  <!-- Faint violet veining through the void glass. Close enough in value that
+       it reads as a sheen rather than as patches — the sanctum's mistake, not
+       repeated. -->
+  <TerrainDef>
+    <defName>IsekaiDungeons_VoidGlass_Veined</defName>
+    <label>veined void glass</label>
+    <description>Void glass with something brighter running through it, in lines that do not meet.</description>
+    <texturePath>Terrain/Surfaces/TileStone</texturePath>
+    <color>(44,36,58)</color>
+    <edgeType>Hard</edgeType>
+    <renderPrecedence>221</renderPrecedence>
+    <pathCost>0</pathCost>
+    <fertility>0</fertility>
+    <layerable>true</layerable>
+    <canEverTerraform>false</canEverTerraform>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <affordances>
+      <li>Light</li>
+      <li>Medium</li>
+      <li>Heavy</li>
+      <li>Walkable</li>
+    </affordances>
+    <statBases>
+      <Beauty>1</Beauty>
+      <CleaningTimeFactor>0.8</CleaningTimeFactor>
+    </statBases>
+    <tags>
+      <li>Floor</li>
+    </tags>
+  </TerrainDef>
+
+  <!--
+    REFUND-FREE LOOK-ALIKES.
+
+    A vanilla floor laid by map generation is a resource tap. TerrainGrid.SetTerrain
+    keeps the natural ground under any layerable floor, which makes the floor
+    removable; Designator_RemoveFloor has no ownership check, and removing a tile
+    drops its costList times resourcesFractionWhenDeconstructed (0.5 unless the def
+    says otherwise). Tower floors and multi-floor floors regenerate on every visit,
+    so whatever is pried up comes back. The Foundry palette's steel tile and
+    concrete were worth about 34,000 steel on a 160x160 map.
+
+    Each def below is its vanilla twin's look (texture, colour, renderPrecedence,
+    beauty and cleaning stats) with the cost, the research and the build menu entry
+    removed. Keep renderPrecedence equal to the twin's: it decides which neighbour's
+    soft edge bleeds over the tile, so a different number changes every seam.
+
+    NO FLAGSTONE COPIES. Vanilla FlagstoneBase sets resourcesFractionWhenDeconstructed
+    to 0, so flagstone already refunds nothing, and neither does BrokenAsphalt.
+    AncientTile and AncientConcrete carry no cost at all, and natural ground is not
+    layerable, so it cannot be removed. Only a floor that would pay out needs a twin.
+  -->
+  <TerrainDef Name="IsekaiDungeons_RefundFreeFloorBase" Abstract="True">
+    <edgeType>Hard</edgeType>
+    <pathCost>0</pathCost>
+    <fertility>0</fertility>
+    <layerable>true</layerable>
+    <isPaintable>true</isPaintable>
+    <canEverTerraform>false</canEverTerraform>
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <affordances>
+      <li>Light</li>
+      <li>Medium</li>
+      <li>Heavy</li>
+      <li>Walkable</li>
+    </affordances>
+    <tags>
+      <li>Floor</li>
+    </tags>
+  </TerrainDef>
+
+  <!-- Twin of MetalTile (Terrain_Floors.xml): the Foundry palette's plate. -->
+  <TerrainDef ParentName="IsekaiDungeons_RefundFreeFloorBase">
+    <defName>IsekaiDungeons_MetalTile</defName>
+    <label>yard plating</label>
+    <description>Square steel plates laid edge to edge across the yard, further than anyone has walked to check. Pried loose, a plate flakes into grey scale that no furnace will take.</description>
+    <texturePath>Terrain/Surfaces/GenericFloorTile</texturePath>
+    <color>(0.369, 0.369, 0.369)</color>
+    <renderPrecedence>240</renderPrecedence>
+    <statBases>
+      <Beauty>0</Beauty>
+      <Cleanliness>0.2</Cleanliness>
+      <CleaningTimeFactor>0.6</CleaningTimeFactor>
+    </statBases>
+  </TerrainDef>
+
+  <!-- Twin of Concrete (Terrain_Floors.xml): the Foundry palette's poured ground. -->
+  <TerrainDef ParentName="IsekaiDungeons_RefundFreeFloorBase">
+    <defName>IsekaiDungeons_Concrete</defName>
+    <label>yard concrete</label>
+    <description>Poured ground, cracked along the same lines everywhere, as if the whole yard set in one moment. Broken up, it is dust and nothing more.</description>
+    <texturePath>Terrain/Surfaces/Concrete</texturePath>
+    <color>(140,140,140)</color>
+    <renderPrecedence>70</renderPrecedence>
+    <statBases>
+      <Beauty>-1</Beauty>
+      <CleaningTimeFactor>0.8</CleaningTimeFactor>
+    </statBases>
+  </TerrainDef>
+
+  <!-- Twin of TileSlate (Terrain_Floors_StoneTile.xml): crypt and abyss room floors. -->
+  <TerrainDef ParentName="IsekaiDungeons_RefundFreeFloorBase">
+    <defName>IsekaiDungeons_TileSlate</defName>
+    <label>old slate tile</label>
+    <description>Slate cut square and fitted by hands that expected the floor to outlast them, and it has. Lifted, an old tile splits along a grain nobody can see and comes apart in the hand.</description>
+    <texturePath>Terrain/Surfaces/TileStone</texturePath>
+    <color>(100,100,100)</color>
+    <renderPrecedence>220</renderPrecedence>
+    <statBases>
+      <Beauty>1</Beauty>
+      <CleaningTimeFactor>0.8</CleaningTimeFactor>
+    </statBases>
+  </TerrainDef>
+
+  <!-- Twin of TileGranite (Terrain_Floors_StoneTile.xml): the Abyssal Throne's floor. -->
+  <TerrainDef ParentName="IsekaiDungeons_RefundFreeFloorBase">
+    <defName>IsekaiDungeons_TileGranite</defName>
+    <label>old granite tile</label>
+    <description>Granite cut square and fitted long before the gate opened onto it, scorched but still level. Lifted, an old tile splits along a grain nobody can see and comes apart in the hand.</description>
+    <texturePath>Terrain/Surfaces/TileStone</texturePath>
+    <color>(105,95,97)</color>
+    <renderPrecedence>220</renderPrecedence>
+    <statBases>
+      <Beauty>1</Beauty>
+      <CleaningTimeFactor>0.8</CleaningTimeFactor>
+    </statBases>
+  </TerrainDef>
+
+</Defs>

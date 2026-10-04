@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    Dungeon Break gate spawn. letterLabel/letterText deliberately omitted —
+    the worker sends its own rank-colored letter with LookTargets (same
+    convention as the base mod's Isekai_HuntSpawn, whose worker also owns its
+    letters; core's RaidEnemy is the vanilla precedent). letterDef is still
+    set so anything that inspects the def (mods, storyteller UI) sees the
+    correct severity.
+  -->
+  <IncidentDef>
+    <defName>IsekaiDungeons_DungeonBreak</defName>
+    <label>dungeon break gate</label>
+    <category>ThreatBig</category>
+    <targetTags>
+      <li>Map_PlayerHome</li>
+    </targetTags>
+    <workerClass>IsekaiDungeons.IncidentWorker_DungeonBreak</workerClass>
+    <!-- Tuned against vanilla ThreatBig: PitGate 0.75 (45-day refire),
+         ManhunterPack 2.0, Infestation 2.7, RaidEnemy 7.4. A gate sits above
+         those mid-tier threats on purpose - it is OPT-IN. Nothing happens
+         until the player walks in; the only forced consequence is the break
+         if they ignore it to the deadline. That makes a high rate an offer
+         of content rather than a tax, unlike a raid. -->
+    <!-- ZERO ON PURPOSE. Gates are opened by DungeonTracker on a schedule the
+         player sets in mod options, so letting the storyteller ALSO roll them
+         would make that slider a floor rather than the rate it says it is.
+         The def stays fully functional: the scheduler and the dev tool both
+         fire it through its own worker, which never consults baseChance. -->
+    <baseChance>0</baseChance>
+    <minRefireDays>2.5</minRefireDays>
+    <!-- Later than the base mod's hunts (day 3): a gate carries a hard
+         deadline and a break raid, so the colony gets time to rank up first. -->
+    <!-- Unused now that nothing selects this by weight; DungeonTracker.
+         FirstGateDay is the real floor. Kept so a third-party storyteller that
+         re-enables the incident still behaves. -->
+    <earliestDay>3</earliestDay>
+    <letterDef>ThreatBig</letterDef>
+  </IncidentDef>
+
+</Defs>

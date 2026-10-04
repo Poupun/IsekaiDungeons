@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    A DELIBERATELY EMPTY QUEST SCRIPT.
+
+    No quest is ever generated from this. Contracts are hand-built with
+    Quest.MakeRaw in DungeonContractFactory, because rank, distance and roster
+    all have to be read from the mod's own systems and a QuestNode graph cannot
+    express any of that.
+
+    It exists because Quest.root MUST NOT BE NULL. RimWorld dereferences it in
+    two places that both matter: Quest.CleanupQuestParts reads root.hideOnCleanup
+    with no null check, so ending a rootless quest throws inside Quest.End; and
+    the quest manager discards rootless quests on load, so a save would silently
+    lose every contract. The base mod ships Isekai_HuntQuestScript for exactly
+    this reason and its comment says so; this is the same trick for the same
+    reason, and it also supplies the icon the Quests tab draws.
+  -->
+
+  <QuestScriptDef>
+    <defName>IsekaiDungeons_ContractQuestScript</defName>
+    <isRootSpecial>true</isRootSpecial>
+    <autoAccept>false</autoAccept>
+    <root Class="QuestNode_Sequence">
+      <nodes />
+    </root>
+  </QuestScriptDef>
+
+  <!--
+    The same trick for the two SURVEYS: the Tower contract (TowerQuest) and
+    each multi-floor dungeon (MultiFloorQuest). Both are hand-built with
+    Quest.MakeRaw and both shipped without a root, so the quest manager threw
+    them away on every load - which surfaced as "Could not resolve reference
+    to object with loadID Quest_N" from the component that still pointed at it.
+  -->
+  <QuestScriptDef>
+    <defName>IsekaiDungeons_SurveyQuestScript</defName>
+    <isRootSpecial>true</isRootSpecial>
+    <autoAccept>true</autoAccept>
+    <root Class="QuestNode_Sequence">
+      <nodes />
+    </root>
+  </QuestScriptDef>
+
+</Defs>

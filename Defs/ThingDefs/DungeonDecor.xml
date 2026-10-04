@@ -1,0 +1,1013 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    DUNGEON DECOR — vanilla art on dungeon-owned defs.
+
+    Every piece here borrows a vanilla texture and nothing else. The source def
+    is resolved through its inheritance, and only what decides the LOOK is
+    copied: graphic, footprint, altitude, drawer, and the glow and flame comps.
+    Everything that makes vanilla decor unsafe in a dungeon is left behind, and
+    the reasons are in DUNGEON_DECOR_DESIGN.md section 2:
+
+      - no costList, no stuff:   an ownerless building deconstructs without a
+                                  claim and refunds half its cost, and tower and
+                                  multi-floor maps rebuild on every visit
+      - no minifiedDef:          it could be uninstalled and sold
+      - no CompRefuelable:       the light would burn out between visits
+      - no CompHeatPusher:       a dungeon full of torches would warm itself
+                                  and fight the climate spines
+      - no art, assignment, ritual or style comps: pure scenery
+
+    The base below makes them unclaimable and undeconstructible on top of that.
+    DungeonDecorSetDef.ConfigErrors re-checks every piece a set uses at load, so
+    a vanilla def added to a set by mistake reports itself in the log.
+
+    Stone and wood colours stand in for the stuff tint the vanilla def would
+    have taken from what it was built of. DLC pieces carry MayRequire and simply
+    do not exist without their expansion; the sets skip them.
+
+    Generated from the vanilla defs, then committed. Edit by hand freely.
+  -->
+
+  <ThingDef Name="IsekaiDungeons_DecorBase" Abstract="True">
+    <category>Building</category>
+    <thingClass>Building</thingClass>
+    <selectable>true</selectable>
+    <useHitPoints>true</useHitPoints>
+    <drawerType>MapMeshOnly</drawerType>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.3</fillPercent>
+    <leaveResourcesWhenKilled>false</leaveResourcesWhenKilled>
+    <soundImpactDefault>BulletImpact_Ground</soundImpactDefault>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Flammability>0</Flammability>
+      <Beauty>0</Beauty>
+    </statBases>
+    <building>
+      <claimable>false</claimable>
+      <deconstructible>false</deconstructible>
+      <isInert>true</isInert>
+      <ai_chillDestination>false</ai_chillDestination>
+    </building>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_DecorBase">
+    <defName>IsekaiDungeons_Decor_WallTorch</defName>
+    <label>wall torch</label>
+    <description>A torch set in a bracket on the wall. Whoever keeps these lit is never seen doing it.</description>
+    <rotatable>true</rotatable>
+    <altitudeLayer>BuildingOnTop</altitudeLayer>
+    <passability>Standable</passability>
+    <fillPercent>0.15</fillPercent>
+    <pathCost>0</pathCost>
+    <drawerType>RealtimeOnly</drawerType>
+    <uiIconPath>Things/Building/Misc/WallTorch/WallTorch_MenuIcon</uiIconPath>
+    <graphicData>
+      <drawRotated>false</drawRotated>
+      <texPath>Things/Building/Misc/WallTorch/WallTorch</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawOffsetNorth>(0,0,0.9)</drawOffsetNorth>
+      <drawOffsetSouth>(0,0,-0.9)</drawOffsetSouth>
+      <drawOffsetWest>(-0.9,0,0)</drawOffsetWest>
+      <drawOffsetEast>(0.9,0,0)</drawOffsetEast>
+      <damageData>
+        <enabled>false</enabled>
+      </damageData>
+    </graphicData>
+    <tickerType>Normal</tickerType>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+      <Beauty>0</Beauty>
+    </statBases>
+    <building>
+      <isEdifice>false</isEdifice>
+      <isAttachment>true</isAttachment>
+    </building>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>9</glowRadius>
+        <glowColor>(184,136,83,0)</glowColor>
+      </li>
+      <li Class="CompProperties_FireOverlay">
+        <fireSize>0.4</fireSize>
+        <offsetNorth>(0,0,0)</offsetNorth>
+        <offsetSouth>(0,0,0.55)</offsetSouth>
+        <offsetWest>(0.45,0,0.35)</offsetWest>
+        <offsetEast>(-0.45,0,0.35)</offsetEast>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_DecorBase">
+    <defName>IsekaiDungeons_Decor_Torch</defName>
+    <label>standing torch</label>
+    <description>A torch on a post, burning without anyone to feed it.</description>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.15</fillPercent>
+    <pathCost>14</pathCost>
+    <drawerType>RealtimeOnly</drawerType>
+    <uiIconPath>Things/Building/Misc/TorchLamp_MenuIcon</uiIconPath>
+    <graphicData>
+      <texPath>Things/Building/Misc/TorchLamp</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawRotated>false</drawRotated>
+      <damageData>
+        <rect>(0.35,0.35,0.3,0.3)</rect>
+      </damageData>
+    </graphicData>
+    <tickerType>Normal</tickerType>
+    <statBases>
+      <MaxHitPoints>75</MaxHitPoints>
+      <Beauty>0</Beauty>
+    </statBases>
+    <comps>
+      <li Class="CompProperties_FireOverlay">
+        <fireSize>0.4</fireSize>
+        <offset>(0,0,0.2)</offset>
+      </li>
+      <li Class="CompProperties_Glower">
+        <glowRadius>10</glowRadius>
+        <glowColor>(184,136,83,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_DecorBase">
+    <defName>IsekaiDungeons_Decor_Campfire</defName>
+    <label>old fire pit</label>
+    <description>A ring of blackened stones around a fire that does not go out.</description>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.20</fillPercent>
+    <pathCost>42</pathCost>
+    <drawerType>RealtimeOnly</drawerType>
+    <uiIconPath>Things/Building/Misc/Campfire_MenuIcon</uiIconPath>
+    <graphicData>
+      <texPath>Things/Building/Misc/Campfire</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawRotated>false</drawRotated>
+      <allowFlip>false</allowFlip>
+      <damageData>
+        <rect>(0.2,0,0.6,0.1)</rect>
+      </damageData>
+    </graphicData>
+    <tickerType>Normal</tickerType>
+    <statBases>
+      <MaxHitPoints>80</MaxHitPoints>
+      <Beauty>0</Beauty>
+    </statBases>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>10</glowRadius>
+        <glowColor>(252,187,113,0)</glowColor>
+      </li>
+      <li Class="CompProperties_FireOverlay">
+        <fireSize>1</fireSize>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_DecorBase">
+    <defName>IsekaiDungeons_Decor_Column</defName>
+    <label>stone column</label>
+    <description>A carved column. It holds up the roof and nothing else.</description>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.25</fillPercent>
+    <pathCost>0</pathCost>
+    <holdsRoof>true</holdsRoof>
+    <drawerType>MapMeshOnly</drawerType>
+    <graphicData>
+      <drawSize>(0.5,1.25)</drawSize>
+      <drawOffset>(0,0,0.2)</drawOffset>
+      <texPath>Things/Building/Furniture/Column</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shadowData>
+        <volume>(0.3, 0.5, 0.3)</volume>
+        <offset>(0,0,-0.23)</offset>
+      </shadowData>
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+      <color>(142,136,126)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>160</MaxHitPoints>
+      <Beauty>3</Beauty>
+    </statBases>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_DecorBase">
+    <defName>IsekaiDungeons_Decor_ColumnPale</defName>
+    <label>pale column</label>
+    <description>A column of pale, polished stone.</description>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.25</fillPercent>
+    <pathCost>0</pathCost>
+    <holdsRoof>true</holdsRoof>
+    <drawerType>MapMeshOnly</drawerType>
+    <graphicData>
+      <drawSize>(0.5,1.25)</drawSize>
+      <drawOffset>(0,0,0.2)</drawOffset>
+      <texPath>Things/Building/Furniture/Column</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shadowData>
+        <volume>(0.3, 0.5, 0.3)</volume>
+        <offset>(0,0,-0.23)</offset>
+      </shadowData>
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+      <color>(214,210,200)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>160</MaxHitPoints>
+      <Beauty>3</Beauty>
+    </statBases>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_DecorBase">
+    <defName>IsekaiDungeons_Decor_ColumnDark</defName>
+    <label>dark column</label>
+    <description>A column of dark stone, cold to the touch.</description>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.25</fillPercent>
+    <pathCost>0</pathCost>
+    <holdsRoof>true</holdsRoof>
+    <drawerType>MapMeshOnly</drawerType>
+    <graphicData>
+      <drawSize>(0.5,1.25)</drawSize>
+      <drawOffset>(0,0,0.2)</drawOffset>
+      <texPath>Things/Building/Furniture/Column</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shadowData>
+        <volume>(0.3, 0.5, 0.3)</volume>
+        <offset>(0,0,-0.23)</offset>
+      </shadowData>
+      <damageData>
+        <rect>(0.2,0.2,0.6,0.6)</rect>
+      </damageData>
+      <color>(80,76,82)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>160</MaxHitPoints>
+      <Beauty>3</Beauty>
+    </statBases>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_DecorBase">
+    <defName>IsekaiDungeons_Decor_Urn</defName>
+    <label>funerary urn</label>
+    <description>A sealed urn. Best left sealed.</description>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.40</fillPercent>
+    <pathCost>30</pathCost>
+    <drawerType>MapMeshOnly</drawerType>
+    <graphicData>
+      <texPath>Things/Building/Misc/Urn</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shadowData>
+        <volume>(0.55, 0.35, 0.3)</volume>
+        <offset>(0, 0, -0.28)</offset>
+      </shadowData>
+      <damageData>
+        <rect>(0.3,0,0.3,0.9)</rect>
+      </damageData>
+      <color>(126,104,94)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>40</MaxHitPoints>
+      <Beauty>2</Beauty>
+    </statBases>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_DecorBase">
+    <defName>IsekaiDungeons_Decor_Sarcophagus</defName>
+    <label>sealed sarcophagus</label>
+    <description>A stone coffin, its lid fused shut long ago.</description>
+    <size>(1,2)</size>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.5</fillPercent>
+    <pathCost>42</pathCost>
+    <drawerType>MapMeshOnly</drawerType>
+    <staticSunShadowHeight>0.3</staticSunShadowHeight>
+    <castEdgeShadows>true</castEdgeShadows>
+    <graphicData>
+      <texPath>Things/Building/Misc/Sarcophagus</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(3,4)</drawSize>
+      <damageData>
+        <cornerTL>Damage/Corner</cornerTL>
+        <cornerTR>Damage/Corner</cornerTR>
+        <cornerBL>Damage/Corner</cornerBL>
+        <cornerBR>Damage/Corner</cornerBR>
+      </damageData>
+      <color>(80,76,82)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>250</MaxHitPoints>
+      <Beauty>2</Beauty>
+    </statBases>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_DecorBase">
+    <defName>IsekaiDungeons_Decor_Grave</defName>
+    <label>open grave</label>
+    <description>A grave that was dug and never filled.</description>
+    <size>(1,2)</size>
+    <altitudeLayer>FloorEmplacement</altitudeLayer>
+    <passability>Standable</passability>
+    <fillPercent>0</fillPercent>
+    <drawerType>MapMeshOnly</drawerType>
+    <defaultPlacingRot>South</defaultPlacingRot>
+    <graphicData>
+      <texPath>Things/Building/Misc/GraveEmpty</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(3,4)</drawSize>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Beauty>-2</Beauty>
+    </statBases>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_DecorBase">
+    <defName>IsekaiDungeons_Decor_StatueSmall</defName>
+    <label>weathered statue</label>
+    <description>A small statue worn smooth by age.</description>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.35</fillPercent>
+    <pathCost>50</pathCost>
+    <drawerType>MapMeshOnly</drawerType>
+    <graphicData>
+      <graphicClass>Graphic_Random</graphicClass>
+      <texPath>Things/Building/Art/SculptureSmall</texPath>
+      <color>(142,136,126)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>90</MaxHitPoints>
+      <Beauty>6</Beauty>
+    </statBases>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_DecorBase">
+    <defName>IsekaiDungeons_Decor_StatueSmallPale</defName>
+    <label>pale statue</label>
+    <description>A small statue of pale stone.</description>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.35</fillPercent>
+    <pathCost>50</pathCost>
+    <drawerType>MapMeshOnly</drawerType>
+    <graphicData>
+      <graphicClass>Graphic_Random</graphicClass>
+      <texPath>Things/Building/Art/SculptureSmall</texPath>
+      <color>(214,210,200)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>90</MaxHitPoints>
+      <Beauty>6</Beauty>
+    </statBases>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_DecorBase">
+    <defName>IsekaiDungeons_Decor_StatueSmallDark</defName>
+    <label>dark statue</label>
+    <description>A small statue of dark stone.</description>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.35</fillPercent>
+    <pathCost>50</pathCost>
+    <drawerType>MapMeshOnly</drawerType>
+    <graphicData>
+      <graphicClass>Graphic_Random</graphicClass>
+      <texPath>Things/Building/Art/SculptureSmall</texPath>
+      <color>(80,76,82)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>90</MaxHitPoints>
+      <Beauty>6</Beauty>
+    </statBases>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_DecorBase">
+    <defName>IsekaiDungeons_Decor_StatueLarge</defName>
+    <label>stone statue</label>
+    <description>A statue of someone the dungeon remembers.</description>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.5</fillPercent>
+    <pathCost>50</pathCost>
+    <drawerType>MapMeshOnly</drawerType>
+    <castEdgeShadows>true</castEdgeShadows>
+    <graphicData>
+      <graphicClass>Graphic_Random</graphicClass>
+      <texPath>Things/Building/Art/SculptureLarge</texPath>
+      <drawSize>(3,3)</drawSize>
+      <color>(142,136,126)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>150</MaxHitPoints>
+      <Beauty>10</Beauty>
+    </statBases>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_DecorBase">
+    <defName>IsekaiDungeons_Decor_StatueLargePale</defName>
+    <label>pale statue</label>
+    <description>A tall statue of pale stone.</description>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.5</fillPercent>
+    <pathCost>50</pathCost>
+    <drawerType>MapMeshOnly</drawerType>
+    <castEdgeShadows>true</castEdgeShadows>
+    <graphicData>
+      <graphicClass>Graphic_Random</graphicClass>
+      <texPath>Things/Building/Art/SculptureLarge</texPath>
+      <drawSize>(3,3)</drawSize>
+      <color>(214,210,200)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>150</MaxHitPoints>
+      <Beauty>10</Beauty>
+    </statBases>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_DecorBase">
+    <defName>IsekaiDungeons_Decor_StatueLargeDark</defName>
+    <label>dark statue</label>
+    <description>A tall statue of dark stone.</description>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.5</fillPercent>
+    <pathCost>50</pathCost>
+    <drawerType>MapMeshOnly</drawerType>
+    <castEdgeShadows>true</castEdgeShadows>
+    <graphicData>
+      <graphicClass>Graphic_Random</graphicClass>
+      <texPath>Things/Building/Art/SculptureLarge</texPath>
+      <drawSize>(3,3)</drawSize>
+      <color>(80,76,82)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>150</MaxHitPoints>
+      <Beauty>10</Beauty>
+    </statBases>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_DecorBase">
+    <defName>IsekaiDungeons_Decor_StatueGrand</defName>
+    <label>colossal statue</label>
+    <description>A statue far too large for the room it stands in.</description>
+    <size>(2,2)</size>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.5</fillPercent>
+    <pathCost>50</pathCost>
+    <drawerType>MapMeshOnly</drawerType>
+    <castEdgeShadows>true</castEdgeShadows>
+    <graphicData>
+      <graphicClass>Graphic_Random</graphicClass>
+      <texPath>Things/Building/Art/SculptureGrand</texPath>
+      <drawSize>(4,4)</drawSize>
+      <color>(142,136,126)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>300</MaxHitPoints>
+      <Beauty>15</Beauty>
+    </statBases>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_DecorBase">
+    <defName>IsekaiDungeons_Decor_StatueGrandPale</defName>
+    <label>colossal pale statue</label>
+    <description>A towering figure of pale stone.</description>
+    <size>(2,2)</size>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.5</fillPercent>
+    <pathCost>50</pathCost>
+    <drawerType>MapMeshOnly</drawerType>
+    <castEdgeShadows>true</castEdgeShadows>
+    <graphicData>
+      <graphicClass>Graphic_Random</graphicClass>
+      <texPath>Things/Building/Art/SculptureGrand</texPath>
+      <drawSize>(4,4)</drawSize>
+      <color>(214,210,200)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>300</MaxHitPoints>
+      <Beauty>15</Beauty>
+    </statBases>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_DecorBase">
+    <defName>IsekaiDungeons_Decor_StatueGrandDark</defName>
+    <label>colossal dark statue</label>
+    <description>A towering figure of dark stone.</description>
+    <size>(2,2)</size>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.5</fillPercent>
+    <pathCost>50</pathCost>
+    <drawerType>MapMeshOnly</drawerType>
+    <castEdgeShadows>true</castEdgeShadows>
+    <graphicData>
+      <graphicClass>Graphic_Random</graphicClass>
+      <texPath>Things/Building/Art/SculptureGrand</texPath>
+      <drawSize>(4,4)</drawSize>
+      <color>(80,76,82)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>300</MaxHitPoints>
+      <Beauty>15</Beauty>
+    </statBases>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_DecorBase">
+    <defName>IsekaiDungeons_Decor_Table</defName>
+    <label>rough table</label>
+    <description>A crude table, scarred by knives.</description>
+    <size>(1,2)</size>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.4</fillPercent>
+    <pathCost>42</pathCost>
+    <drawerType>MapMeshOnly</drawerType>
+    <staticSunShadowHeight>0.20</staticSunShadowHeight>
+    <castEdgeShadows>true</castEdgeShadows>
+    <graphicData>
+      <texPath>Things/Building/Furniture/Table1x2</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(3,4)</drawSize>
+      <damageData>
+        <cornerTL>Damage/Corner</cornerTL>
+        <cornerTR>Damage/Corner</cornerTR>
+        <cornerBL>Damage/Corner</cornerBL>
+        <cornerBR>Damage/Corner</cornerBR>
+      </damageData>
+      <color>(133,97,67)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>75</MaxHitPoints>
+      <Beauty>0</Beauty>
+    </statBases>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_DecorBase">
+    <defName>IsekaiDungeons_Decor_Stool</defName>
+    <label>rough stool</label>
+    <description>A stool somebody sat on while they waited.</description>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Standable</passability>
+    <fillPercent>0.20</fillPercent>
+    <pathCost>30</pathCost>
+    <drawerType>MapMeshOnly</drawerType>
+    <graphicData>
+      <texPath>Things/Building/Furniture/Stool</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <damageData>
+        <rectN>(0.125,0.296875,0.734375,0.421875)</rectN>
+        <rectS>(0.125,0.296875,0.734375,0.421875)</rectS>
+        <rectE>(0.234375,0.296875,0.5,0.546875)</rectE>
+        <rectW>(0.234375,0.296875,0.5,0.546875)</rectW>
+        <cornerTL>Damage/Corner</cornerTL>
+        <cornerTR>Damage/Corner</cornerTR>
+        <cornerBL>Damage/Corner</cornerBL>
+        <cornerBR>Damage/Corner</cornerBR>
+      </damageData>
+      <shadowData>
+        <volume>(0.18, 0.23, 0.18)</volume>
+      </shadowData>
+      <color>(133,97,67)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>75</MaxHitPoints>
+      <Beauty>0</Beauty>
+    </statBases>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_DecorBase">
+    <defName>IsekaiDungeons_Decor_Shelf</defName>
+    <label>old shelf</label>
+    <description>An empty shelf.</description>
+    <size>(1,1)</size>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.4</fillPercent>
+    <pathCost>50</pathCost>
+    <drawerType>MapMeshOnly</drawerType>
+    <staticSunShadowHeight>0.5</staticSunShadowHeight>
+    <castEdgeShadows>true</castEdgeShadows>
+    <defaultPlacingRot>South</defaultPlacingRot>
+    <graphicData>
+      <texPath>Things/Building/Furniture/ShelfSmall</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(2,2)</drawSize>
+      <color>(133,97,67)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+      <Beauty>0</Beauty>
+    </statBases>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_DecorBase">
+    <defName>IsekaiDungeons_Decor_Bookcase</defName>
+    <label>old bookcase</label>
+    <description>Shelves of books too rotten to read.</description>
+    <size>(2,1)</size>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.4</fillPercent>
+    <pathCost>50</pathCost>
+    <drawerType>RealtimeOnly</drawerType>
+    <staticSunShadowHeight>0.5</staticSunShadowHeight>
+    <castEdgeShadows>true</castEdgeShadows>
+    <defaultPlacingRot>South</defaultPlacingRot>
+    <graphicData>
+      <texPath>Things/Building/Furniture/Bookcase/Bookcase</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <drawSize>(3,2)</drawSize>
+      <color>(133,97,67)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Beauty>1</Beauty>
+    </statBases>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_DecorBase" MayRequire="Ludeon.RimWorld.Royalty">
+    <defName>IsekaiDungeons_Decor_Brazier</defName>
+    <label>brazier</label>
+    <description>An iron brazier burning on nothing.</description>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.15</fillPercent>
+    <pathCost>42</pathCost>
+    <drawerType>RealtimeOnly</drawerType>
+    <graphicData>
+      <texPath>Things/Building/Misc/Brazier</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <shadowData>
+        <volume>(0.55, 0.35, 0.3)</volume>
+        <offset>(0, 0, -0.28)</offset>
+      </shadowData>
+      <damageData>
+        <rect>(0.2,0.3,0.6,0.6)</rect>
+      </damageData>
+      <color>(96,92,90)</color>
+    </graphicData>
+    <tickerType>Normal</tickerType>
+    <statBases>
+      <MaxHitPoints>80</MaxHitPoints>
+      <Beauty>2</Beauty>
+    </statBases>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>10</glowRadius>
+        <glowColor>(252,187,113,0)</glowColor>
+      </li>
+      <li Class="CompProperties_FireOverlay">
+        <fireSize>1</fireSize>
+        <offset>(0,0,0.18)</offset>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_DecorBase" MayRequire="Ludeon.RimWorld.Royalty">
+    <defName>IsekaiDungeons_Decor_DarklightBrazier</defName>
+    <label>darklight brazier</label>
+    <description>A brazier whose flame gives off a light that is almost dark.</description>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.15</fillPercent>
+    <pathCost>42</pathCost>
+    <drawerType>RealtimeOnly</drawerType>
+    <graphicData>
+      <texPath>Things/Building/Misc/DarklightBrazier</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <shadowData>
+        <volume>(0.55, 0.35, 0.3)</volume>
+        <offset>(0, 0, -0.28)</offset>
+      </shadowData>
+      <damageData>
+        <rect>(0.2,0.3,0.6,0.6)</rect>
+      </damageData>
+      <color>(96,92,90)</color>
+    </graphicData>
+    <tickerType>Normal</tickerType>
+    <statBases>
+      <MaxHitPoints>80</MaxHitPoints>
+      <Beauty>2</Beauty>
+    </statBases>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>10</glowRadius>
+        <glowColor>(78, 226, 229, 0)</glowColor>
+      </li>
+      <li Class="CompProperties_DarklightOverlay">
+        <fireSize>1</fireSize>
+        <offset>(0,0,0.18)</offset>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_DecorBase" MayRequire="Ludeon.RimWorld.Royalty">
+    <defName>IsekaiDungeons_Decor_Drape</defName>
+    <label>hanging drape</label>
+    <description>A heavy drape, faded from red to rust.</description>
+    <size>(2,1)</size>
+    <rotatable>true</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.40</fillPercent>
+    <pathCost>14</pathCost>
+    <drawerType>MapMeshOnly</drawerType>
+    <graphicData>
+      <drawSize>(4.2,4.2)</drawSize>
+      <texPath>Things/Building/Furniture/Drape</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <addTopAltitudeBias>true</addTopAltitudeBias>
+      <shadowData>
+        <volume>(2,0.5,0.3)</volume>
+        <offset>(0,0,-0.2)</offset>
+      </shadowData>
+      <damageData>
+        <rectN>(0.1, 0.1, 1.8, 1.5)</rectN>
+        <rectS>(0.1, 0.1, 1.8, 1.5)</rectS>
+        <rectE>(0.25, 0.5, 0.5, 1.5)</rectE>
+        <rectW>(0.25, 0.5, 0.5, 1.5)</rectW>
+      </damageData>
+      <color>(122,36,40)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Beauty>5</Beauty>
+    </statBases>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_DecorBase" MayRequire="Ludeon.RimWorld.Royalty">
+    <defName>IsekaiDungeons_Decor_Throne</defName>
+    <label>abandoned throne</label>
+    <description>A throne for whoever rules down here.</description>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Standable</passability>
+    <fillPercent>0.4</fillPercent>
+    <pathCost>30</pathCost>
+    <drawerType>MapMeshOnly</drawerType>
+    <defaultPlacingRot>South</defaultPlacingRot>
+    <graphicData>
+      <drawSize>(2.4,2.4)</drawSize>
+      <texPath>Things/Building/Furniture/Throne</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <shadowData>
+        <volume>(0.5,0.35,0.4)</volume>
+      </shadowData>
+      <damageData>
+        <rect>(0.2,0,2, 0.6, 0.6)</rect>
+      </damageData>
+      <color>(80,76,82)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>150</MaxHitPoints>
+      <Beauty>8</Beauty>
+    </statBases>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_DecorBase" MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>IsekaiDungeons_Decor_Skullspike</defName>
+    <label>skullspike</label>
+    <description>A warning, in the only language that needs no words.</description>
+    <size>(1,1)</size>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.5</fillPercent>
+    <pathCost>30</pathCost>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <uiIconPath>Things/Building/Misc/Skullspike/Skullspike</uiIconPath>
+    <defaultPlacingRot>North</defaultPlacingRot>
+    <graphicData>
+      <texPath>Things/Building/Misc/Skullspike/Skullspike</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.3,1.3)</drawSize>
+      <shaderType>CutoutComplex</shaderType>
+      <color>(133,97,67)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>150</MaxHitPoints>
+      <Beauty>-3</Beauty>
+    </statBases>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_DecorBase" MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>IsekaiDungeons_Decor_Darktorch</defName>
+    <label>darktorch</label>
+    <description>A torch that burns with a dim, dark flame.</description>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.15</fillPercent>
+    <pathCost>14</pathCost>
+    <drawerType>RealtimeOnly</drawerType>
+    <uiIconPath>Things/Building/Misc/Darktorch_MenuIcon</uiIconPath>
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawRotated>false</drawRotated>
+      <damageData>
+        <rect>(0.35,0.35,0.3,0.3)</rect>
+      </damageData>
+      <texPath>Things/Building/Misc/Darktorch</texPath>
+    </graphicData>
+    <tickerType>Normal</tickerType>
+    <statBases>
+      <MaxHitPoints>75</MaxHitPoints>
+      <Beauty>0</Beauty>
+    </statBases>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>7</glowRadius>
+        <glowColor>(78, 226, 229, 0)</glowColor>
+      </li>
+      <li Class="CompProperties_DarklightOverlay">
+        <fireSize>0.4</fireSize>
+        <offset>(0,0,0.2)</offset>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_DecorBase" MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>IsekaiDungeons_Decor_Pew</defName>
+    <label>stone pew</label>
+    <description>A pew for a congregation long gone.</description>
+    <size>(3,1)</size>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Standable</passability>
+    <fillPercent>0.35</fillPercent>
+    <pathCost>25</pathCost>
+    <drawerType>MapMeshOnly</drawerType>
+    <defaultPlacingRot>South</defaultPlacingRot>
+    <graphicData>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <texPath>Things/Building/Misc/Pew/Pew</texPath>
+      <drawSize>(3,1)</drawSize>
+      <shadowData>
+        <volume>(0.8, 1, 0.8)</volume>
+      </shadowData>
+      <color>(80,76,82)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Beauty>2</Beauty>
+    </statBases>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_DecorBase" MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>IsekaiDungeons_Decor_Lectern</defName>
+    <label>lectern</label>
+    <description>A lectern for sermons nobody hears.</description>
+    <size>(1,1)</size>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>Standable</passability>
+    <fillPercent>0.35</fillPercent>
+    <drawerType>MapMeshOnly</drawerType>
+    <graphicData>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <texPath>Things/Building/Misc/Lectern/Lectern</texPath>
+      <drawSize>(1,1)</drawSize>
+      <shadowData>
+        <volume>(0.8, 1, 0.8)</volume>
+      </shadowData>
+      <color>(80,76,82)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>100</MaxHitPoints>
+      <Beauty>2</Beauty>
+    </statBases>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_DecorBase" MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>IsekaiDungeons_Decor_Altar</defName>
+    <label>altar</label>
+    <description>An altar, stained dark.</description>
+    <size>(1,1)</size>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.5</fillPercent>
+    <drawerType>MapMeshOnly</drawerType>
+    <graphicData>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <texPath>Things/Building/Misc/Altars/Altar1x1</texPath>
+      <drawSize>(1,1)</drawSize>
+      <shadowData>
+        <volume>(0.8, 1, 0.8)</volume>
+      </shadowData>
+      <color>(80,76,82)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>50</MaxHitPoints>
+      <Beauty>5</Beauty>
+    </statBases>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_DecorBase" MayRequire="Ludeon.RimWorld.Ideology">
+    <defName>IsekaiDungeons_Decor_Reliquary</defName>
+    <label>empty reliquary</label>
+    <description>A reliquary. Whatever it held is gone.</description>
+    <size>(3,2)</size>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.4</fillPercent>
+    <pathCost>30</pathCost>
+    <drawerType>MapMeshAndRealTime</drawerType>
+    <castEdgeShadows>true</castEdgeShadows>
+    <defaultPlacingRot>South</defaultPlacingRot>
+    <graphicData>
+      <drawSize>(3.2,2.4)</drawSize>
+      <texPath>Things/Building/Misc/Reliquary/Reliquary</texPath>
+      <graphicClass>Graphic_Multi</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <drawOffsetNorth>(0,0,0.2)</drawOffsetNorth>
+      <drawOffsetSouth>(0,0,0.2)</drawOffsetSouth>
+      <shadowData>
+        <volume>(2.9,0.6,1.9)</volume>
+      </shadowData>
+      <damageData>
+        <rect>(0.1,0.1,2.8,1.8)</rect>
+      </damageData>
+      <color>(214,210,200)</color>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>350</MaxHitPoints>
+      <Beauty>8</Beauty>
+    </statBases>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiDungeons_DecorBase" MayRequire="Ludeon.RimWorld.Biotech">
+    <defName>IsekaiDungeons_Decor_BloodTorch</defName>
+    <label>blood torch</label>
+    <description>A torch that burns red.</description>
+    <rotatable>false</rotatable>
+    <altitudeLayer>Building</altitudeLayer>
+    <passability>PassThroughOnly</passability>
+    <fillPercent>0.15</fillPercent>
+    <pathCost>14</pathCost>
+    <drawerType>RealtimeOnly</drawerType>
+    <uiIconPath>Things/Building/Misc/Redtorch_MenuIcon</uiIconPath>
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawRotated>false</drawRotated>
+      <damageData>
+        <rect>(0.35,0.35,0.3,0.3)</rect>
+      </damageData>
+      <texPath>Things/Building/Misc/Redtorch</texPath>
+    </graphicData>
+    <tickerType>Normal</tickerType>
+    <statBases>
+      <MaxHitPoints>75</MaxHitPoints>
+      <Beauty>0</Beauty>
+    </statBases>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>10</glowRadius>
+        <glowColor>(460, 220, 205, 0)</glowColor>
+      </li>
+      <li Class="CompProperties_SanguophageMeetingFire">
+        <fireSize>0.5</fireSize>
+        <finalFireSize>0.5</finalFireSize>
+        <offset>(0,0,0.1)</offset>
+      </li>
+    </comps>
+  </ThingDef>
+
+</Defs>

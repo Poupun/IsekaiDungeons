@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    MANA ORE - the only ore an instanced dungeon generates.
+
+    Placed by IsekaiDungeons_ManaOre (Defs/MapGeneration/ManaOreGenSteps.xml);
+    the vanilla random-ore pass is switched off on every dungeon generator.
+
+    THE LOOK is vanilla compacted steel re-tinted: same RockFlecked_Atlas, same
+    CutoutComplex shader, a cool slate body (<color>) and bright blue flecks
+    (<colorTwo>, the mask channel). No new texture needed.
+
+    THE YIELD is split across two places:
+      - vanilla Mineable.TrySpawnYield drops the small mana cores (mineableThing
+        and mineableYield below), so mining yield, difficulty mineYieldFactor
+        and the forbid rules all behave like any other ore;
+      - Mineable_ManaOre adds the rank-scaled chance of one full mana core on
+        top (DungeonTunables.ManaOreCoreChanceFor).
+
+    mineableScatterCommonality 0 IS THE CONTAINMENT. That field is the weight
+    vanilla GenStep_ScatterLumpsMineable picks random ores by, so at 0 this ore
+    never shows up on a colony map; our gen step names it directly through
+    forcedDefToScatter. mineablePreventMeteorite keeps it out of meteorite
+    incidents for the same reason.
+
+    No glower on purpose: cave plants die to any non-plant light.
+  -->
+  <ThingDef ParentName="RockBase">
+    <defName>IsekaiDungeons_MineableManaOre</defName>
+    <label>mana ore</label>
+    <description>Rock shot through with veins of crystallized mana. It forms only where a gate's mana has soaked into the stone for a long time. Mining it breaks loose small mana cores, and now and then a whole one.</description>
+    <thingClass>IsekaiDungeons.Mineable_ManaOre</thingClass>
+    <graphicData>
+      <texPath>Things/Building/Linked/RockFlecked_Atlas</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <shaderType>CutoutComplex</shaderType>
+      <color>(84,94,118)</color>
+      <colorTwo>(70,150,255)</colorTwo>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>1500</MaxHitPoints>
+    </statBases>
+    <building>
+      <isResourceRock>true</isResourceRock>
+      <mineableThing>Isekai_SmallManaCore</mineableThing>
+      <mineableYield>1</mineableYield>
+      <mineableScatterCommonality>0</mineableScatterCommonality>
+      <mineableScatterLumpSizeRange>3~7</mineableScatterLumpSizeRange>
+      <veinMineable>true</veinMineable>
+      <mineablePreventMeteorite>true</mineablePreventMeteorite>
+    </building>
+  </ThingDef>
+
+</Defs>

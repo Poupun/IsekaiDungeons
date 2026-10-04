@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    THE PLAINS - a floor that is not a fight.
+
+    Real trees, real animals, real ore, and the tower is not trying to kill you
+    on this one. It exists because a hundred floors of white corridor is a
+    corridor, not a climb: the floors that stay in memory are the ones that
+    break the pattern.
+
+    A CHILD OF THE REAL FOREST BIOME so every vanilla rule still applies - plant
+    growth, temperature, animal ecology - while the roster is hand-picked.
+    Inherit="False" on wildAnimals is what drops the predators: without it the
+    "peaceful" floor ships grizzlies, timber wolves, cougars and wargs. Keep
+    wildPlants inherited so Plants at order 900 still finds oaks, poplars,
+    berries and healroot to grow.
+  -->
+  <BiomeDef ParentName="TemperateForest">
+    <defName>IsekaiDungeons_TowerPlains</defName>
+    <label>tower plains</label>
+    <description>Grassland and standing timber, several hundred feet above anything that should be able to support it. The animals here have never been hunted and do not read as prey. Whatever the tower is for, this floor is not part of it.</description>
+    <animalDensity>4.5</animalDensity>
+    <plantDensity>0.55</plantDensity>
+    <!-- No rabid animals: the whole premise is a floor that leaves you alone. -->
+    <wildAnimalScariaChance>0</wildAnimalScariaChance>
+    <wildAnimals Inherit="False">
+      <Hare>1.0</Hare>
+      <Squirrel>1.0</Squirrel>
+      <Deer>0.8</Deer>
+      <Turkey>0.6</Turkey>
+      <Alpaca>0.5</Alpaca>
+      <Muffalo>0.5</Muffalo>
+      <Gazelle>0.4</Gazelle>
+      <Ibex>0.4</Ibex>
+      <GuineaPig>0.4</GuineaPig>
+      <Tortoise>0.3</Tortoise>
+      <Yak>0.2</Yak>
+      <Bison>0.2</Bison>
+      <Horse>0.2</Horse>
+    </wildAnimals>
+    <baseWeatherCommonalities Inherit="False">
+      <Clear>20</Clear>
+      <Rain>2</Rain>
+    </baseWeatherCommonalities>
+  </BiomeDef>
+
+  <!--
+    The environment.
+
+    RocksFromGrid (order 200) is what makes ORE possible at all:
+    GenStep_ScatterLumpsMineable.CanScatterAt requires an existing natural-rock
+    edifice, so with no rock outcrops there is nothing for ore to be inside.
+
+    Animals (order 1200) is the vanilla wild-animal pass and is NOT affected by
+    Patch_SuppressDungeonWildlife - that patch only suppresses the runtime
+    migration tick (WildAnimalSpawnerTick), not map generation. So a tower floor
+    can be populated with animals at generation and simply not gain more later,
+    which is exactly the behaviour a fixed floor wants.
+
+    NO terrain palette entry: a constructed-terrain repaint zeroes fertility,
+    and Plants at 900 would then find nothing to grow on.
+  -->
+  <MapGeneratorDef>
+    <defName>IsekaiDungeons_TowerPlains</defName>
+    <label>tower plains</label>
+    <isUnderground>false</isUnderground>
+    <forceCaves>false</forceCaves>
+    <ignoreAreaRevealedLetter>true</ignoreAreaRevealedLetter>
+    <disableCallAid>true</disableCallAid>
+    <customMapComponents>
+      <li>IsekaiDungeons.DungeonMapComponent</li>
+    </customMapComponents>
+    <pocketMapProperties>
+      <biome>IsekaiDungeons_TowerPlains</biome>
+      <temperature>19</temperature>
+    </pocketMapProperties>
+    <genSteps>
+      <li>IsekaiDungeons_TowerVillage</li>
+      <li>ElevationFertility</li>
+      <li>Terrain</li>
+      <li>IsekaiDungeons_RocksFromGrid</li>
+      <li>IsekaiDungeons_ManaOre</li>
+      <li>IsekaiDungeons_RockChunks</li>
+      <li>IsekaiDungeons_Layout</li>
+      <li>IsekaiDungeons_Entrance</li>
+      <li>IsekaiDungeons_Population</li>
+      <li>Plants</li>
+      <li>SteamGeysers</li>
+      <li>Animals</li>
+      <li>Fog</li>
+    </genSteps>
+  </MapGeneratorDef>
+
+</Defs>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    THE PLACE A GUILD CONTRACT POINTS AT.
+
+    Inherits vanilla's concrete Site def rather than reimplementing one, which
+    is what buys the whole feature its safety for free. Site already carries
+    WorldObjectCompProperties_FormCaravan (so a party can leave again),
+    EnterCooldown, Timeout, and above all Site.ShouldRemoveMapNow, which keeps
+    the map loaded for exactly as long as player pawns remain on it in any form,
+    including riding inside a shuttle, a gravship or a modded vehicle.
+
+    That last point is the reason this is a Site and not a bespoke MapParent.
+    The sibling add-on lost caravans in July by answering "is the player still
+    here" with a spawned-pawn scan; the answer is to never ask that question and
+    let the engine's own liveness rule decide. See QuestPart_DungeonContract.
+
+    The dungeon itself is NOT here. This site only ever holds a normal
+    Building_DungeonGate, placed by SitePartWorker_DungeonContract when the map
+    generates; everything behind that gate is the same pocket map, rooms, boss
+    and loot the mod has always had. The contract layer decides where a gate is
+    and why the player heard about it, and nothing else.
+  -->
+
+  <WorldObjectDef ParentName="Site">
+    <defName>IsekaiDungeons_DungeonContractSite</defName>
+    <!-- Our own Site subclass, purely to own the map-removal POLICY. A plain
+         vanilla Site destroys itself the moment its map unloads, which would
+         delete an unfinished contract the instant the party walked away. -->
+    <worldObjectClass>IsekaiDungeons.DungeonContractSite</worldObjectClass>
+    <label>dungeon site</label>
+    <description>A gate the Adventurer's Guild has located and posted a contract for.</description>
+
+    <!-- Appended to the comps Site already declares, not replacing them: the
+         inherited FormCaravan comp is what lets a party walk home. -->
+    <comps>
+      <li Class="IsekaiDungeons.WorldObjectCompProperties_DungeonContract" />
+    </comps>
+  </WorldObjectDef>
+
+
+  <!--
+    siteTexture is MANDATORY. Site.get_Material dereferences it, so a site part
+    without one throws ArgumentNullException the moment the world map tries to
+    draw the object, which surfaces as a red error every frame rather than a
+    missing icon.
+
+    Vanilla art for now, deliberately. The tower's own map icon is reserved for
+    the tower, and shipping an obvious placeholder is worse than shipping
+    something that reads as native. Custom per-kind icons (intact / broken /
+    rescue) are the natural follow-up once the art exists.
+  -->
+  <SitePartDef>
+    <defName>IsekaiDungeons_DungeonContractPart</defName>
+    <label>dungeon gate</label>
+    <description>A dimensional gate, standing open on this ground.</description>
+    <workerClass>IsekaiDungeons.SitePartWorker_DungeonContract</workerClass>
+
+    <siteTexture>World/WorldObjects/Sites/GenericSite</siteTexture>
+    <!-- AncientComplex is Ideology art, and Ideology is optional: a missing
+         texture errors every frame the world map draws. Core art here,
+         swapped back by Patches/DungeonIcons_Ideology.xml when it can be. -->
+    <expandingIconTexture>World/WorldObjects/Expanding/Sites/Manhunters</expandingIconTexture>
+
+    <!-- The dungeon supplies its own threat through its roster and rank curves,
+         so the vanilla site threat-point economy has nothing to contribute and
+         would only double-count. -->
+    <wantsThreatPoints>false</wantsThreatPoints>
+
+    <!-- ARRIVING IS NOT AN ATTACK. This field defaults to TRUE, and on a rescue
+         contract that default is catastrophic: the moment the party walks onto
+         the map to help, the faction they came to save is made hostile and
+         turns on them. Even for the unowned variants there is nobody here to
+         attack; the site's faction is the victim, not the enemy. -->
+    <considerEnteringAsAttack>false</considerEnteringAsAttack>
+
+    <!-- No vanilla detection-raid cycle. Site.PostMapGenerate otherwise arms
+         TimedDetectionRaids, which sends escalating hostile raids at a party
+         for the crime of staying put. A dungeon already supplies every threat
+         this map needs, and the player is expected to camp here long enough to
+         haul a boss-room hoard home. -->
+    <disallowsAutomaticDetectionTimerStart>true</disallowsAutomaticDetectionTimerStart>
+
+    <!-- And no forced eviction. The default of 4 days would start a countdown
+         that throws the party off the map, which directly contradicts the one
+         guarantee this feature is built on: the player leaves when they are
+         finished, not when a timer says so. -->
+    <forceExitAndRemoveMapCountdownDurationDays>0</forceExitAndRemoveMapCountdownDurationDays>
+
+    <tags>
+      <li>IsekaiDungeons_Contract</li>
+    </tags>
+  </SitePartDef>
+
+</Defs>

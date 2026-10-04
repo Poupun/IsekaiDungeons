@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    ORE IN DUNGEONS: MANA ORE ONLY.
+
+    Vanilla GenStep_RocksFromGrid places rock AND then runs its own embedded
+    GenStep_ScatterLumpsMineable, which picks from every ore in the game
+    (steel, plasteel, gold, uranium, jade, components, modded ores...). That is
+    where the random ore in dungeons came from.
+
+    The two rock steps below are the vanilla ones with that embedded pass set to
+    zero lumps (overrideBlotchesPer10kCells 0), and IsekaiDungeons_ManaOre then
+    scatters mana ore alone. Every dungeon generator lists these instead of
+    Underground_RocksFromGrid / RocksFromGrid.
+
+    ORDER. 200 for the rocks, exactly like vanilla. Mana ore at 201: it needs
+    the rock to exist (CanScatterAt only accepts a natural-rock edifice) and
+    must run before Layout (410) so carving a room simply deletes the ore that
+    was in it, the same as it deletes the rock. Carving destroys with
+    DestroyMode.Vanish, so carved ore drops nothing.
+  -->
+
+  <GenStepDef>
+    <defName>IsekaiDungeons_Underground_RocksFromGrid</defName>
+    <order>200</order>
+    <genStep Class="GenStep_RocksFromGrid">
+      <overrideBlotchesPer10kCells>0</overrideBlotchesPer10kCells>
+    </genStep>
+  </GenStepDef>
+
+  <!-- Surface twin, for the tower plains (rock outcrops on open ground). -->
+  <GenStepDef>
+    <defName>IsekaiDungeons_RocksFromGrid</defName>
+    <order>200</order>
+    <genStep Class="GenStep_RocksFromGrid">
+      <overrideBlotchesPer10kCells>0</overrideBlotchesPer10kCells>
+    </genStep>
+  </GenStepDef>
+
+  <!--
+    Lumps per 10k cells. Vanilla underground maps run 10 lumps of 30~40 steel
+    cells; mana ore is rarer and much smaller (3~7 cells, set on the ThingDef)
+    because every cell is worth a core. On an open map the step finds few or no
+    rock cells and places little or nothing, which is correct.
+  -->
+  <GenStepDef>
+    <defName>IsekaiDungeons_ManaOre</defName>
+    <order>201</order>
+    <genStep Class="IsekaiDungeons.GenStep_ScatterLumpsMineableFirstVisit">
+      <forcedDefToScatter>IsekaiDungeons_MineableManaOre</forcedDefToScatter>
+      <countPer10kCellsRange>5~8</countPer10kCellsRange>
+    </genStep>
+  </GenStepDef>
+
+</Defs>

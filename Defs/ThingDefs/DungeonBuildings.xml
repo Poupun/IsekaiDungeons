@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    Dungeon gate + return exit. Both modeled on Anomaly's PitGate / core
+    CaveExit pair (the vanilla MapPortal / PocketMapExit reference
+    implementations) — deviations from those defs are commented inline.
+  -->
+
+  <!-- ═══ Gate — the colony-side portal building ═══ -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>IsekaiDungeons_DungeonGate</defName>
+    <!-- The UI icon must be a STILL image: ThingDef.uiIcon falls back to the
+         graphic's main texture when uiIconPath is unset, which is how the WIP
+         placeholder was leaking into the inspect pane and every float-menu
+         entry. A real frame from the sequence is what the thing actually looks
+         like. -->
+    <uiIconPath>Gates/GateIcon</uiIconPath>
+    <label>dungeon gate</label>
+    <description>A tear in reality held open by an arch of alien stone. Mana pours out of it like cold air from a cave mouth. Whatever is on the other side is getting stronger — and when the gate's countdown ends, it will come through.</description>
+    <thingClass>IsekaiDungeons.Building_DungeonGate</thingClass>
+    <size>(5,5)</size>
+    <passability>Impassable</passability>
+    <rotatable>false</rotatable>
+    <useHitPoints>false</useHitPoints>
+    <!-- Indestructible by damage; the gate removes itself via the PitGate
+         allowDestroyNonDestroyable bracket when it collapses or breaks. -->
+    <destroyable>false</destroyable>
+    <!-- Normal ticker: the gate runs the countdown / collapse state machine. -->
+    <tickerType>Normal</tickerType>
+    <!-- MapMeshAndRealTime so the building can layer real-time portal effects
+         (swirl overlay, countdown pulses) on top of the static mesh. -->
+    <!-- RealtimeOnly: the gate is a per-frame animation, so there is nothing
+         worth baking into the map mesh and a stale mesh copy would show
+         through the sequence. -->
+    <drawerType>RealtimeOnly</drawerType>
+    <!-- PitGate needs Heavy affordance; the incident's cell finder guarantees
+         a valid spot and falls back to ignoreTerrainAffordance, so we keep the
+         vanilla requirement rather than special-casing terrain. -->
+    <terrainAffordanceNeeded>Heavy</terrainAffordanceNeeded>
+    <canOverlapZones>false</canOverlapZones>
+    <building>
+      <isEdifice>true</isEdifice>
+      <deconstructible>false</deconstructible>
+      <claimable>false</claimable>
+      <isTargetable>false</isTargetable>
+      <isInert>true</isInert>
+      <expandHomeArea>false</expandHomeArea>
+    </building>
+    <!-- Vanilla portal-contents tab: shows pawns/items currently inside the
+         pocket map, plus the haul-to-portal transfer UI. -->
+    <inspectorTabs>
+      <li>ITab_ContentsMapPortal</li>
+    </inspectorTabs>
+    <statBases>
+      <Flammability>0</Flammability>
+    </statBases>
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <!-- FALLBACK ONLY, and it is a REAL frame of the sequence rather than a
+           placeholder: DrawAt replaces it with the animation, so this is what
+           shows only if the frames fail to load. -->
+      <texPath>Gates/GateIcon</texPath>
+      <drawSize>(5,5)</drawSize>
+    </graphicData>
+    <portal>
+      <pocketMapGenerator>IsekaiDungeons_Dungeon</pocketMapGenerator>
+      <exitDef>IsekaiDungeons_DungeonExit</exitDef>
+      <!-- enteredLetter* deliberately unset: Building_DungeonGate sends its own
+           rank-aware letters. traverseSound unset too (null-safe in vanilla). -->
+    </portal>
+    <comps>
+      <!-- The gate lights its own colour onto the ground. The value here is
+           only a default: Building_DungeonGate.SpawnSetup overrides GlowColor
+           per gate from its RANK, because one def serves every rank and the
+           colour belongs to what is behind the gate, not to the building. -->
+      <li Class="CompProperties_Glower">
+        <glowRadius>12</glowRadius>
+        <glowColor>(70,140,255,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- ═══ Exit — the return portal inside the pocket map ═══ -->
+  <!-- ParentName PocketMapExit (core abstract) supplies: useHitPoints false,
+       terrainAffordanceNeeded Heavy, canOverlapZones false, rotatable false,
+       tickerType Normal, destroyable false, passability Standable, and the
+       non-interactable building block. -->
+  <ThingDef ParentName="PocketMapExit">
+    <defName>IsekaiDungeons_DungeonExit</defName>
+    <!-- The UI icon must be a STILL image: ThingDef.uiIcon falls back to the
+         graphic's main texture when uiIconPath is unset, which is how the WIP
+         placeholder was leaking into the inspect pane and every float-menu
+         entry. A real frame from the sequence is what the thing actually looks
+         like. -->
+    <uiIconPath>Gates/GateIcon</uiIconPath>
+    <label>dungeon exit</label>
+    <description>The other side of the dungeon gate — a standing tear of pale light leading back to the surface. It stays open as long as the dungeon exists; fleeing is always allowed.</description>
+    <thingClass>IsekaiDungeons.Building_DungeonExit</thingClass>
+    <size>(3,3)</size>
+    <!-- RealtimeOnly: this draws a per-frame animation. MapMeshAndRealTime
+         would ALSO bake the still fallback frame into the map mesh, and that
+         frozen copy shows through the animation as a fixed image stuck on top
+         of the portal. -->
+    <drawerType>RealtimeOnly</drawerType>
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <texPath>Gates/GateIcon</texPath>
+      <drawSize>(3,3)</drawSize>
+    </graphicData>
+    <statBases>
+      <Flammability>0</Flammability>
+    </statBases>
+    <comps>
+      <!-- The entry room's only light source: a cool-blue glow marks "the way
+           home" against the warm cave-plant ambience (CaveExit precedent,
+           tinted colder to read as portal light rather than daylight). -->
+      <li Class="CompProperties_Glower">
+        <glowRadius>10</glowRadius>
+        <glowColor>(110,170,200,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- ═══ Room door — the fog boundary that paces exploration ═══ -->
+  <!--
+    NOT decoration. RimWorld's fog of war unfogs by flood fill and the fill
+    stops at any edifice with Full fillage; a door is fillPercent 1, so a shut
+    door is as opaque to the flood fill as a wall. That single vanilla behaviour
+    is what keeps each dungeon room black until somebody actually opens it.
+    Behaviour (factionless, party-only passage, latches open on first use) lives
+    in IsekaiDungeons.Building_DungeonDoor — read that file before changing
+    anything here.
+
+    ParentName DoorBase: Core's abstract door base (Buildings_Structure.xml,
+    Name="DoorBase" Abstract="True" — abstract Core parents are inheritable by
+    mods). It supplies altitudeLayer DoorMoveable, fillPercent 1, blockLight,
+    holdsRoof, blockWind, drawerType RealtimeOnly, tickerType Normal, the
+    open/close sounds and the Forbiddable comp. Everything below is either a
+    deviation for a GENERATED (never built, never owned) door, or a deliberate
+    restatement of a load-bearing inherited value.
+  -->
+  <ThingDef ParentName="DoorBase">
+    <defName>IsekaiDungeons_DungeonDoor</defName>
+    <label>dungeon door</label>
+    <description>A slab of the same dead stone the dungeon's walls are cut from, hung in a frame that has no hinges anyone can find. It does not open for the things that live here — they wait behind it, in the dark, until something with hands lets them out. Force it or unlatch it, and it never seals again.</description>
+    <thingClass>IsekaiDungeons.Building_DungeonDoor</thingClass>
+
+    <!-- ── Generated, not built ──
+         The map generator spawns these; there is no blueprint, no build cost
+         and no stuff to choose. Clearing stuffCategories makes MadeFromStuff
+         false, which is exactly what GenStep_DungeonLayout tests before it
+         bothers resolving doorStuff. designationCategory is nulled so the door
+         never shows up in the player's Architect menu (idiom copied from
+         Biotech's Buildings_Misc.xml). -->
+    <stuffCategories Inherit="False" IsNull="True" />
+    <designationCategory Inherit="False" IsNull="True" />
+    <placeWorkers Inherit="False" IsNull="True" />
+    <replaceTags Inherit="False" IsNull="True" />
+    <useStuffTerrainAffordance>false</useStuffTerrainAffordance>
+
+    <!-- ── The fog mechanic (restated on purpose) ──
+         fillPercent 1 => Fillage.Full => the fog flood fill stops here. If this
+         ever drops below 0.99 every dungeon reveals itself in one glance. -->
+    <fillPercent>1</fillPercent>
+    <blockLight>true</blockLight>
+    <holdsRoof>true</holdsRoof>
+
+    <!-- ── Breachable ──
+         Damageable, and destroyable, so a party that would rather not walk into
+         a room blind can knock the door down instead — 300 HP is several
+         minutes of melee, enough that breaching is a choice with a cost rather
+         than the default. Deconstruct/claim are off: the dungeon is not the
+         colony's property, and a deconstructed door would leave a permanent
+         hole in the fog boundary for free. -->
+    <useHitPoints>true</useHitPoints>
+    <destroyable>true</destroyable>
+    <statBases>
+      <MaxHitPoints>300</MaxHitPoints>
+      <!-- Alien stone: it does not burn, so nobody clears a dungeon with a
+           molotov and a corridor. -->
+      <Flammability>0</Flammability>
+      <DoorOpenSpeed>1</DoorOpenSpeed>
+    </statBases>
+    <building>
+      <deconstructible>false</deconstructible>
+      <claimable>false</claimable>
+      <expandHomeArea>false</expandHomeArea>
+      <paintable>false</paintable>
+      <canPlaceOverWall>false</canPlaceOverWall>
+    </building>
+
+    <!-- Core's simple-door texture, tinted to cold slate. Reusing a vanilla
+         path means no new art ships with the mod and the door still animates
+         correctly (Building_Door slides the mover graphic aside on open). -->
+    <graphicData>
+      <texPath>Things/Building/Door/DoorSimple_Mover</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <color>(110,116,126)</color>
+      <damageData>
+        <!-- No damage marks: they would not slide with the moving door. -->
+        <enabled>false</enabled>
+      </damageData>
+    </graphicData>
+  </ThingDef>
+
+</Defs>

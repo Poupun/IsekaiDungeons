@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    THE TOWER: two buildings and a world object.
+
+    Unlike a dungeon gate this has NO countdown and NO break state. The tower is
+    a place, not an emergency: it stands on the colony map until the player
+    finishes it or gives up on it, and going home is always allowed.
+  -->
+
+  <!-- ═══ The way out ═══
+       A floor is a pocket map with no world tile, so a caravan cannot be formed
+       on it the ordinary way. This is the answer: everyone on the floor leaves
+       together and reappears as a caravan on the tower's tile. It stands where
+       the party arrived, so leaving means crossing back the way you came. -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>IsekaiDungeons_TowerExit</defName>
+    <uiIconPath>Tower/StairDown</uiIconPath>
+    <label>the way down</label>
+    <description>The opening you came in by. It does not lead to the floor below — it leads out, all the way out, to the open ground the tower stands on. Everyone leaves together or nobody does.</description>
+    <thingClass>IsekaiDungeons.Building_TowerExit</thingClass>
+    <tickerType>Normal</tickerType>
+    <size>(3,3)</size>
+    <passability>PassThroughOnly</passability>
+    <pathCost>10</pathCost>
+    <!-- Not an edifice, so without this the Plants step grows grass and
+         trees through the art on Open floors, and spawning leaves plants
+         standing under it (vanilla's steam geyser sets it for the same
+         reason). Placement: FootprintSpot. -->
+    <blockPlants>true</blockPlants>
+    <rotatable>false</rotatable>
+    <useHitPoints>false</useHitPoints>
+    <destroyable>false</destroyable>
+    <selectable>true</selectable>
+    <!-- A still texture with no states, so it can live in the map mesh. -->
+    <drawerType>MapMeshOnly</drawerType>
+    <building>
+      <isEdifice>false</isEdifice>
+      <deconstructible>false</deconstructible>
+      <claimable>false</claimable>
+      <expandHomeArea>false</expandHomeArea>
+    </building>
+    <statBases>
+      <Flammability>0</Flammability>
+    </statBases>
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <!-- A well cut into a stone platform, its stair sinking step by step to
+           a tunnel lit Tower pink: Textures/Tower/StairDown.png, drawn by
+           Tools/gen_tower_stair.py alongside the stair up. The canvas is
+           square, so drawSize must stay square or the art stretches.
+           Multi-floor dungeons use this building as their way out too. -->
+      <texPath>Tower/StairDown</texPath>
+      <drawSize>(3.2,3.2)</drawSize>
+    </graphicData>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>7</glowRadius>
+        <!-- The Tower's pink, matching GateVisuals.GlowFor(Pink). Every door
+             that belongs to the Tower casts the same light on every floor. -->
+        <glowColor>(255,80,200,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <!-- ═══ The way up ═══
+       Deliberately NOT a portal — see Building_TowerStair. It stands in the
+       boss room, so climbing means crossing the floor, and it stays sealed
+       until the floor's objective is met. -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>IsekaiDungeons_TowerStair</defName>
+    <!-- The open art doubles as the icon for the inspect pane and float menus. -->
+    <uiIconPath>Tower/StairUp</uiIconPath>
+    <label>ascending stair</label>
+    <description>A stair cut into the floor's far wall, leading up into the dark. It will not open while anything on this floor still objects to you being here.</description>
+    <thingClass>IsekaiDungeons.Building_TowerStair</thingClass>
+    <!-- REQUIRED. Building_TowerStair.Tick watches for the pawn ordered to
+         climb to actually arrive; with no ticker the right-click order is
+         accepted, the pawn walks over, and nothing ever happens. -->
+    <tickerType>Normal</tickerType>
+    <size>(2,2)</size>
+    <passability>PassThroughOnly</passability>
+    <pathCost>10</pathCost>
+    <!-- See the exit above. -->
+    <blockPlants>true</blockPlants>
+    <rotatable>false</rotatable>
+    <useHitPoints>false</useHitPoints>
+    <destroyable>false</destroyable>
+    <selectable>true</selectable>
+    <!-- RealtimeOnly: Building_TowerStair swaps between the open and the sealed
+         art as the floor is beaten. A baked map mesh would keep showing the
+         sealed door until something else rebuilt that section of the map. -->
+    <drawerType>RealtimeOnly</drawerType>
+    <building>
+      <isEdifice>false</isEdifice>
+      <deconstructible>false</deconstructible>
+      <claimable>false</claimable>
+      <expandHomeArea>false</expandHomeArea>
+    </building>
+    <statBases>
+      <Flammability>0</Flammability>
+    </statBases>
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <!-- A masonry stair climbing to an arched door high in a crenellated
+           tower block: Textures/Tower/StairUp.png, with StairUp_Sealed.png
+           picked up by convention while the floor still objects. Drawn by
+           Tools/gen_tower_stair.py. The canvas is square, so drawSize must stay
+           square or the art stretches. -->
+      <texPath>Tower/StairUp</texPath>
+      <drawSize>(2.4,2.4)</drawSize>
+    </graphicData>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>6</glowRadius>
+        <!-- The Tower's pink, matching GateVisuals.GlowFor(Pink). Every door
+             that belongs to the Tower casts the same light on every floor. -->
+        <glowColor>(255,80,200,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+
+</Defs>

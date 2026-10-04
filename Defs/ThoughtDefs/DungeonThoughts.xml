@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+    <!-- =====================================================================
+         ISEKAI DUNGEONS — MOOD THOUGHTS
+
+         Fired from code via DungeonMoods, which delegates to the base mod's
+         IsekaiMoods so every guard (settings toggle, null pawn, no mood need,
+         dead pawn, stage clamp) is inherited rather than reimplemented.
+
+         BALANCE RULE, inherited from the base mod and deliberate: progression
+         highs are SPIKES, not floors — big number, short duration — and every
+         category ships a negative as counterweight. Colonists must not end up
+         sitting at a permanent +40, or mood stops being a game system.
+
+         The dungeon-specific shape of that rule: being INSIDE an uncleared
+         dungeon is a standing penalty (Dread, situational), and clearing it
+         both removes the penalty and pays the spike. The reward is therefore
+         relief plus elation, which is what actually finishing a dungeon crawl
+         feels like — and it means a colony that opens gates it cannot close
+         is punished by the same system that rewards one that closes them.
+         ===================================================================== -->
+
+    <!-- ==================== CLEARING ==================== -->
+
+    <!-- Cleared a dungeon. The headline. Everyone who was standing in it when
+         the last objective fell gets this, staged by the dungeon's rank. -->
+    <ThoughtDef>
+        <defName>IsekaiDungeons_DungeonCleared</defName>
+        <durationDays>3</durationDays>
+        <stackLimit>2</stackLimit>
+        <stackedEffectMultiplier>0.5</stackedEffectMultiplier>
+        <stages>
+            <li><!-- 0: F/E/D --><label>cleared a dungeon</label>
+                <description>We went down into it and we came back up. Not everyone can say that.</description>
+                <baseMoodEffect>7</baseMoodEffect></li>
+            <li><!-- 1: C/B --><label>cleared a dangerous dungeon</label>
+                <description>That place was built to kill people like me. It didn't.</description>
+                <baseMoodEffect>11</baseMoodEffect></li>
+            <li><!-- 2: A/S --><label>cleared a deadly dungeon</label>
+                <description>Whatever made that gate meant it as a grave. I walked out of it carrying its treasure.</description>
+                <baseMoodEffect>15</baseMoodEffect></li>
+            <li><!-- 3: SS/SSS/Nation --><label>cleared a legendary dungeon</label>
+                <description>People will tell that story wrong for a hundred years. I was there. I finished it.</description>
+                <baseMoodEffect>20</baseMoodEffect></li>
+        </stages>
+    </ThoughtDef>
+
+    <!-- A tower floor is one step of a hundred, not an expedition. Small,
+         short, and it stacks — a good climbing run should feel like momentum
+         building rather than one big payout at the end. -->
+    <ThoughtDef>
+        <defName>IsekaiDungeons_FloorCleared</defName>
+        <durationDays>0.75</durationDays>
+        <stackLimit>4</stackLimit>
+        <stackedEffectMultiplier>0.5</stackedEffectMultiplier>
+        <stages>
+            <li><!-- 0: lower third --><label>climbing the tower</label>
+                <description>Another floor behind me. The stairs keep going up.</description>
+                <baseMoodEffect>3</baseMoodEffect></li>
+            <li><!-- 1: middle third --><label>deep in the tower</label>
+                <description>I've climbed further than most ever see. The air up here is different.</description>
+                <baseMoodEffect>5</baseMoodEffect></li>
+            <li><!-- 2: upper third --><label>near the summit</label>
+                <description>The top is close enough to believe in now. Whatever is waiting there knows I'm coming.</description>
+                <baseMoodEffect>7</baseMoodEffect></li>
+        </stages>
+    </ThoughtDef>
+
+    <!-- The whole tower, finished. The largest single thought either mod
+         ships, and it should be: it fires once per colony, ever. -->
+    <ThoughtDef>
+        <defName>IsekaiDungeons_SummitConquered</defName>
+        <durationDays>10</durationDays>
+        <stackLimit>1</stackLimit>
+        <stages>
+            <li>
+                <label>the summit was reached</label>
+                <description>Someone I know walked to the top of the Tower of Gods and came back down. Nothing about the world feels quite as fixed as it did yesterday.</description>
+                <baseMoodEffect>25</baseMoodEffect>
+            </li>
+        </stages>
+    </ThoughtDef>
+
+    <!-- For the people who stayed home. A gate standing in the fields is a
+         thing everyone can see; its closing is felt by everyone, not just the
+         party that went in. -->
+    <ThoughtDef>
+        <defName>IsekaiDungeons_GateSealed</defName>
+        <durationDays>2</durationDays>
+        <stackLimit>1</stackLimit>
+        <stages>
+            <li>
+                <label>the gate is closed</label>
+                <description>That thing sat on our doorstep humming to itself for days. It's gone now.</description>
+                <baseMoodEffect>5</baseMoodEffect>
+            </li>
+        </stages>
+    </ThoughtDef>
+
+    <!-- A boss that walked out with the breach, put down on our own ground. -->
+    <ThoughtDef>
+        <defName>IsekaiDungeons_BeastPutDown</defName>
+        <durationDays>3</durationDays>
+        <stackLimit>1</stackLimit>
+        <stages>
+            <li>
+                <label>put the beast down</label>
+                <description>It came out of the gate and onto our land, and it died here. Let the next one hear about it.</description>
+                <baseMoodEffect>8</baseMoodEffect>
+            </li>
+        </stages>
+    </ThoughtDef>
+
+    <!-- ==================== FAILURE & DREAD ==================== -->
+
+    <!-- The counterweight. A gate left alone long enough bursts, and the whole
+         colony carries that — not just whoever was supposed to deal with it.
+         stackLimit 1 so the breach and the final break, which are separate
+         moments on the same gate, refresh one dread rather than doubling it. -->
+    <ThoughtDef>
+        <defName>IsekaiDungeons_GateBroke</defName>
+        <durationDays>4</durationDays>
+        <stackLimit>1</stackLimit>
+        <stages>
+            <li><!-- 0: F/E/D --><label>a gate broke open</label>
+                <description>We left it too long and it opened on its own terms instead of ours.</description>
+                <baseMoodEffect>-8</baseMoodEffect></li>
+            <li><!-- 1: C/B/A --><label>a dangerous gate broke open</label>
+                <description>Everything that was waiting in there is out here now, and it is out here because we were too slow.</description>
+                <baseMoodEffect>-12</baseMoodEffect></li>
+            <li><!-- 2: S+ --><label>a catastrophic gate broke open</label>
+                <description>That gate should never have been allowed to run its clock down. Whatever happens next, we did this to ourselves.</description>
+                <baseMoodEffect>-16</baseMoodEffect></li>
+        </stages>
+    </ThoughtDef>
+
+    <!-- SITUATIONAL, not a memory: it applies for exactly as long as the pawn
+         is standing inside a dungeon that has not been cleared, and lifts the
+         moment it is. Staged by the dungeon's rank. -->
+    <ThoughtDef>
+        <defName>IsekaiDungeons_DungeonDread</defName>
+        <workerClass>IsekaiDungeons.ThoughtWorker_DungeonDread</workerClass>
+        <stages>
+            <li><!-- 0: F/E/D/C --><label>inside a dungeon</label>
+                <description>There is a lot of rock over my head and something in here is still alive.</description>
+                <baseMoodEffect>-3</baseMoodEffect></li>
+            <li><!-- 1: B/A/S --><label>inside a deadly dungeon</label>
+                <description>Every corridor in this place feels like it is waiting for me to turn my back on it.</description>
+                <baseMoodEffect>-5</baseMoodEffect></li>
+            <li><!-- 2: SS+ --><label>inside a legendary dungeon</label>
+                <description>Whatever is at the bottom of this place has killed better than me. I can feel the weight of it through the walls.</description>
+                <baseMoodEffect>-8</baseMoodEffect></li>
+        </stages>
+    </ThoughtDef>
+
+</Defs>

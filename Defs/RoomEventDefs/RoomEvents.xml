@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    ROOM EVENTS — the things that can happen in one room (Carve) or one
+    encounter zone (Open) instead of the ordinary fight.
+
+    These are DEFS, not enum values, so a third-party mod adds its own event
+    with XML plus one worker class and it competes with these on equal terms.
+    See MODDING.md.
+
+    Tuning notes that apply to the whole set:
+      * weight is relative WITHIN the eligible set for a room, not global.
+      * maxPerDungeon keeps a single dungeon from being all one surprise.
+      * minDepth/maxDepth is the position along the room chain (0 = first
+        combat room, 1 = the last one before the boss). Nasty events are kept
+        out of the opening room; a rival PARTY is kept out of the last one so
+        it does not merge into the boss fight.
+      * The selector converts at most ~a third of a dungeon's combat rooms,
+        so ordinary fights stay the baseline these read against.
+  -->
+
+  <!-- ══ RIVAL ADVENTURER PARTY ══
+       A competing guild reached this room first. Humanlike, factioned, lorded,
+       and hostile to the dungeon as well as to you. Kept out of the very first
+       room (you should meet the dungeon before you meet a rival) and out of the
+       last (so it does not blur into the boss encounter). -->
+  <IsekaiDungeons.DungeonRoomEventDef>
+    <defName>IsekaiDungeons_RivalParty</defName>
+    <label>rival party</label>
+    <description>Another delving party got here first.</description>
+    <workerClass>IsekaiDungeons.RoomEventWorker_RivalParty</workerClass>
+    <weight>1.0</weight>
+    <!-- E+: an F gate is a first outing, and being jumped by a geared raider
+         party there is a colony-ender rather than a surprise. -->
+    <minRank>E</minRank>
+    <minDepth>0.15</minDepth>
+    <maxDepth>0.85</maxDepth>
+    <maxPerDungeon>1</maxPerDungeon>
+    <replacesEncounter>true</replacesEncounter>
+    <enteredMessageKey>IsekaiDungeons.Event.RivalParty.Entered</enteredMessageKey>
+  </IsekaiDungeons.DungeonRoomEventDef>
+
+  <!-- ══ TRAP ══
+       Layered ON TOP of the normal fight (replacesEncounter false) — a trap is
+       at its best when it goes off while you are already committed. Carve only:
+       a pressure plate in a sealed corridor room reads as a trap, the same
+       explosion on an open snowfield reads as a bug. -->
+  <IsekaiDungeons.DungeonRoomEventDef>
+    <defName>IsekaiDungeons_Trap</defName>
+    <label>trapped room</label>
+    <description>The floor here was rigged by something with hands.</description>
+    <workerClass>IsekaiDungeons.RoomEventWorker_Trap</workerClass>
+    <weight>1.2</weight>
+    <layoutModes>
+      <li>Carve</li>
+      <li>Build</li>
+    </layoutModes>
+    <minDepth>0.2</minDepth>
+    <maxPerDungeon>2</maxPerDungeon>
+    <replacesEncounter>false</replacesEncounter>
+  </IsekaiDungeons.DungeonRoomEventDef>
+
+  <!-- ══ AMBUSH ══
+       Empty on arrival, spawns around you at the centre. Works anywhere: on an
+       open field the creatures simply rise from the ground cover. -->
+  <IsekaiDungeons.DungeonRoomEventDef>
+    <defName>IsekaiDungeons_Ambush</defName>
+    <label>ambush</label>
+    <description>Empty. Suspiciously so.</description>
+    <workerClass>IsekaiDungeons.RoomEventWorker_Ambush</workerClass>
+    <weight>1.1</weight>
+    <minDepth>0.2</minDepth>
+    <maxPerDungeon>2</maxPerDungeon>
+    <replacesEncounter>true</replacesEncounter>
+  </IsekaiDungeons.DungeonRoomEventDef>
+
+  <!-- ══ GUARDED HOARD ══
+       The treasure room with teeth. Pays a treasure roll at the DUNGEON's rank
+       and puts an elite on top of it, so it is a decision rather than a pickup. -->
+  <IsekaiDungeons.DungeonRoomEventDef>
+    <defName>IsekaiDungeons_GuardedHoard</defName>
+    <label>guarded hoard</label>
+    <description>Something has been piling this up, and it is still here.</description>
+    <workerClass>IsekaiDungeons.RoomEventWorker_GuardedHoard</workerClass>
+    <weight>0.9</weight>
+    <minRank>D</minRank>
+    <minDepth>0.25</minDepth>
+    <maxPerDungeon>1</maxPerDungeon>
+    <replacesEncounter>true</replacesEncounter>
+    <enteredMessageKey>IsekaiDungeons.Event.GuardedHoard.Entered</enteredMessageKey>
+  </IsekaiDungeons.DungeonRoomEventDef>
+
+  <!-- ══ CHAMPION ══
+       One elite instead of a crowd. Changes the shape of the fight, which is
+       the point — focus fire and kiting instead of area control. Deep only:
+       it is a rehearsal for the boss. -->
+  <IsekaiDungeons.DungeonRoomEventDef>
+    <defName>IsekaiDungeons_Champion</defName>
+    <label>champion</label>
+    <description>One of them is far bigger than the others were.</description>
+    <workerClass>IsekaiDungeons.RoomEventWorker_Champion</workerClass>
+    <weight>1.0</weight>
+    <minRank>D</minRank>
+    <minDepth>0.45</minDepth>
+    <maxPerDungeon>1</maxPerDungeon>
+    <replacesEncounter>true</replacesEncounter>
+    <enteredMessageKey>IsekaiDungeons.Event.Champion.Entered</enteredMessageKey>
+  </IsekaiDungeons.DungeonRoomEventDef>
+
+  <!-- ══ SURVIVOR ══
+       The only non-combat event, and the reason the set needs one: a dungeon
+       made entirely of fights asks the player the same question in every room.
+       Rare (low weight) so finding one stays an occasion. -->
+  <IsekaiDungeons.DungeonRoomEventDef>
+    <defName>IsekaiDungeons_Survivor</defName>
+    <label>survivor</label>
+    <description>Someone from an earlier party is still breathing.</description>
+    <workerClass>IsekaiDungeons.RoomEventWorker_Survivor</workerClass>
+    <weight>0.5</weight>
+    <minRank>E</minRank>
+    <minDepth>0.1</minDepth>
+    <maxDepth>0.8</maxDepth>
+    <maxPerDungeon>1</maxPerDungeon>
+    <replacesEncounter>true</replacesEncounter>
+  </IsekaiDungeons.DungeonRoomEventDef>
+
+  <!-- ══ MANA SPRING ══
+       Visible loot, and the room wakes when you take it. A greed check: the
+       cores can be grabbed and abandoned, which is a legitimate play. -->
+  <IsekaiDungeons.DungeonRoomEventDef>
+    <defName>IsekaiDungeons_ManaSpring</defName>
+    <label>mana spring</label>
+    <description>Raw mana has crystallised straight out of the ground here.</description>
+    <workerClass>IsekaiDungeons.RoomEventWorker_ManaSpring</workerClass>
+    <weight>0.8</weight>
+    <minDepth>0.15</minDepth>
+    <maxPerDungeon>1</maxPerDungeon>
+    <replacesEncounter>true</replacesEncounter>
+  </IsekaiDungeons.DungeonRoomEventDef>
+
+</Defs>

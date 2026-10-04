@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    ════════════════════════════════════════════════════════════════════
+    RECOVERED WEAPONS  —  the S-rank line
+    ════════════════════════════════════════════════════════════════════
+    THE DIRECTION, and it is deliberately the opposite of the Three Gods.
+    Those three are instruments of a founding act, cosmic and nameless.
+    These five are INHERITANCES: gear that went through a gate on
+    somebody's hip and came back out without them. Each is named by
+    whoever recovered it, and every name is really about the habit or the
+    person that got the last owner killed - which is why none of them is
+    named for what it does.
+
+    So the register is human rather than divine. No Tower, no seal, no
+    pinned god; just five people who did not come home and the guild
+    clerk who had to write something on the tag.
+
+    THE FIVE, and what each one is FOR. Five S-rank swords could easily
+    have been one sword five times, so each owns exactly one axis and
+    gives ground on the others:
+
+        Cristaline       the keen one    fastest, sharpest, and it CHIPS
+                                         (190 HP, lowest in the mod)
+        Death Wish       the cursed one  best damage and AP of the five,
+                                         and you take 18% MORE damage
+        Lion's Pride     the steady one  no weakness anywhere, most
+                                         durable, steadies its wielder
+        Pirate Gamble    the wild one    one lucky swing at 68 power on a
+                                         0.30 chance: real variance
+        Raging Claymore  the heavy one   biggest single hit here, worst
+                                         accuracy, drags you forward
+
+    PIRATE GAMBLE'S VARIANCE IS VANILLA, not code. RimWorld picks a tool
+    per swing weighted by chanceFactor, so a second Cut tool at 68 power
+    on chance 0.30 genuinely lands about a fifth of the time - above a
+    legendary monosword's swing - and the rest are a modest 34. Nothing had to be patched to make a
+    gamble; the tool table already is one.
+
+    ROUGH DPS, each tool weighted by its chanceFactor:
+
+        Pirate 20.4   Death Wish 19.1   Cristaline 19.2
+        Raging 19.2   Lion's Pride 18.4     (all at Good)
+
+    PITCHED AGAINST A PERSONA WEAPON, which is the yardstick a player will
+    actually reach for. A persona monosword is 13.7 base tool DPS, and
+    quality pays it x1.45 at masterwork and x1.65 at legendary - 19.9 and
+    22.6 effective. (Forge refinement is not a differentiator: the injector
+    stamps every weapon in the game, so it multiplies both sides and
+    cancels out.)
+
+    So the S line is deliberately parked at a MASTERWORK persona AT ITS
+    GOOD BASELINE: it beats a normal or good one comfortably, trades with a
+    masterwork, and loses to a legendary. That is the correct place for the
+    rank below the top - and a Legendary roll of one of these (27.5-30.6)
+    then clears a legendary persona outright. The Three Gods start above it
+    at 25.7-27.9 Good.
+
+    QUALITY, AND WHY GOOD IS THE BASELINE. These carry CompQuality plus
+    IsekaiDungeons.CompArtifactQuality, which floors the roll at Good. Every
+    DPS figure quoted in this file is the GOOD number, and quality climbs
+    from there:
+
+        Good 1.10   Excellent 1.20   Masterwork 1.45   Legendary 1.65
+
+    so the tool powers below are the published figure divided by 1.10. The
+    floor comp exists because CompQuality has NO PostPostMake - it simply
+    starts at Normal and only moves when something calls SetQuality - so a
+    plain ThingMaker.MakeThing would hand out a Normal one, under baseline,
+    and a trader roll could go lower still. The floor comp must stay listed
+    AFTER CompQuality: RimWorld APPENDS <li> nodes on inheritance rather
+    than replacing them (XmlInheritance.RecursiveNodeCopyOverwriteElements
+    treats a list element as an append), so the parent's CompEquippable
+    survives and ours run last, which is what lets the floor win.
+
+    ONE CONSEQUENCE WORTH KNOWING: TreasurePool.MakePrize maps the RARITY
+    BAND an item was drawn from onto quality (Common->Good ... Legendary->
+    Legendary). These artifacts declare 5,000-16,500 market value, which
+    puts them in the Legendary band of their tier, so a chest-awarded one
+    will nearly always arrive Legendary. The Good..Legendary spread is
+    therefore mostly about artifacts acquired some other way. If the range
+    should apply to chest drops too, MakePrize has to roll quality
+    independently of the band it drew from - that is a change there, not
+    here.
+
+    HOW THEY DROP. techLevel Spacer, which the pool's tier windows place
+    in BOTH the gold band (Industrial..Spacer) and the jade one
+    (Spacer..Archotech) - so these come out of an S-SS clear or better,
+    which is exactly what S-rank should mean. The windows overlap by one
+    step on purpose, so gear carries across a grade boundary instead of
+    the whole armoury changing at once.
+
+    ART. Four of these are authored 275x295, which is NOT SQUARE, so
+    drawSize must carry the same aspect or RimWorld stretches the texture
+    to fill a square - the same trap the forge building hit at 448x192.
+    Each pair below is proportional to its own texture and solved so the
+    blade lands at ~1.85 tiles: under the Gods' 2.6, in line with the
+    creature line's 1.5-1.9. Textures point NE, hence the -45 offset.
+  -->
+
+  <!-- ===== [S] Cristaline — the keen one ===== -->
+  <ThingDef ParentName="BaseWeapon">
+    <defName>IsekaiDungeons_Cristaline</defName>
+    <label>[S-Rank] Cristaline</label>
+    <description>Grown rather than forged, in a single pale column that someone afterwards fitted a guard to. It takes an edge no steel will hold and loses it the same way - a hard parry puts a white star in the blade that never comes out, and there are four in this one already. The woman who carried it last is said to have won every exchange she was in. The register does not say how many that was.</description>
+    <graphicData>
+      <texPath>Things/Weapons/Cristaline</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.31,1.41)</drawSize>
+    </graphicData>
+    <techLevel>Spacer</techLevel>
+    <ignoreIllegalLabelCharacterConfigError>true</ignoreIllegalLabelCharacterConfigError>
+    <equippedAngleOffset>-45</equippedAngleOffset>
+    <uiIconScale>1.05</uiIconScale>
+    <statBases>
+      <MarketValue>5200</MarketValue>
+      <!-- 190 is the lowest in the mod and it is the whole point: the blade
+           is the sharpest thing here and it chips. Deterioration is high to
+           match, so it wants looking after. -->
+      <MaxHitPoints>190</MaxHitPoints>
+      <Mass>1.3</Mass>
+      <Flammability>0.1</Flammability>
+      <DeteriorationRate>1.1</DeteriorationRate>
+    </statBases>
+    <weaponClasses><li>Melee</li><li>MeleePiercer</li></weaponClasses>
+    <weaponTags><li>IsekaiDungeonArtifact</li></weaponTags>
+    <tradeability>Sellable</tradeability>   <!-- gate rewards only: players may sell, traders never stock -->
+    <thingCategories><li>WeaponsMelee</li></thingCategories>
+    <!-- Fast and accurate, but crystal does not punch plate: the lowest AP
+         of the five, so it wants soft targets. -->
+    <equippedStatOffsets>
+      <MeleeHitChance>0.30</MeleeHitChance>
+      <MeleeDodgeChance>0.15</MeleeDodgeChance>
+      <MoveSpeed>0.15</MoveSpeed>
+    </equippedStatOffsets>
+    <comps>
+      <!-- CompQuality FIRST, the Good floor SECOND. Both react to the trader
+           generation hook and comps are walked in def order, so the floor has
+           to be the one that runs last or a trader roll wipes it. -->
+      <li><compClass>CompQuality</compClass></li>
+      <li><compClass>IsekaiDungeons.CompArtifactQuality</compClass></li>
+    </comps>
+    <tools>
+      <li><label>edge</label><capacities><li>Cut</li></capacities><power>44</power><cooldownTime>1.9</cooldownTime><armorPenetration>0.55</armorPenetration></li>
+      <li><label>point</label><capacities><li>Stab</li></capacities><power>29</power><cooldownTime>1.9</cooldownTime><armorPenetration>0.50</armorPenetration></li>
+      <li><label>guard</label><capacities><li>Blunt</li></capacities><power>8</power><cooldownTime>1.7</cooldownTime><armorPenetration>0.10</armorPenetration><chanceFactor>0.3</chanceFactor></li>
+    </tools>
+  </ThingDef>
+
+  <!-- ===== [S] Death Wish — the cursed one ===== -->
+  <ThingDef ParentName="BaseWeapon">
+    <defName>IsekaiDungeons_DeathWish</defName>
+    <label>[S-Rank] Death Wish</label>
+    <description>The blade is bone, or was, and it has kept the shape of the animal in it - a ridge of vertebrae down the spine and flanges that stand out from the edge like ribs opened from the inside. Everyone who has carried it reports the same thing: it is very easy to keep going forward with, and very hard to remember to stop. The name is not the guild being dramatic. It is the entry the clerk wrote in the recovery ledger, twice.</description>
+    <graphicData>
+      <texPath>Things/Weapons/Death_Wish</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.36,1.46)</drawSize>
+    </graphicData>
+    <techLevel>Spacer</techLevel>
+    <ignoreIllegalLabelCharacterConfigError>true</ignoreIllegalLabelCharacterConfigError>
+    <equippedAngleOffset>-45</equippedAngleOffset>
+    <uiIconScale>1.05</uiIconScale>
+    <statBases>
+      <MarketValue>5800</MarketValue>
+      <MaxHitPoints>340</MaxHitPoints>
+      <Mass>2.4</Mass>
+      <Flammability>0.2</Flammability>
+      <DeteriorationRate>0.6</DeteriorationRate>
+    </statBases>
+    <weaponClasses><li>Melee</li><li>MeleePiercer</li></weaponClasses>
+    <weaponTags><li>IsekaiDungeonArtifact</li></weaponTags>
+    <tradeability>Sellable</tradeability>   <!-- gate rewards only: players may sell, traders never stock -->
+    <thingCategories><li>WeaponsMelee</li></thingCategories>
+    <!-- THE ONE REAL DOWNSIDE IN THE LINE, and it is earned by the name.
+         Best damage and best AP of the five, paid for by taking 18% more
+         damage and dropping to pain sooner. Every other weapon here is a
+         trade between strengths; this one is a bargain. -->
+    <equippedStatOffsets>
+      <MeleeHitChance>0.24</MeleeHitChance>
+      <IncomingDamageFactor>0.18</IncomingDamageFactor>
+      <PainShockThreshold>-0.08</PainShockThreshold>
+    </equippedStatOffsets>
+    <comps>
+      <!-- CompQuality FIRST, the Good floor SECOND. Both react to the trader
+           generation hook and comps are walked in def order, so the floor has
+           to be the one that runs last or a trader roll wipes it. -->
+      <li><compClass>CompQuality</compClass></li>
+      <li><compClass>IsekaiDungeons.CompArtifactQuality</compClass></li>
+    </comps>
+    <tools>
+      <li><label>edge</label><capacities><li>Cut</li></capacities><power>48</power><cooldownTime>2.2</cooldownTime><armorPenetration>0.75</armorPenetration></li>
+      <li><label>point</label><capacities><li>Stab</li></capacities><power>36</power><cooldownTime>2.2</cooldownTime><armorPenetration>0.70</armorPenetration></li>
+      <li><label>flange</label><capacities><li>Blunt</li></capacities><power>10</power><cooldownTime>2.0</cooldownTime><armorPenetration>0.14</armorPenetration><chanceFactor>0.3</chanceFactor></li>
+    </tools>
+  </ThingDef>
+
+  <!-- ===== [S] Lion's Pride — the steady one ===== -->
+  <ThingDef ParentName="BaseWeapon">
+    <defName>IsekaiDungeons_LionsPride</defName>
+    <label>[S-Rank] Lion's Pride</label>
+    <description>An arming sword of no unusual design at all, kept immaculately, with a mane worked into the guard by someone who was paid properly for it. It does nothing a good sword does not do; it simply does all of it, and it has never once failed to. Recovered still in the hand. The guild's note is a single line: he stood where he said he would.</description>
+    <graphicData>
+      <texPath>Things/Weapons/Lion's_Pride</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.31,1.31)</drawSize>
+    </graphicData>
+    <techLevel>Spacer</techLevel>
+    <ignoreIllegalLabelCharacterConfigError>true</ignoreIllegalLabelCharacterConfigError>
+    <equippedAngleOffset>-45</equippedAngleOffset>
+    <uiIconScale>1.05</uiIconScale>
+    <statBases>
+      <MarketValue>5000</MarketValue>
+      <!-- The durable one: most hit points in the line and the slowest to
+           deteriorate, which is the mechanical form of "reliable". -->
+      <MaxHitPoints>420</MaxHitPoints>
+      <Mass>2.0</Mass>
+      <Flammability>0.1</Flammability>
+      <DeteriorationRate>0.3</DeteriorationRate>
+    </statBases>
+    <weaponClasses><li>Melee</li><li>MeleePiercer</li></weaponClasses>
+    <weaponTags><li>IsekaiDungeonArtifact</li></weaponTags>
+    <tradeability>Sellable</tradeability>   <!-- gate rewards only: players may sell, traders never stock -->
+    <thingCategories><li>WeaponsMelee</li></thingCategories>
+    <!-- No spike and no hole. It is the lowest DPS of the five by a small
+         margin and the only one with nothing to watch out for, which is a
+         real place on the ladder rather than a consolation. -->
+    <equippedStatOffsets>
+      <MeleeHitChance>0.28</MeleeHitChance>
+      <MeleeDodgeChance>0.12</MeleeDodgeChance>
+      <PainShockThreshold>0.10</PainShockThreshold>
+      <MoveSpeed>0.05</MoveSpeed>
+    </equippedStatOffsets>
+    <comps>
+      <!-- CompQuality FIRST, the Good floor SECOND. Both react to the trader
+           generation hook and comps are walked in def order, so the floor has
+           to be the one that runs last or a trader roll wipes it. -->
+      <li><compClass>CompQuality</compClass></li>
+      <li><compClass>IsekaiDungeons.CompArtifactQuality</compClass></li>
+    </comps>
+    <tools>
+      <li><label>edge</label><capacities><li>Cut</li></capacities><power>41</power><cooldownTime>2.0</cooldownTime><armorPenetration>0.68</armorPenetration></li>
+      <li><label>point</label><capacities><li>Stab</li></capacities><power>32</power><cooldownTime>2.0</cooldownTime><armorPenetration>0.62</armorPenetration></li>
+      <li><label>pommel</label><capacities><li>Blunt</li></capacities><power>11</power><cooldownTime>1.9</cooldownTime><armorPenetration>0.12</armorPenetration><chanceFactor>0.3</chanceFactor></li>
+    </tools>
+  </ThingDef>
+
+  <!-- ===== [S] Pirate Gamble — the wild one ===== -->
+  <ThingDef ParentName="BaseWeapon">
+    <defName>IsekaiDungeons_PirateGamble</defName>
+    <label>[S-Rank] Pirate Gamble</label>
+    <description>A sabre with far more gold on the hilt than the blade strictly deserves, which tells you most of what you need to know about its last owner. The balance is genuinely excellent and the guard is genuinely decorative, and he did not appear to distinguish between the two. Recovered from a floor he had no business being on, alone, having reportedly told two other parties that he liked his odds.</description>
+    <graphicData>
+      <texPath>Things/Weapons/Pirate_Gamble</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.55,1.66)</drawSize>
+    </graphicData>
+    <techLevel>Spacer</techLevel>
+    <ignoreIllegalLabelCharacterConfigError>true</ignoreIllegalLabelCharacterConfigError>
+    <equippedAngleOffset>-45</equippedAngleOffset>
+    <uiIconScale>1.05</uiIconScale>
+    <statBases>
+      <MarketValue>5400</MarketValue>
+      <MaxHitPoints>300</MaxHitPoints>
+      <Mass>1.7</Mass>
+      <Flammability>0.2</Flammability>
+      <DeteriorationRate>0.6</DeteriorationRate>
+    </statBases>
+    <weaponClasses><li>Melee</li><li>MeleePiercer</li></weaponClasses>
+    <weaponTags><li>IsekaiDungeonArtifact</li></weaponTags>
+    <tradeability>Sellable</tradeability>   <!-- gate rewards only: players may sell, traders never stock -->
+    <thingCategories><li>WeaponsMelee</li></thingCategories>
+    <!-- Best dodge and best mobility of the five, and the WORST accuracy,
+         because a gamble should be able to miss. -->
+    <equippedStatOffsets>
+      <MeleeDodgeChance>0.32</MeleeDodgeChance>
+      <MoveSpeed>0.30</MoveSpeed>
+      <MeleeHitChance>0.16</MeleeHitChance>
+    </equippedStatOffsets>
+    <comps>
+      <!-- CompQuality FIRST, the Good floor SECOND. Both react to the trader
+           generation hook and comps are walked in def order, so the floor has
+           to be the one that runs last or a trader roll wipes it. -->
+      <li><compClass>CompQuality</compClass></li>
+      <li><compClass>IsekaiDungeons.CompArtifactQuality</compClass></li>
+    </comps>
+    <tools>
+      <!-- Two Cut tools on purpose. RimWorld picks one per swing weighted by
+           chanceFactor, so "fortune" lands roughly a fifth of the time at 68
+           power - above a legendary monosword's swing - and
+           the rest are the modest slash - real variance out of the vanilla
+           tool table, with no code behind it. -->
+      <li><label>slash</label><capacities><li>Cut</li></capacities><power>31</power><cooldownTime>1.8</cooldownTime><armorPenetration>0.55</armorPenetration></li>
+      <li><label>fortune</label><capacities><li>Cut</li></capacities><power>62</power><cooldownTime>2.0</cooldownTime><armorPenetration>0.70</armorPenetration><chanceFactor>0.30</chanceFactor></li>
+      <li><label>guard</label><capacities><li>Blunt</li></capacities><power>9</power><cooldownTime>1.6</cooldownTime><armorPenetration>0.10</armorPenetration><chanceFactor>0.25</chanceFactor></li>
+    </tools>
+  </ThingDef>
+
+  <!-- ===== [S] Raging Claymore — the heavy one ===== -->
+  <ThingDef ParentName="BaseWeapon">
+    <defName>IsekaiDungeons_RagingClaymore</defName>
+    <label>[S-Rank] Raging Claymore</label>
+    <description>Dark iron shot through with a red that is under the surface rather than on it, and warmer at the tip than at the grip, which is the wrong way round for a piece of metal. It is not subtle and it does not reward being subtle. Two of the three recorded owners died going forward and the third put it down and would not say why.</description>
+    <graphicData>
+      <texPath>Things/Weapons/Raging_Claymore</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.32,1.42)</drawSize>
+    </graphicData>
+    <techLevel>Spacer</techLevel>
+    <ignoreIllegalLabelCharacterConfigError>true</ignoreIllegalLabelCharacterConfigError>
+    <equippedAngleOffset>-45</equippedAngleOffset>
+    <uiIconScale>1.05</uiIconScale>
+    <statBases>
+      <MarketValue>5600</MarketValue>
+      <MaxHitPoints>380</MaxHitPoints>
+      <Mass>4.2</Mass>
+      <Flammability>0.1</Flammability>
+      <DeteriorationRate>0.5</DeteriorationRate>
+    </statBases>
+    <weaponClasses><li>Melee</li><li>MeleePiercer</li><li>MeleeBlunt</li></weaponClasses>
+    <weaponTags><li>IsekaiDungeonArtifact</li></weaponTags>
+    <tradeability>Sellable</tradeability>   <!-- gate rewards only: players may sell, traders never stock -->
+    <thingCategories><li>WeaponsMelee</li></thingCategories>
+    <!-- MOBILE FOR A TWO-HANDER, which is the whole idea: rage carries you
+         forward. It pays for the biggest hit in the line with the worst hit
+         chance and no defence at all - it does not parry, it arrives. -->
+    <equippedStatOffsets>
+      <MeleeHitChance>0.10</MeleeHitChance>
+      <MoveSpeed>0.25</MoveSpeed>
+    </equippedStatOffsets>
+    <comps>
+      <!-- CompQuality FIRST, the Good floor SECOND. Both react to the trader
+           generation hook and comps are walked in def order, so the floor has
+           to be the one that runs last or a trader roll wipes it. -->
+      <li><compClass>CompQuality</compClass></li>
+      <li><compClass>IsekaiDungeons.CompArtifactQuality</compClass></li>
+    </comps>
+    <tools>
+      <li><label>edge</label><capacities><li>Cut</li></capacities><power>54</power><cooldownTime>2.4</cooldownTime><armorPenetration>0.62</armorPenetration></li>
+      <li><label>flat</label><capacities><li>Blunt</li></capacities><power>35</power><cooldownTime>2.4</cooldownTime><armorPenetration>0.45</armorPenetration></li>
+      <li><label>spike</label><capacities><li>Stab</li></capacities><power>23</power><cooldownTime>2.2</cooldownTime><armorPenetration>0.50</armorPenetration><chanceFactor>0.35</chanceFactor></li>
+    </tools>
+  </ThingDef>
+
+</Defs>

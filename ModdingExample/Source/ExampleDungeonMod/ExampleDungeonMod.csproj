@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <OutputPath>..\..\Assemblies\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <DebugType>none</DebugType>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <AssemblyName>ExampleDungeonMod</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup>
+    <!-- Point these at your RimWorld install and at the Assemblies folders of the two
+         Isekai mods. Workshop installs live in steamapps/workshop/content/294100/(mod id). -->
+    <RimWorldPath>C:\Program Files (x86)\Steam\steamapps\common\RimWorld</RimWorldPath>
+    <IsekaiLevelingPath>..\..\..\..\IsekaiLeveling\Assemblies</IsekaiLevelingPath>
+    <IsekaiDungeonsPath>..\..\..\Assemblies</IsekaiDungeonsPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp"><HintPath>$(RimWorldPath)\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath><Private>False</Private></Reference>
+    <Reference Include="UnityEngine.CoreModule"><HintPath>$(RimWorldPath)\RimWorldWin64_Data\Managed\UnityEngine.CoreModule.dll</HintPath><Private>False</Private></Reference>
+    <Reference Include="IsekaiLeveling"><HintPath>$(IsekaiLevelingPath)\IsekaiLeveling.dll</HintPath><Private>False</Private></Reference>
+    <Reference Include="IsekaiDungeons"><HintPath>$(IsekaiDungeonsPath)\IsekaiDungeons.dll</HintPath><Private>False</Private></Reference>
+  </ItemGroup>
+</Project>

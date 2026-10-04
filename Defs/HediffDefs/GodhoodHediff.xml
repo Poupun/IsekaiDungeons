@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    The ascended body — the physiology half of Godhood. The trait
+    (Isekai_Godhood, TowerTraits.xml) is the identity; this hediff is what the
+    identity does to flesh. GodhoodBodyUtility.ReconcileTick keeps the two
+    paired in both directions, so this def is never added by hand.
+
+    preventsDeath is the load-bearing line: Pawn_HealthTracker.ShouldBeDead
+    checks it before EVERY cause of death — lethal damage, blood loss, failed
+    organs, zero consciousness — the same mechanism Anomaly's rapid
+    regeneration rides. It has no brain exception of its own, so
+    HediffComp_GodhoodBody supplies one: a god whose brain is destroyed dies
+    for real, through the ordinary pipeline.
+
+    makeImmuneTo is the CONTAGION gate, penoxycyline's mechanism: the disease
+    incident will not target this pawn for a listed def, and infection rolls
+    against them come up zero. It only speaks vanilla's names, which is why the
+    comp also runs a predicate-based strip — that half covers modded diseases
+    and anything applied without consulting immunity. Animal_Flu and
+    Animal_Plague are omitted because a humanlike cannot contract them;
+    ToxicBuildup is omitted HERE because immunity does not gate severity-drip
+    hediffs — the comp's strip is what actually handles it (it matches the
+    Immunizable predicate).
+  -->
+  <HediffDef>
+    <defName>IsekaiDungeons_GodhoodBody</defName>
+    <hediffClass>HediffWithComps</hediffClass>
+    <label>ascended body</label>
+    <labelNoun>an ascended body</labelNoun>
+    <description>This body came back down from the tower changed. It does not age past this day. No sickness can keep hold of it — plagues burn out, parasites starve, the slow failures of old flesh simply never arrive. It cannot die while the brain endures: wounds that would kill anyone else leave it in a healing sleep instead. Nor can the mind be broken — horror, grief and exhaustion all arrive and find nothing to take hold of.\n\nWhat it did gain is an ear for the psychic weather of the world, wide open and eleven times as sensitive as anyone else's. Neural heat that would cripple a psycaster barely registers.\n\nThe hair has gone white as fresh snow, and it is hard to say anymore whether the face is a man's or a woman's. People stare.</description>
+    <defaultLabelColor>(255, 223, 128)</defaultLabelColor>
+    <isBad>false</isBad>
+    <scenarioCanAdd>false</scenarioCanAdd>
+    <everCurableByItem>false</everCurableByItem>
+    <preventsDeath>true</preventsDeath>
+    <initialSeverity>1.0</initialSeverity>
+    <maxSeverity>1.0</maxSeverity>
+    <stages>
+      <li>
+        <!--
+          blocksMentalBreaks is a real vanilla HediffStage field, and it is the
+          COMPLETE answer rather than a mood-threshold nudge. MentalStateHandler
+          .MentalBreaksBlocked() scans every hediff stage for it, and two
+          separate gates consult that: MentalBreaker.CanHaveMentalBreak (the
+          mood-caused breaks) and MentalStateHandler.TryStartMentalState (every
+          other route into a mental state - berserk pulses, neuroquake, food
+          binges, the lot). So this covers both halves of "immune to mental
+          break", which a MentalBreakThreshold offset never could: a threshold
+          only moves the mood line, and says nothing about a berserk that
+          arrives from outside the pawn's head.
+
+          Anomaly uses the same field, once, on the same principle.
+
+          The ONE thing it does not stop is TryStartMentalState(forced: true) -
+          scripted states a quest or ritual imposes deliberately. That is the
+          same carve-out preventsDeath has for a direct Kill call, and for the
+          same reason: what cannot touch a god is the world, not the author.
+        -->
+        <blocksMentalBreaks>true</blocksMentalBreaks>
+
+        <!--
+          PSYCHIC SENSITIVITY +1000% (offset 10 on a base of 1, so the character
+          sheet reads 1100%).
+
+          What that actually buys, checked rather than assumed:
+            - NEURAL HEAT LIMIT x11 (30 -> 330). PsychicEntropyMax lists
+              PsychicSensitivity in its statFactors, so this is the headline:
+              a god chain-casts psycasts without ever overloading.
+            - Positive psychic effects scale with it (a psychic harmonizer
+              nearby is worth eleven times as much to them).
+
+          What it does NOT make worse, contrary to the stat's own description:
+            - Psychic LANCES. CompAbilityEffect_GiveHediffPsychic.TryResist is
+              Rand.Chance(1 - sensitivity), which is already a guaranteed hit at
+              100%. Going higher changes nothing; it was never a save.
+            - The psychic DRONE. ThoughtWorker_PsychicDrone picks a flat stage
+              from the drone level and never reads sensitivity at all.
+
+          The one place it genuinely bites is Anomaly's disruptor flash, which
+          scales consciousness and moving penalties directly by sensitivity - a
+          god caught by one goes down hard. They cannot die of it (preventsDeath)
+          and it expires, so the cost is being out of the fight, not losing one.
+        -->
+        <statOffsets>
+          <PsychicSensitivity>10.0</PsychicSensitivity>
+        </statOffsets>
+
+        <makeImmuneTo>
+          <li>Flu</li>
+          <li>Malaria</li>
+          <li>SleepingSickness</li>
+          <li>Plague</li>
+          <li>WoundInfection</li>
+          <li>GutWorms</li>
+          <li>MuscleParasites</li>
+          <li>FibrousMechanites</li>
+          <li>SensoryMechanites</li>
+          <li>OrganDecay</li>
+          <li>LungRot</li>
+          <li MayRequire="Ludeon.RimWorld.Royalty">BloodRot</li>
+          <li MayRequire="Ludeon.RimWorld.Royalty">Abasia</li>
+          <li MayRequire="Ludeon.RimWorld.Biotech">InfantIllness</li>
+        </makeImmuneTo>
+      </li>
+    </stages>
+    <comps>
+      <li Class="IsekaiDungeons.HediffCompProperties_GodhoodBody"/>
+    </comps>
+  </HediffDef>
+
+</Defs>

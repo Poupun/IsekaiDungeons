@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    DLC-THEMED DUNGEONS.
+
+    Three gate dungeons built around content the mod owned but never used:
+    Anomaly had 16 unused entities, Odyssey 60, Royalty all 23.
+
+    Every one sets requiresFullRoster TRUE, which is the whole safety mechanism
+    here: DungeonKindDef.Available resolves the roster by defName and a dungeon
+    whose bestiary cannot be found drops out of the selection pool silently.
+    So a player without the matching DLC simply never sees these, and needs no
+    MayRequire, no patch and no error.
+  -->
+
+  <!-- ═══ ANOMALY ═══ -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_MeatWarren</defName>
+    <label>the meat warren</label>
+    <description>The walls here are warm and they are not stone. Something grew into this place from underneath and kept going, and the passages are the shape they are because that is the shape it wanted them. There is a heartbeat somewhere in the middle of it. Everything else you meet is a piece of the same animal.</description>
+
+    <mapGenerator>IsekaiDungeons_Hive</mapGenerator>
+    <minRank>C</minRank>
+    <maxRank>SS</maxRank>
+    <selectionWeight>0.9</selectionWeight>
+
+    <layoutMode>Carve</layoutMode>
+    <roofed>true</roofed>
+    <floorTerrain>Sand</floorTerrain>
+
+    <roster>
+      <li><kind>Fingerspike</kind><weight>1.4</weight></li>
+      <li><kind>Toughspike</kind><weight>1.1</weight></li>
+      <li><kind>Trispike</kind><weight>0.9</weight><minDepth>0.3</minDepth></li>
+      <li><kind>Chimera</kind><weight>0.8</weight><minDepth>0.45</minDepth></li>
+      <li><kind>Devourer</kind><weight>0.6</weight><minDepth>0.6</minDepth></li>
+      <li><kind>Bulbfreak</kind><weight>0.5</weight><minDepth>0.75</minDepth></li>
+    </roster>
+    <bosses>
+      <li>FleshmassNucleus</li>
+      <li>Nociosphere</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- ═══ ODYSSEY ═══
+       The one dungeon in the catalogue with no monsters in it at all: real
+       animals, in numbers, in a place that has never been hunted. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_UntouchedPreserve</defName>
+    <label>the untouched preserve</label>
+    <description>A pocket of land on the other side that nothing has ever hunted. The animals here do not scatter when you come over the rise, because no ancestor of theirs ever needed to learn it. The big ones are very big, and they have never had a reason to be careful either.</description>
+
+    <mapGenerator>IsekaiDungeons_Verdant</mapGenerator>
+    <minRank>D</minRank>
+    <maxRank>S</maxRank>
+    <selectionWeight>0.9</selectionWeight>
+
+    <layoutMode>Open</layoutMode>
+    <openZoneRadiusRange><min>8</min><max>15</max></openZoneRadiusRange>
+
+    <roster>
+      <li><kind>Badger</kind><weight>1.2</weight></li>
+      <li><kind>Armadillo</kind><weight>1.1</weight></li>
+      <li><kind>Porcupine</kind><weight>1.0</weight></li>
+      <li><kind>BogHound</kind><weight>0.9</weight><minDepth>0.3</minDepth></li>
+      <li><kind>ColossusToad</kind><weight>0.7</weight><minDepth>0.5</minDepth></li>
+      <li><kind>AlphaThrumbo</kind><weight>0.4</weight><minDepth>0.75</minDepth></li>
+    </roster>
+    <bosses>
+      <li>AlphaThrumbo</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- ═══ ROYALTY ═══
+       Not a monster den: a garrison. The only dungeon where everything on the
+       other side can shoot back with technology. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_GildedGarrison</defName>
+    <label>the gilded garrison</label>
+    <description>Whoever came through before you brought an army, and the army is still at its post. The armour is gold and it has been polished recently. They have held this position for longer than anyone has been alive to relieve them, and they will want to know, formally, why you are here.</description>
+
+    <!-- Dungeon, not Foundry: Foundry is a SURFACE generator and Carve needs
+         rock to subtract from. A garrison is indoors anyway. -->
+    <mapGenerator>IsekaiDungeons_Dungeon</mapGenerator>
+    <minRank>B</minRank>
+    <maxRank>SSS</maxRank>
+    <selectionWeight>0.8</selectionWeight>
+
+    <layoutMode>Carve</layoutMode>
+    <roofed>true</roofed>
+    <floorTerrain>IsekaiDungeons_SanctumStone</floorTerrain>
+
+    <roster>
+      <li><kind>Empire_Fighter_Trooper</kind><weight>1.3</weight></li>
+      <li><kind>Empire_Fighter_Janissary</kind><weight>1.1</weight></li>
+      <li><kind>Empire_Fighter_Grenadier</kind><weight>0.8</weight><minDepth>0.3</minDepth></li>
+      <li><kind>Empire_Fighter_Cataphract</kind><weight>0.8</weight><minDepth>0.45</minDepth></li>
+      <li><kind>Empire_Fighter_StellicGuardMelee</kind><weight>0.6</weight><minDepth>0.6</minDepth></li>
+      <li><kind>Empire_Fighter_StellicGuardRanged</kind><weight>0.6</weight><minDepth>0.6</minDepth></li>
+    </roster>
+    <bosses>
+      <li>Empire_Fighter_Champion</li>
+      <li>Empire_Royal_Stellarch</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+</Defs>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+  <name>Example Dungeon Pack (Isekai Dungeons framework sample)</name>
+  <author>You</author>
+  <packageId>Example.IsekaiDungeonsSample</packageId>
+  <supportedVersions><li>1.6</li></supportedVersions>
+  <description>A template showing how to add dungeons to Isekai Dungeons: one XML-only dungeon, one with a custom win condition, a custom room event, and a tower floor.</description>
+  <modDependencies>
+    <li><packageId>brrainz.harmony</packageId><displayName>Harmony</displayName></li>
+    <li><packageId>JellyCreative.IsekaiLeveling</packageId><displayName>Isekai RPG Leveling</displayName></li>
+    <li><packageId>Poupun.IsekaiDungeonsAddon</packageId><displayName>Isekai Dungeons</displayName></li>
+  </modDependencies>
+  <loadAfter>
+    <li>JellyCreative.IsekaiLeveling</li>
+    <li>Poupun.IsekaiDungeonsAddon</li>
+  </loadAfter>
+</ModMetaData>

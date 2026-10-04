@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    Gate-bound: carried by a dungeon boss that walked out with the final breach
+    wave. Killing it on the colony map pays the same clear loot and clear XP as
+    beating it in its own hall — see Hediff_GateBound for why the bounty rides
+    the pawn instead of a tracker.
+
+    Deliberately VISIBLE. A player who has just been handed a rank-S monster on
+    their doorstep should be able to see that this particular creature is worth
+    killing rather than merely surviving.
+
+    No stages, no capMods, no tendable parts: it changes nothing about the pawn.
+    It is a marker that happens to be readable.
+  -->
+  <HediffDef>
+    <defName>IsekaiDungeons_GateBound</defName>
+    <hediffClass>IsekaiDungeons.Hediff_GateBound</hediffClass>
+    <label>gate-bound</label>
+    <description>This creature is the master of a gate that has broken open. Whatever hoard its dungeon held is still tied to it — kill it and the dungeon settles its debt here, wherever it falls.</description>
+    <defaultLabelColor>(0.85, 0.55, 0.95)</defaultLabelColor>
+    <isBad>false</isBad>
+    <scenarioCanAdd>false</scenarioCanAdd>
+    <everCurableByItem>false</everCurableByItem>
+    <maxSeverity>1.0</maxSeverity>
+    <initialSeverity>1.0</initialSeverity>
+  </HediffDef>
+
+  <!--
+    GATE SOVEREIGN. Only exists when Isekai Creatures is NOT installed: a
+    stand-in boss (a vanilla creature filling in for a missing bestiary boss)
+    is lifted to the boss threat measured in the Creatures-installed game.
+    Hediff_GateSovereign builds its stage at runtime from the multiplier
+    ThreatParity computed: toughness and melee damage split as square roots,
+    or all toughness for a ranged boss. Visible so the player can see why this
+    elk hits like a dragon.
+  -->
+  <HediffDef>
+    <defName>IsekaiDungeons_GateSovereign</defName>
+    <hediffClass>IsekaiDungeons.Hediff_GateSovereign</hediffClass>
+    <label>gate sovereign</label>
+    <description>The gate has crowned this creature its master. The dungeon's own power runs through it, hardening its body and driving its blows far beyond what its kind should manage.</description>
+    <defaultLabelColor>(0.95, 0.75, 0.30)</defaultLabelColor>
+    <isBad>false</isBad>
+    <scenarioCanAdd>false</scenarioCanAdd>
+    <everCurableByItem>false</everCurableByItem>
+    <maxSeverity>1.0</maxSeverity>
+    <initialSeverity>1.0</initialSeverity>
+  </HediffDef>
+
+</Defs>

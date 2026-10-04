@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    PALE STONE - what the tower is made of.
+
+    THE WALLS OF A CARVED FLOOR ARE NATURAL ROCK. GenStep_DungeonLayout does not
+    build walls; the map is pre-filled with rock and the layout SUBTRACTS rooms
+    and corridors from it, so whatever rock the map generated with IS the wall
+    shell. Making the tower white therefore means changing the rock, not adding
+    a wall def.
+
+    Which rock a map gets comes from RockNoises.Init, which reads
+    Find.World.NaturalRockTypesIn(tile) - the tile geology, not the map
+    generator. A pocket map inherits the tower tile, so it would otherwise get
+    whatever granite or sandstone happens to be local, and the inside of the
+    tower would change depending on where it was raised.
+    GenStep_TowerWhiteout overrides that list.
+
+    mineablePreventNaturalRockOnSurface IS THE CONTAINMENT.
+    ThingDef.IsNonResourceNaturalRock requires that flag to be FALSE, and World
+    builds allNaturalRockDefs from defs that pass it - so setting it true keeps
+    pale stone out of every ordinary colony map geology while leaving it
+    perfectly usable when a gen step names it directly.
+
+    naturalTerrain AND leaveTerrain are both set on purpose:
+    TerrainDefGenerator_Stone.ImpliedTerrainDefs skips generating the three
+    implied stone terrains when both are present. Without that we would get an
+    auto-generated PaleStone_Rough over vanilla grey RoughStone - grey-noisy
+    ground under white walls.
+
+    The texture is baked, not tinted. <color> is a MULTIPLY in the shader, so
+    tinting vanilla grey Rock_Atlas white returns exactly the grey you started
+    with. See Tools/make_pale_stone.py.
+  -->
+  <ThingDef ParentName="RockBase">
+    <defName>IsekaiDungeons_PaleStone</defName>
+    <label>pale stone</label>
+    <description>The tower is made of this all the way up: a close-grained white stone with faint cool veining and no seams anywhere. It is not quarried and it is not laid. Wherever you cut into a floor, there is more of it, and it is the same.</description>
+    <graphicData>
+      <texPath>Linked/PaleStone_Atlas</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <color>(255,255,255)</color>
+      <linkType>CornerFiller</linkType>
+      <linkFlags>
+        <li>Rock</li>
+        <li>MapEdge</li>
+      </linkFlags>
+    </graphicData>
+    <statBases>
+      <MaxHitPoints>600</MaxHitPoints>
+      <Beauty>0</Beauty>
+    </statBases>
+    <building>
+      <isNaturalRock>true</isNaturalRock>
+      <isResourceRock>false</isResourceRock>
+      <!-- Containment: keeps pale stone out of every colony map geology. -->
+      <mineablePreventNaturalRockOnSurface>true</mineablePreventNaturalRockOnSurface>
+      <mineablePreventMeteorite>true</mineablePreventMeteorite>
+      <!-- Both set, so no grey implied terrains are auto-generated. -->
+      <naturalTerrain>IsekaiDungeons_SanctumStone</naturalTerrain>
+      <leaveTerrain>IsekaiDungeons_SanctumStone</leaveTerrain>
+    </building>
+  </ThingDef>
+
+</Defs>

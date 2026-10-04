@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- The tower's arrival letter. Vanilla PositiveEvent colours and sound;
+       the class opens a window with the tower illustration over the text. -->
+  <LetterDef ParentName="PositiveEvent">
+    <defName>IsekaiDungeons_TowerRises</defName>
+    <letterClass>IsekaiDungeons.Letter_TowerRises</letterClass>
+  </LetterDef>
+
+</Defs>

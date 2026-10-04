@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    LOW AND MID-RANK INDOOR DUNGEONS.
+
+    The high-rank pass (Dungeons_High_Indoor.xml) fixed the top of the ladder
+    but left two dips in the middle. Excluding IsekaiDungeons_UnstableGate:
+
+        D  2 Carve / 5 Open
+        B  3 Carve / 5 Open
+
+    D is where a colony first meets a serious dungeon and B is where it stops
+    being a novelty, so having both of them be mostly fields undercuts the
+    stretch of the game that teaches players what a dungeon IS.
+
+    These four also close ENVIRONMENT gaps rather than just adding numbers:
+    Cavern jumped C straight to A, Abyss started at D, and Hive had nothing
+    between D and SS. And they draw on creatures the catalogue never used —
+    three kobold kinds and eight slime colours were sitting unreferenced.
+
+    Everything shared lives on IsekaiDungeonBase in Dungeons_Low.xml.
+  -->
+
+  <!-- ═══ ABYSS, E-D ═══
+       Abyss began at D (Imp Furnace), so the environment's whole vocabulary —
+       heat, scorched stone, iron on the air — was unavailable to a colony still
+       finding its feet. This is the shallow end of it. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_CinderVents</defName>
+    <label>cinder vents</label>
+    <description>A chimney system for a fire nobody lit. Hot air comes up through the floor in patches you can feel through boots, and the imps roosting in the flues have worked out that a thing standing on a vent is a thing that has to move. Nothing here is big. There is simply always another one.</description>
+
+    <mapGenerator>IsekaiDungeons_Abyss</mapGenerator>
+    <minRank>E</minRank>
+    <maxRank>D</maxRank>
+    <selectionWeight>1.1</selectionWeight>
+
+    <layoutMode>Carve</layoutMode>
+    <roofed>true</roofed>
+    <floorTerrain>Gravel</floorTerrain>
+
+    <roster>
+      <li><kind>IsekaiImp_Lesser</kind><weight>1.4</weight></li>
+      <li><kind>IsekaiImp_Common</kind><weight>1.1</weight></li>
+      <li><kind>IsekaiImp_Greater</kind><weight>0.8</weight><minDepth>0.35</minDepth></li>
+      <li><kind>IsekaiDemon_Lesser</kind><weight>0.7</weight><minDepth>0.55</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiImp_Greater</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- ═══ CAVERN, D-C ═══
+       Kobolds appeared once, at F, and were never seen again. A queen gives the
+       family somewhere to go, and uses the three kobold kinds the catalogue had
+       never referenced (Archer, Hunter, Queen). -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_KoboldQueensWarren</defName>
+    <label>kobold queen's warren</label>
+    <description>A den that outgrew being a den. The tunnels are shored with stolen timber and lined with stolen everything else, and they have been widened twice — once for the numbers, once for whatever sits at the middle of them now. The hunters here do not throw rocks and run. They have been taught to wait.</description>
+
+    <mapGenerator>IsekaiDungeons_Dungeon</mapGenerator>
+    <!-- Earthy: allows loose ground (dirtyOnly decor). -->
+    <dirty>true</dirty>
+    <minRank>D</minRank>
+    <maxRank>C</maxRank>
+    <selectionWeight>1.1</selectionWeight>
+
+    <layoutMode>Carve</layoutMode>
+    <roofed>true</roofed>
+    <floorTerrain>PackedDirt</floorTerrain>
+
+    <roster>
+      <li><kind>IsekaiKobold_Pup</kind><weight>1.3</weight></li>
+      <li><kind>IsekaiKobold_Slinger</kind><weight>1.1</weight></li>
+      <li><kind>IsekaiKobold_Archer</kind><weight>1.0</weight><minDepth>0.25</minDepth></li>
+      <li><kind>IsekaiKobold_Warrior</kind><weight>1.0</weight><minDepth>0.35</minDepth></li>
+      <li><kind>IsekaiKobold_Hunter</kind><weight>0.9</weight><minDepth>0.55</minDepth></li>
+      <li><kind>IsekaiKobold_Chieftain</kind><weight>0.6</weight><minDepth>0.7</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiKobold_Queen</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- ═══ CAVERN, D ═══
+       Eight slime colours (Red, Sky, Yellow, Green) were defined and never
+       used by any dungeon. A slime dungeon at D is also the natural sequel to
+       the F-rank Slime Ranch — same creature family, four ranks of escalation
+       later. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_PrismGrotto</defName>
+    <label>prism grotto</label>
+    <description>Mana pools here the way water pools anywhere else, and it has been pooling long enough to sort itself by colour. Each chamber runs a different shade and each shade does something different when it touches skin. Guild rookies are told the grotto is a training run. The ones who have been say the red rooms are not.</description>
+
+    <mapGenerator>IsekaiDungeons_Dungeon</mapGenerator>
+    <minRank>D</minRank>
+    <maxRank>D</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+
+    <layoutMode>Carve</layoutMode>
+    <roofed>true</roofed>
+    <floorTerrain>Gravel</floorTerrain>
+
+    <roster>
+      <li><kind>IsekaiSlime_Sky_Small</kind><weight>1.2</weight></li>
+      <li><kind>IsekaiSlime_Green_Medium</kind><weight>1.1</weight></li>
+      <li><kind>IsekaiSlime_Yellow_Medium</kind><weight>1.0</weight></li>
+      <li><kind>IsekaiSlime_Sky_Medium</kind><weight>1.0</weight><minDepth>0.3</minDepth></li>
+      <li><kind>IsekaiSlime_Red_Medium</kind><weight>0.9</weight><minDepth>0.45</minDepth></li>
+      <li><kind>IsekaiSlime_Red_Large</kind><weight>0.7</weight><minDepth>0.65</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiSlime_Sky_Large</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- ═══ CAVERN, B ═══
+       Cavern skipped from C to A. B is where a colony stops treating dungeons
+       as a side activity, and it deserved a plain rock crawl that is genuinely
+       dangerous rather than only fields and crypts. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_TrollDeeps</defName>
+    <label>troll deeps</label>
+    <description>The passages here were not cut, they were worn — by something large going the same way for a very long time. Bones line the walls at shoulder height where they have been pushed aside to make room. The trolls do not ambush; they simply do not stop, and they heal faster than most parties can cut.</description>
+
+    <mapGenerator>IsekaiDungeons_Dungeon</mapGenerator>
+    <!-- Earthy: allows loose ground (dirtyOnly decor). -->
+    <dirty>true</dirty>
+    <minRank>B</minRank>
+    <maxRank>A</maxRank>
+    <selectionWeight>1.1</selectionWeight>
+
+    <layoutMode>Carve</layoutMode>
+    <roofed>true</roofed>
+    <floorTerrain>Soil</floorTerrain>
+
+    <roster>
+      <li><kind>IsekaiTroll_Baby</kind><weight>1.2</weight></li>
+      <li><kind>IsekaiSlime_Metal_Large</kind><weight>0.8</weight></li>
+      <li><kind>IsekaiTroll_Adult</kind><weight>1.1</weight><minDepth>0.3</minDepth></li>
+      <li><kind>IsekaiSkeleton_Common</kind><weight>0.7</weight></li>
+    </roster>
+    <bosses>
+      <li>IsekaiTroll_Upper</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- ═══ HIVE, B ═══
+       Hive ran F, E, D and then nothing until SS — the widest rank gap of any
+       environment. This also flips B from a 5/5 tie to indoor-majority.
+
+       BOSS CHOICE IS DELIBERATE. Vanilla insects top out at Megaspider, which
+       is not a B-rank threat, so the boss is a fleshbeast. That family is the
+       one Anomaly think tree that actually consumes mental states — Chimera,
+       Nociosphere and Gorehulk have no MentalState node, so the forced
+       ManhunterPermanent is a silent no-op on them and they stand there inert
+       (see the note in Dungeons_High.xml). requiresFullRoster true means the
+       whole dungeon drops out of the pool without Anomaly rather than
+       generating a hive with no owner. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_RottenGallery</defName>
+    <label>rotten gallery</label>
+    <description>The insects lost this one. Their tunnels are still here, still hexagonal, still smelling faintly of hive — but the walls have gone soft and warm, and the galleries at the back have been re-dug by something with no interest in geometry. Whatever moved in did not fight the colony so much as digest it.</description>
+
+    <mapGenerator>IsekaiDungeons_Hive</mapGenerator>
+    <!-- Earthy: allows loose ground (dirtyOnly decor). -->
+    <dirty>true</dirty>
+    <minRank>B</minRank>
+    <maxRank>A</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+
+    <layoutMode>Carve</layoutMode>
+    <roofed>true</roofed>
+    <floorTerrain>Mud</floorTerrain>
+
+    <roster>
+      <li><kind>Megascarab</kind><weight>1.1</weight></li>
+      <li><kind>Spelopede</kind><weight>1.0</weight></li>
+      <li><kind>Fingerspike</kind><weight>0.9</weight><minDepth>0.3</minDepth></li>
+      <li><kind>Trispike</kind><weight>0.8</weight><minDepth>0.5</minDepth></li>
+      <li><kind>Megaspider</kind><weight>0.7</weight><minDepth>0.6</minDepth></li>
+    </roster>
+    <bosses>
+      <li>Toughspike</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+</Defs>

@@ -1,0 +1,353 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    THE MULTI-FLOOR DUNGEON ENVIRONMENTS.
+
+    One kind per dungeon, used on every floor of it. That is the whole point of
+    the form: the tower re-rolls a kind per floor and reads as varied, and a
+    themed descent must not — a hell hole is a hell hole all the way down.
+
+    HOW THESE STAY OUT OF THE OTHER TWO POOLS. Each carries towerOnly plus
+    pinnedOnly with selectionWeight 0, which is belt and braces on purpose:
+
+      towerOnly    keeps them out of the colony gate pool (DungeonKindSelector
+                   skips towerOnly kinds outright)
+      pinnedOnly   keeps them out of the tower's own pool (TowerLadder skips a
+                   pinned kind unless an archetype names it, and no archetype
+                   names any of these)
+      weight 0     says the same thing a third time, and cannot resurrect them
+                   if either flag is ever removed
+
+    MultiFloorDungeonDef references them straight by defName, which goes
+    through neither selector, so being invisible to both is free.
+
+    Rank bands are wide because the plan drives the ramp: MultiFloorDungeonDef
+    interpolates minRank to maxRank across the floor count, and a kind whose
+    own band excluded a floor's rolled rank would empty its roster on that
+    floor. The band here only has to CONTAIN the plan's range.
+  -->
+
+  <!-- ═══ 1. THE SLIME CISTERN ═══ F-D, 3 floors ═══
+       The starter. Thirty slime kinds ship with the mod, so a single-theme
+       dungeon still has real variety inside it. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_MF_SlimeCistern</defName>
+    <label>the cistern</label>
+    <description>Somebody cut these tanks to hold water and something else moved into them. The floor is tacky underfoot and the walls have been polished smooth at knee height by a great deal of slow traffic.</description>
+    <towerOnly>true</towerOnly>
+    <pinnedOnly>true</pinnedOnly>
+    <selectionWeight>0</selectionWeight>
+    <stayOnTheme>true</stayOnTheme>
+    <mapGenerator>IsekaiDungeons_Dungeon</mapGenerator>
+    <minRank>F</minRank>
+    <maxRank>C</maxRank>
+    <layoutMode>Carve</layoutMode>
+    <roofed>true</roofed>
+    <floorTerrain>IsekaiDungeons_TileSlate</floorTerrain>
+    <roster>
+      <!-- F: the small ones that live in the shallow tanks -->
+      <li><kind>IsekaiSlime_Blue_Small</kind><weight>1.3</weight></li>
+      <li><kind>IsekaiSlime_Green_Small</kind><weight>1.2</weight></li>
+      <li><kind>IsekaiSlime_Yellow_Small</kind><weight>1.0</weight></li>
+      <li><kind>IsekaiSlime_Mud_Small</kind><weight>0.9</weight></li>
+      <!-- E -->
+      <li><kind>IsekaiSlime_Blue_Medium</kind><weight>1.0</weight></li>
+      <li><kind>IsekaiSlime_Sky_Medium</kind><weight>0.9</weight></li>
+      <li><kind>IsekaiSlime_Poison_Small</kind><weight>0.8</weight></li>
+      <li><kind>IsekaiSlime_Spark_Small</kind><weight>0.7</weight><minDepth>0.3</minDepth></li>
+      <!-- D -->
+      <li><kind>IsekaiSlime_Green_Large</kind><weight>0.8</weight><minDepth>0.4</minDepth></li>
+      <li><kind>IsekaiSlime_Poison_Medium</kind><weight>0.7</weight><minDepth>0.4</minDepth></li>
+      <li><kind>IsekaiSlime_Spark_Medium</kind><weight>0.6</weight><minDepth>0.5</minDepth></li>
+      <!-- C: only the bottom tank can carry these -->
+      <li><kind>IsekaiSlime_Metal_Medium</kind><weight>0.5</weight><minDepth>0.6</minDepth></li>
+      <li><kind>IsekaiSlime_Poison_Large</kind><weight>0.5</weight><minDepth>0.7</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiSlime_Sky_Medium</li>
+      <li>IsekaiSlime_Blue_Large</li>
+      <li>IsekaiSlime_Sky_Large</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- ═══ 2. KOBOLD UNDERCITY ═══ E-C, 4 floors ═══ -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_MF_KoboldUndercity</defName>
+    <label>the undercity</label>
+    <description>Not dug so much as inherited. Somebody built down here once, properly, and the current tenants have been widening the doorways to suit themselves ever since.</description>
+    <towerOnly>true</towerOnly>
+    <pinnedOnly>true</pinnedOnly>
+    <selectionWeight>0</selectionWeight>
+    <dirty>true</dirty>
+    <stayOnTheme>true</stayOnTheme>
+    <mapGenerator>IsekaiDungeons_Dungeon</mapGenerator>
+    <minRank>E</minRank>
+    <maxRank>B</maxRank>
+    <layoutMode>Carve</layoutMode>
+    <roofed>true</roofed>
+    <floorTerrain>PackedDirt</floorTerrain>
+    <roster>
+      <!-- Kobolds only: it is the queen's household, and every floor answers
+           to her. Goblins used to pad the roster and read as a stranger's den. -->
+      <li><kind>IsekaiKobold_Pup</kind><weight>1.4</weight></li>
+      <li><kind>IsekaiKobold_Slinger</kind><weight>1.2</weight></li>
+      <li><kind>IsekaiKobold_Archer</kind><weight>1.0</weight><minDepth>0.2</minDepth></li>
+      <li><kind>IsekaiKobold_Warrior</kind><weight>1.0</weight><minDepth>0.3</minDepth></li>
+      <li><kind>IsekaiKobold_Hunter</kind><weight>0.8</weight><minDepth>0.5</minDepth></li>
+      <li><kind>IsekaiKobold_Chieftain</kind><weight>0.5</weight><minDepth>0.7</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiKobold_Chieftain</li>
+      <li>IsekaiKobold_Hunter</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- ═══ 3. THE SUNKEN OSSUARY ═══ C-S, 5 floors ═══ -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_MF_SunkenOssuary</defName>
+    <label>the sunken ossuary</label>
+    <description>Bones stacked to the ceiling and sorted by size, which is the detail that stops it being a grave. Somebody keeps this place. The water table has been rising for a long time and the lower shelves are gone under it.</description>
+    <towerOnly>true</towerOnly>
+    <pinnedOnly>true</pinnedOnly>
+    <selectionWeight>0</selectionWeight>
+    <stayOnTheme>true</stayOnTheme>
+    <mapGenerator>IsekaiDungeons_Crypt</mapGenerator>
+    <minRank>C</minRank>
+    <maxRank>SS</maxRank>
+    <layoutMode>Carve</layoutMode>
+    <roofed>true</roofed>
+    <floorTerrain>FlagstoneLimestone</floorTerrain>
+    <roster>
+      <li><kind>IsekaiSkeleton_Common</kind><weight>1.4</weight></li>
+      <li><kind>IsekaiSkeleton_Goblin</kind><weight>1.1</weight></li>
+      <li><kind>ShamblerSwarmer</kind><weight>1.0</weight></li>
+      <li><kind>IsekaiSkeleton_Orc</kind><weight>0.9</weight><minDepth>0.3</minDepth></li>
+      <li><kind>ShamblerSoldier</kind><weight>0.8</weight><minDepth>0.45</minDepth></li>
+      <li><kind>IsekaiLich_Adult</kind><weight>0.5</weight><minDepth>0.65</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiSkeleton_Orc</li>
+      <li>IsekaiLich_Adult</li>
+    </bosses>
+    <requiresFullRoster>false</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- ═══ 4. GORE HELL ═══ D-S, 6 floors ═══ -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_MF_GoreHell</defName>
+    <label>gore hell</label>
+    <description>The walls are warm and they give slightly. Whatever is growing in here started at the bottom and has been working upward, and it has already finished with several floors of somebody else's building.</description>
+    <towerOnly>true</towerOnly>
+    <pinnedOnly>true</pinnedOnly>
+    <selectionWeight>0</selectionWeight>
+    <dirty>true</dirty>
+    <stayOnTheme>true</stayOnTheme>
+    <mapGenerator>IsekaiDungeons_Hive</mapGenerator>
+    <minRank>D</minRank>
+    <maxRank>SS</maxRank>
+    <layoutMode>Carve</layoutMode>
+    <roofed>true</roofed>
+    <floorTerrain>Mud</floorTerrain>
+    <roster>
+      <li><kind>Megascarab</kind><weight>1.3</weight></li>
+      <li><kind>Spelopede</kind><weight>1.1</weight></li>
+      <li><kind>Fingerspike</kind><weight>1.0</weight><minDepth>0.2</minDepth></li>
+      <li><kind>Megaspider</kind><weight>0.9</weight><minDepth>0.35</minDepth></li>
+      <li><kind>Trispike</kind><weight>0.8</weight><minDepth>0.5</minDepth></li>
+      <li><kind>Devourer</kind><weight>0.6</weight><minDepth>0.7</minDepth></li>
+    </roster>
+    <bosses>
+      <li>Toughspike</li>
+      <li>Megaspider</li>
+    </bosses>
+    <requiresFullRoster>false</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- ═══ 5. COLDREACH DEEP ═══ C-SS, 7 floors ═══
+       Open, and roofless on purpose: the cold has to be able to reach you. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_MF_ColdreachDeep</defName>
+    <label>coldreach deep</label>
+    <description>A stairwell into a mountain that has no business containing this much sky. Each level opens onto more of it, colder than the last, and the snow down here has never once been rained on.</description>
+    <towerOnly>true</towerOnly>
+    <pinnedOnly>true</pinnedOnly>
+    <selectionWeight>0</selectionWeight>
+    <stayOnTheme>true</stayOnTheme>
+    <mapGenerator>IsekaiDungeons_Snowfield</mapGenerator>
+    <minRank>B</minRank>
+    <maxRank>S</maxRank>
+    <layoutMode>Open</layoutMode>
+    <roster>
+      <!-- Everything here belongs to the cold. The orc skeleton that used to pad
+           the shallow floors is gone: it read as a crypt that wandered in. -->
+      <li><kind>IsekaiSlime_Frost_Medium</kind><weight>1.1</weight></li>
+      <li><kind>IsekaiSlime_Frost_Large</kind><weight>1.0</weight></li>
+      <li><kind>IsekaiTroll_Baby</kind><weight>1.2</weight></li>
+      <li><kind>IsekaiWyvern_Ice</kind><weight>0.8</weight><minDepth>0.3</minDepth></li>
+      <li><kind>IsekaiTroll_Adult</kind><weight>0.9</weight><minDepth>0.3</minDepth></li>
+      <li><kind>IsekaiMinotaur_Adult</kind><weight>0.9</weight><minDepth>0.4</minDepth></li>
+      <li><kind>IsekaiTroll_Upper</kind><weight>0.5</weight><minDepth>0.65</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiTroll_Adult</li>
+      <li>IsekaiMinotaur_Adult</li>
+      <li>IsekaiTroll_Upper</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- ═══ 6. THE FOUNDRY STACK ═══ B-SSS, 6 floors ═══ -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_MF_FoundryStack</defName>
+    <label>the foundry stack</label>
+    <description>Six levels of plant, still running. Nothing here has decayed, nothing has stopped, and the lighting is even on every floor. Whatever it is producing, it has not needed a person to do it for a very long time.</description>
+    <towerOnly>true</towerOnly>
+    <pinnedOnly>true</pinnedOnly>
+    <selectionWeight>0</selectionWeight>
+    <stayOnTheme>true</stayOnTheme>
+    <mapGenerator>IsekaiDungeons_Foundry</mapGenerator>
+    <minRank>B</minRank>
+    <maxRank>SSS</maxRank>
+    <layoutMode>Open</layoutMode>
+    <roster>
+      <li><kind>Mech_Lancer</kind><weight>1.2</weight></li>
+      <li><kind>Mech_Scyther</kind><weight>1.1</weight></li>
+      <li><kind>Mech_CentipedeGunner</kind><weight>0.9</weight></li>
+      <li><kind>Mech_CentipedeBlaster</kind><weight>0.8</weight><minDepth>0.3</minDepth></li>
+      <li><kind>Mech_Legionary</kind><weight>0.7</weight><minDepth>0.45</minDepth></li>
+      <li><kind>Mech_CentipedeBurner</kind><weight>0.6</weight><minDepth>0.6</minDepth></li>
+      <li><kind>Mech_Termite_Breach</kind><weight>0.5</weight><minDepth>0.75</minDepth></li>
+    </roster>
+    <bosses>
+      <li>Mech_Diabolus</li>
+      <li>Mech_CentipedeBlaster</li>
+    </bosses>
+    <requiresFullRoster>false</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- ═══ 7. DRAGON NEST ═══ A-SSS, 8 floors ═══ -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_MF_DragonNest</defName>
+    <label>the dragon nest</label>
+    <description>Ash to the ankle and the heat coming up rather than down. Every level is a shelf cut into the same shaft, and every shelf has been swept clear by something with a wingspan.</description>
+    <towerOnly>true</towerOnly>
+    <pinnedOnly>true</pinnedOnly>
+    <selectionWeight>0</selectionWeight>
+    <stayOnTheme>true</stayOnTheme>
+    <mapGenerator>IsekaiDungeons_Ashland</mapGenerator>
+    <minRank>A</minRank>
+    <maxRank>Nation</maxRank>
+    <layoutMode>Open</layoutMode>
+    <roster>
+      <li><kind>IsekaiWyvern_Sand</kind><weight>1.2</weight></li>
+      <li><kind>IsekaiWyvern_Rock</kind><weight>1.1</weight></li>
+      <li><kind>IsekaiWyvern_Normal</kind><weight>1.0</weight></li>
+      <li><kind>IsekaiWyvern_Ice</kind><weight>0.6</weight><minDepth>0.2</minDepth></li>
+      <li><kind>IsekaiWyvern_Poison</kind><weight>0.8</weight><minDepth>0.4</minDepth></li>
+      <li><kind>IsekaiWyvern_Dark</kind><weight>0.7</weight><minDepth>0.55</minDepth></li>
+      <li><kind>IsekaiDragon_True</kind><weight>0.4</weight><minDepth>0.75</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiDragon_True</li>
+      <li>IsekaiWyvern_Dark</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- ═══ 8. HELL HOLE ═══ B-Nation, 10 floors ═══ The flagship descent. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_MF_HellHole</defName>
+    <label>the hell hole</label>
+    <description>A hole with sides. It goes down further than the rock it is cut through is thick, which nobody local wants to discuss, and the air coming out of it is hot enough to feel from the rim.</description>
+    <towerOnly>true</towerOnly>
+    <pinnedOnly>true</pinnedOnly>
+    <selectionWeight>0</selectionWeight>
+    <stayOnTheme>true</stayOnTheme>
+    <mapGenerator>IsekaiDungeons_Abyss</mapGenerator>
+    <minRank>C</minRank>
+    <maxRank>S</maxRank>
+    <layoutMode>Carve</layoutMode>
+    <roofed>true</roofed>
+    <floorTerrain>IsekaiDungeons_TileGranite</floorTerrain>
+    <roster>
+      <li><kind>IsekaiImp_Lesser</kind><weight>1.3</weight></li>
+      <li><kind>IsekaiImp_Common</kind><weight>1.1</weight></li>
+      <li><kind>IsekaiDemon_Lesser</kind><weight>1.0</weight><minDepth>0.2</minDepth></li>
+      <li><kind>IsekaiImp_Greater</kind><weight>0.8</weight><minDepth>0.35</minDepth></li>
+      <li><kind>IsekaiDemon_Common</kind><weight>0.8</weight><minDepth>0.5</minDepth></li>
+      <!-- HELL OGRES FROM THE HALFWAY MARK, and weighted to actually turn up.
+           They were in this roster at 0.5 behind minDepth 0.7, which on a ten
+           floor descent is the rarest entry restricted to the last three
+           floors: present in the file and absent in play. A hell hole should
+           have hell ogres in it, and A rank puts them in band from floor 1
+           anyway, so the depth gate was doing all the hiding. -->
+      <li><kind>IsekaiHellOgre_Common</kind><weight>0.9</weight><minDepth>0.40</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiDemon_Common</li>
+      <li>IsekaiHellOgre_Common</li>
+      <li>IsekaiImp_Greater</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- ═══ 9. THE CHOIR SPIRE ═══ S-Nation, 5 floors, ASCENDS ═══ -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_MF_ChoirSpire</defName>
+    <label>the choir spire</label>
+    <description>White stone and a great deal of light with no obvious source. Every landing is cleaner than the one below it, which is the first thing that becomes unsettling, and the singing does not stop when you enter.</description>
+    <towerOnly>true</towerOnly>
+    <pinnedOnly>true</pinnedOnly>
+    <selectionWeight>0</selectionWeight>
+    <stayOnTheme>true</stayOnTheme>
+    <mapGenerator>IsekaiDungeons_Celestial</mapGenerator>
+    <minRank>S</minRank>
+    <maxRank>Nation</maxRank>
+    <layoutMode>Open</layoutMode>
+    <roster>
+      <li><kind>Empire_Fighter_Trooper</kind><weight>1.3</weight></li>
+      <li><kind>Empire_Fighter_Janissary</kind><weight>1.1</weight></li>
+      <li><kind>Empire_Fighter_Cataphract</kind><weight>0.9</weight><minDepth>0.35</minDepth></li>
+      <li><kind>Empire_Fighter_StellicGuardMelee</kind><weight>0.7</weight><minDepth>0.55</minDepth></li>
+      <li><kind>Empire_Fighter_StellicGuardRanged</kind><weight>0.7</weight><minDepth>0.55</minDepth></li>
+      <li><kind>IsekaiValkyrie_Common</kind><weight>0.5</weight><minDepth>0.7</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiValkyrie_Common</li>
+      <li>Empire_Fighter_StellicGuardMelee</li>
+    </bosses>
+    <requiresFullRoster>false</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- ═══ 10. TITAN PIT ═══ SSS-Nation, 10 floors ═══
+       Corcera's household, not a zoo of grand beasts. The roster is the one
+       Corcera's Domain already lists, so the nine floors above him read as
+       the things that serve him rather than as a bestiary. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_MF_TitanPit</defName>
+    <label>the titan pit</label>
+    <description>The steps are the right height for something four times your size, and there are a great many of them. Whatever comes up and down this way does not need the handrail that somebody, once, optimistically cut.</description>
+    <towerOnly>true</towerOnly>
+    <pinnedOnly>true</pinnedOnly>
+    <selectionWeight>0</selectionWeight>
+    <stayOnTheme>true</stayOnTheme>
+    <mapGenerator>IsekaiDungeons_Voidscape</mapGenerator>
+    <minRank>SS</minRank>
+    <maxRank>Nation</maxRank>
+    <layoutMode>Open</layoutMode>
+    <roster>
+      <li><kind>IsekaiMinotaur_Upper</kind><weight>1.2</weight></li>
+      <li><kind>IsekaiTroll_Upper</kind><weight>1.1</weight></li>
+      <li><kind>IsekaiGrandBeast_Midhir_Minion</kind><weight>0.9</weight><minDepth>0.3</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiGrandBeast_Midhir_Minion</li>
+      <li>IsekaiMinotaur_Upper</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+</Defs>

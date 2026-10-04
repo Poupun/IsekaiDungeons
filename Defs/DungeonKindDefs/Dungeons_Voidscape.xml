@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    THE VOIDSCAPE BAND — SSS and Nation only.
+
+    Rank used to buy more rooms and bigger numbers, never a new horizon: the
+    open environments a player met at F were the same ones they finished on.
+    Voidscape exists only at the top, so arriving on it is itself the signal
+    that this gate is not like the others.
+
+    It is deliberately the visual opposite of Celestial, which is also
+    high-rank-only: white and empty against black and empty, same rank band.
+
+    The third def here is a CRYPT at Nation, added in the same pass so that two
+    new open-field dungeons do not quietly undo the indoor/open balance. Crypt
+    had no Nation entry.
+  -->
+
+  <!-- ═══ VOIDSCAPE, SSS ═══ -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_TheUnmade</defName>
+    <label>the unmade</label>
+    <description>A gate opened here once and did not finish closing. What is on the other side is not a place so much as the absence where a place used to be kept: black glass to every edge of sight, no weather, no horizon line, and no sound that did not come with you. The things standing on it have been standing on it a long time.</description>
+
+    <mapGenerator>IsekaiDungeons_Voidscape</mapGenerator>
+    <minRank>SSS</minRank>
+    <maxRank>SSS</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+
+    <layoutMode>Open</layoutMode>
+
+    <roster>
+      <li><kind>IsekaiSkeleton_Orc</kind><weight>1.1</weight></li>
+      <li><kind>ShamblerGorehulk</kind><weight>1.0</weight></li>
+      <li><kind>IsekaiLich_Adult</kind><weight>0.9</weight><minDepth>0.3</minDepth></li>
+      <li><kind>Revenant</kind><weight>0.6</weight><minDepth>0.5</minDepth></li>
+      <li><kind>IsekaiLich_Upper</kind><weight>0.7</weight><minDepth>0.65</minDepth></li>
+    </roster>
+    <bosses>
+      <li>Dreadmeld</li>
+      <li>IsekaiLich_Upper</li>
+    </bosses>
+    <requiresFullRoster>false</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- ═══ VOIDSCAPE, NATION ═══ -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_LastHorizon</defName>
+    <!-- NATION GATE. Only a guild contract rolls Nation, and only for a
+         colony whose best fighter is Nation-rank (the contract ceiling
+         roll). Local gates never reach it. Was briefly towerOnly as the
+         tower's floor-1 "cell"; that endgame was removed 2026-09-30. -->
+    <label>the last horizon</label>
+    <description>Every other gate leads somewhere that exists. This one does not, and the thing that lives at the far end of it is the reason. There is no landmark to walk towards. You pick a direction, you keep going, and eventually the ground stops being empty.</description>
+
+    <mapGenerator>IsekaiDungeons_Voidscape</mapGenerator>
+    <minRank>Nation</minRank>
+    <maxRank>Nation</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+
+    <layoutMode>Open</layoutMode>
+
+    <roster>
+      <li><kind>IsekaiWyvern_Dark</kind><weight>1.2</weight></li>
+      <li><kind>IsekaiWyvern_Poison</kind><weight>1.0</weight></li>
+      <li><kind>IsekaiDragon_True</kind><weight>0.7</weight><minDepth>0.5</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiDragon_Ancient</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- ═══ CRYPT, NATION ═══
+       Balance ballast for the two above, and Crypt's missing top entry — it
+       stopped at SS. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_FirstTomb</defName>
+    <!-- NATION GATE. Only a guild contract rolls Nation, and only for a
+         colony whose best fighter is Nation-rank (the contract ceiling
+         roll). Local gates never reach it. Was briefly towerOnly as the
+         tower's floor-1 "cell"; that endgame was removed 2026-09-30. -->
+    <label>the first tomb</label>
+    <description>Older than the crypts that copied it, and the only one still sealed when the gate found it. The stonework gets better as it goes down, not worse — whoever built this started at the bottom and worked up, and they were in less of a hurry at the beginning. The thing they were sealing in has had every one of those years to think about it.</description>
+
+    <mapGenerator>IsekaiDungeons_Crypt</mapGenerator>
+    <minRank>Nation</minRank>
+    <maxRank>Nation</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+
+    <layoutMode>Carve</layoutMode>
+    <roofed>true</roofed>
+    <floorTerrain>FlagstoneSlate</floorTerrain>
+
+    <roster>
+      <li><kind>IsekaiSkeleton_Orc</kind><weight>1.2</weight></li>
+      <li><kind>IsekaiLich_Adult</kind><weight>1.0</weight></li>
+      <li><kind>ShamblerGorehulk</kind><weight>0.8</weight></li>
+      <li><kind>IsekaiLich_Upper</kind><weight>0.8</weight><minDepth>0.4</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiLich_Upper</li>
+    </bosses>
+    <requiresFullRoster>false</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+</Defs>

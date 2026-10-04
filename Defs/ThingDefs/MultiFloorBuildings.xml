@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- ═══ The way onward, inside a multi-floor dungeon ═══
+       Same reasoning as the tower stair, and deliberately NOT a portal: vanilla
+       portals cannot nest, so a stair that generated its own map would break
+       the binding for the floor's own exit. It stands in the boss room, so
+       going deeper means crossing the floor, and it stays sealed until the
+       floor's objective is met.
+
+       Separate def from the tower stair rather than a shared one, because the
+       two answer to different owners: the tower stair reads TowerComponent's
+       record book, this one reads the record book on its own world object. -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>IsekaiDungeons_MultiFloorStair</defName>
+    <label>descending stair</label>
+    <description>Steps cut down into the floor, leading further in. It will not open while anything on this level still objects to you being here.</description>
+    <thingClass>IsekaiDungeons.Building_MultiFloorStair</thingClass>
+    <!-- The UI icon must be a STILL image: uiIcon falls back to the graphic's
+         main texture when uiIconPath is unset. -->
+    <uiIconPath>Tower/StairDown</uiIconPath>
+    <!-- REQUIRED, same as the tower stair. Building_MultiFloorStair.Tick
+         watches for the pawn ordered onto the stair to arrive; with no ticker
+         the order is accepted, the pawn walks over, and the party never
+         moves. It also drives the autopilot's descent, which uses the same
+         walk-then-move path. -->
+    <tickerType>Normal</tickerType>
+    <size>(2,2)</size>
+    <passability>PassThroughOnly</passability>
+    <pathCost>10</pathCost>
+    <!-- Not an edifice: without this, spawning leaves plants standing under
+         the stair and more can grow through it. Placement: FootprintSpot. -->
+    <blockPlants>true</blockPlants>
+    <rotatable>false</rotatable>
+    <useHitPoints>false</useHitPoints>
+    <destroyable>false</destroyable>
+    <selectable>true</selectable>
+    <!-- Realtime so the per-dungeon Onward / Onward_Sealed swap lands the
+         moment the floor is beaten, with no map mesh to rebuild. -->
+    <drawerType>RealtimeOnly</drawerType>
+    <building>
+      <isEdifice>false</isEdifice>
+      <deconstructible>false</deconstructible>
+      <claimable>false</claimable>
+      <expandHomeArea>false</expandHomeArea>
+    </building>
+    <statBases>
+      <Flammability>0</Flammability>
+    </statBases>
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <!-- Fallback only. Each dungeon draws its own stair from its
+           structureArt folder (Onward / Onward_Sealed), rendered by
+           Tools/gen_multifloor_stairs.py. -->
+      <texPath>Tower/StairDown</texPath>
+      <drawSize>(2.4,2.4)</drawSize>
+    </graphicData>
+  </ThingDef>
+  <!-- ═══ The way out of a multi-floor dungeon ═══
+       The tower exit's behaviour (the whole party leaves as a caravan on the
+       dungeon's tile), with its own look: each dungeon draws "Exit" from its
+       structureArt folder. A descent's way out climbs up toward daylight; the
+       Choir Spire's sinks. The label follows the same rule in code. -->
+  <ThingDef ParentName="BuildingBase">
+    <defName>IsekaiDungeons_MultiFloorExit</defName>
+    <uiIconPath>Tower/StairUp</uiIconPath>
+    <label>the way out</label>
+    <description>The way you came in. It leads out, all the way out, to the open ground above. Everyone leaves together or nobody does.</description>
+    <thingClass>IsekaiDungeons.Building_MultiFloorExit</thingClass>
+    <tickerType>Normal</tickerType>
+    <size>(3,3)</size>
+    <passability>PassThroughOnly</passability>
+    <pathCost>10</pathCost>
+    <blockPlants>true</blockPlants>
+    <rotatable>false</rotatable>
+    <useHitPoints>false</useHitPoints>
+    <destroyable>false</destroyable>
+    <selectable>true</selectable>
+    <!-- The art is chosen once from the owning dungeon and never changes. -->
+    <drawerType>MapMeshOnly</drawerType>
+    <building>
+      <isEdifice>false</isEdifice>
+      <deconstructible>false</deconstructible>
+      <claimable>false</claimable>
+      <expandHomeArea>false</expandHomeArea>
+    </building>
+    <statBases>
+      <Flammability>0</Flammability>
+    </statBases>
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+      <!-- Fallback only: the dungeon's own Exit texture replaces it. -->
+      <texPath>Tower/StairDown</texPath>
+      <drawSize>(3.2,3.2)</drawSize>
+    </graphicData>
+    <comps>
+      <li Class="CompProperties_Glower">
+        <glowRadius>6</glowRadius>
+        <!-- Daylight from the surface. Every way out is lit the same, whatever
+             the dungeon's own colour, so "out" reads the same everywhere. -->
+        <glowColor>(255,236,190,0)</glowColor>
+      </li>
+    </comps>
+  </ThingDef>
+
+</Defs>

@@ -1,0 +1,666 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    THE TOWER FLOORS.
+
+    Separate from the colony dungeons and marked towerOnly, so the two pools
+    never mix: DungeonKindSelector skips these, TowerLadder requires them.
+
+    ONE THEME PER FLOOR. This is the rule the first version of this file broke.
+    Its rosters were built as the UNION of everything the gate dungeons used
+    across each rank band, which produced floors holding wyverns, liches,
+    demons, hell ogres and dragons all at once - a bestiary, not a place. A
+    floor should read as somewhere with an occupant, so each draws from one
+    theme and nothing else:
+
+      warrens      greenskins        kobolds, goblins
+      ossuary      the undead        skeletons, liches, shamblers
+      furnace      the infernal      imps, demons
+      infested     flesh horrors     Anomaly entities
+      necropolis   the undead, late
+      pits         the infernal, late
+      grove        the verdant       treants, dryads
+      warcamp      greenskins, late  orcs
+      coldreach    the primal        trolls, minotaurs
+      cinderwaste  the draconic      wyverns, dragons
+      choir        the celestial     Empire soldiery, valkyries, archangels
+      plains       peaceful          roster suppressed by the archetype
+      grotto       slimes, early     crystalline slimes
+      hollows      the swarm         megascarabs, spelopedes, megaspiders
+      hold         greenskins, mid   orcs, and the trolls they work
+      machineworks the mechanoid     lancers, centipedes, diaboli
+
+    A theme may appear TWICE, early and late, and several do - the warrens
+    and the warcamp, the ossuary and the necropolis, the furnace and the
+    pits. What the rule forbids is two themes on ONE floor, not one theme on
+    two floors. A climber should recognise where they are and still be able
+    to tell floor 12 from floor 62.
+
+    THE CELESTIAL PROBLEM, and why the Empire is up there. The mod ships
+    exactly two celestial creatures - one valkyrie, one archangel - which is
+    not a roster. That scarcity is precisely why valkyries used to leak into
+    demon crypts and misty trenches: there was nothing else to stand beside
+    them. Royalty Empire troopers are gold-armoured elite humanlikes, which is
+    what a celestial host soldiery should look like, so the summit borrows them
+    and the valkyrie goes back to being the rare thing.
+
+    requiresFullRoster is TRUE wherever the roster is all base-mod creatures,
+    and FALSE only where DLC content is mixed in - so a player without Anomaly,
+    Ideology or Royalty loses those entries rather than losing the floor.
+  -->
+
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_Tower_Warren_F</defName>
+    <label>the warrens</label>
+    <description>The lowest floors were colonised a long time ago by things small enough to fit through the gaps. They have dug their own passages off the tower corridors, and they are not frightened of you yet.</description>
+    <towerOnly>true</towerOnly>
+
+    <mapGenerator>IsekaiDungeons_Dungeon</mapGenerator>
+    <minRank>F</minRank>
+    <maxRank>D</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+
+    <layoutMode>Carve</layoutMode>
+    <roofed>true</roofed>
+    <floorTerrain>IsekaiDungeons_SanctumStone</floorTerrain>
+    <roster>
+      <li><kind>IsekaiKobold_Pup</kind><weight>1.4</weight></li>
+      <li><kind>IsekaiKobold_Slinger</kind><weight>1.2</weight></li>
+      <li><kind>IsekaiGoblin_Runt</kind><weight>1.2</weight></li>
+      <li><kind>IsekaiGoblin_Slinger</kind><weight>1.0</weight></li>
+      <li><kind>IsekaiKobold_Warrior</kind><weight>0.9</weight><minDepth>0.35</minDepth></li>
+      <li><kind>IsekaiGoblin_Warrior</kind><weight>0.9</weight><minDepth>0.45</minDepth></li>
+      <li><kind>IsekaiKobold_Archer</kind><weight>0.7</weight><minDepth>0.6</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiKobold_Chieftain</li>
+      <li>IsekaiGoblin_Hobgoblin</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_Tower_Ossuary_D</defName>
+    <label>the ossuary floors</label>
+    <description>Everyone who died on the way up is still here, and the tower has kept them tidy. The alcoves are full, and the things standing in them have had a very long time to get used to standing.</description>
+    <towerOnly>true</towerOnly>
+
+    <mapGenerator>IsekaiDungeons_Crypt</mapGenerator>
+    <minRank>D</minRank>
+    <maxRank>B</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+
+    <layoutMode>Carve</layoutMode>
+    <roofed>true</roofed>
+    <floorTerrain>IsekaiDungeons_SanctumStone</floorTerrain>
+    <roster>
+      <li><kind>IsekaiSkeleton_Common</kind><weight>1.4</weight></li>
+      <li><kind>ShamblerSwarmer</kind><weight>1.0</weight></li>
+      <li><kind>IsekaiSkeleton_Goblin</kind><weight>1.1</weight><minDepth>0.25</minDepth></li>
+      <li><kind>ShamblerSoldier</kind><weight>0.9</weight><minDepth>0.4</minDepth></li>
+      <li><kind>IsekaiSkeleton_Orc</kind><weight>0.8</weight><minDepth>0.55</minDepth></li>
+      <li><kind>Gorehulk</kind><weight>0.6</weight><minDepth>0.7</minDepth></li>
+    </roster>
+    <bosses>
+      <!-- A ladder, not alternatives: the band guard filters this list to what
+           the floor's rank can carry (rank + 1), so a D floor is crowned by
+           the skeleton goblin [C], a C floor by the skeleton orc [B], and only
+           the top of the band ever meets the lich [A]. Before the guard the
+           list rolled blind, which put that A-rank lich on D floors - the
+           "liches on the first floors" bug. -->
+      <li>IsekaiLich_Adult</li>
+      <li>IsekaiSkeleton_Orc</li>
+      <li>IsekaiSkeleton_Goblin</li>
+    </bosses>
+    <requiresFullRoster>false</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_Tower_Furnace_C</defName>
+    <label>the furnace floors</label>
+    <description>Something down here is still burning after all this time, and the pale stone has gone the colour of old bone around the vents. Whatever lives in the heat does not appear to mind it.</description>
+    <towerOnly>true</towerOnly>
+
+    <mapGenerator>IsekaiDungeons_Abyss</mapGenerator>
+    <minRank>C</minRank>
+    <maxRank>A</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+
+    <layoutMode>Carve</layoutMode>
+    <roofed>true</roofed>
+    <floorTerrain>IsekaiDungeons_SanctumStone</floorTerrain>
+    <roster>
+      <li><kind>IsekaiImp_Lesser</kind><weight>1.3</weight></li>
+      <li><kind>IsekaiDemon_Lesser</kind><weight>1.1</weight></li>
+      <li><kind>IsekaiImp_Common</kind><weight>1.0</weight><minDepth>0.25</minDepth></li>
+      <li><kind>IsekaiDemon_Common</kind><weight>0.8</weight><minDepth>0.55</minDepth></li>
+      <li><kind>IsekaiImp_Greater</kind><weight>0.6</weight><minDepth>0.65</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiDemon_Greater</li>
+      <li>IsekaiDemon_Common</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_Tower_Fleshworks_B</defName>
+    <!-- "the colonised floors" until a player asked why their colonised
+         floors kept being fleshbeasts. In RimWorld "colonised" means
+         colonists, so the label read as a settlement and the floor delivered
+         a hive - the word was doing the opposite of its job. -->
+    <label>the infested floors</label>
+    <description>Something has been building in here, over the top of the tower own work, and it has had time. The walls are still pale underneath. You can see where it has grown across them.</description>
+    <towerOnly>true</towerOnly>
+
+    <mapGenerator>IsekaiDungeons_Hive</mapGenerator>
+    <minRank>B</minRank>
+    <maxRank>SS</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+
+    <layoutMode>Carve</layoutMode>
+    <roofed>true</roofed>
+    <floorTerrain>IsekaiDungeons_SanctumStone</floorTerrain>
+    <roster>
+      <li><kind>Fingerspike</kind><weight>1.3</weight></li>
+      <li><kind>Toughspike</kind><weight>1.0</weight></li>
+      <li><kind>Trispike</kind><weight>0.9</weight><minDepth>0.3</minDepth></li>
+      <li><kind>Chimera</kind><weight>0.8</weight><minDepth>0.45</minDepth></li>
+      <li><kind>Devourer</kind><weight>0.6</weight><minDepth>0.6</minDepth></li>
+      <li><kind>Bulbfreak</kind><weight>0.5</weight><minDepth>0.75</minDepth></li>
+    </roster>
+    <bosses>
+      <li>FleshmassNucleus</li>
+      <li>Nociosphere</li>
+    </bosses>
+    <requiresFullRoster>false</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_Tower_Necropolis_S</defName>
+    <label>the deep landings</label>
+    <description>The alcoves up here are larger, and the things in them were put there on purpose by something that could still be doing the putting. Nothing has decayed. That is the part worth worrying about.</description>
+    <towerOnly>true</towerOnly>
+
+    <mapGenerator>IsekaiDungeons_Crypt</mapGenerator>
+    <minRank>S</minRank>
+    <maxRank>SSS</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+
+    <layoutMode>Carve</layoutMode>
+    <roofed>true</roofed>
+    <floorTerrain>IsekaiDungeons_SanctumStone</floorTerrain>
+    <roster>
+      <li><kind>IsekaiSkeleton_Orc</kind><weight>1.2</weight></li>
+      <li><kind>ShamblerGorehulk</kind><weight>0.9</weight></li>
+      <li><kind>IsekaiLich_Adult</kind><weight>1.0</weight><minDepth>0.3</minDepth></li>
+      <li><kind>Revenant</kind><weight>0.6</weight><minDepth>0.5</minDepth></li>
+      <li><kind>IsekaiLich_Upper</kind><weight>0.7</weight><minDepth>0.65</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiLich_Upper</li>
+      <li>Dreadmeld</li>
+    </bosses>
+    <requiresFullRoster>false</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_Tower_Pit_SS</defName>
+    <label>the high pits</label>
+    <description>The ceiling is further away than the floor is wide, and whatever the tower keeps up here it keeps behind a great deal of empty white space. The heat arrives before anything else does.</description>
+    <towerOnly>true</towerOnly>
+
+    <mapGenerator>IsekaiDungeons_Abyss</mapGenerator>
+    <minRank>SS</minRank>
+    <maxRank>SSS</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+
+    <layoutMode>Carve</layoutMode>
+    <roofed>true</roofed>
+    <floorTerrain>IsekaiDungeons_SanctumStone</floorTerrain>
+    <roster>
+      <li><kind>IsekaiImp_Greater</kind><weight>1.0</weight></li>
+      <li><kind>IsekaiDemon_Common</kind><weight>1.1</weight></li>
+      <li><kind>IsekaiDemon_Greater</kind><weight>0.9</weight><minDepth>0.35</minDepth></li>
+      <li><kind>IsekaiHellOgre_Common</kind><weight>0.7</weight><minDepth>0.55</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiHellOgre_Common</li>
+      <li>IsekaiDemon_Greater</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_Tower_Grove_E</defName>
+    <label>the grown floor</label>
+    <description>A floor the tower stopped maintaining, and a forest took the hint. The trees are older than they have any right to be at this height, and some of them are paying attention.</description>
+    <towerOnly>true</towerOnly>
+
+    <mapGenerator>IsekaiDungeons_Verdant</mapGenerator>
+    <minRank>E</minRank>
+    <maxRank>C</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+
+    <layoutMode>Open</layoutMode>
+    <openZoneRadiusRange><min>7</min><max>13</max></openZoneRadiusRange>
+    <roster>
+      <li><kind>IsekaiTreant_Sapling</kind><weight>1.2</weight></li>
+      <li><kind>Dryad_Basic</kind><weight>1.0</weight></li>
+      <li><kind>Dryad_Woodmaker</kind><weight>0.8</weight></li>
+      <li><kind>Dryad_Clawer</kind><weight>0.9</weight><minDepth>0.35</minDepth></li>
+      <li><kind>Dryad_Barkskin</kind><weight>0.7</weight><minDepth>0.5</minDepth></li>
+      <li><kind>IsekaiTreant_Adult</kind><weight>0.7</weight><minDepth>0.6</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiTreant_Adult</li>
+      <li>IsekaiTreant_Upper</li>
+    </bosses>
+    <requiresFullRoster>false</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_Tower_Warcamp_D</defName>
+    <label>the fallen floor</label>
+    <description>This one came down a long time ago and was never cleared. Somebody has since moved into the rubble, put up a palisade, and started charging rent to nobody in particular.</description>
+    <towerOnly>true</towerOnly>
+
+    <mapGenerator>IsekaiDungeons_Ruins</mapGenerator>
+    <minRank>D</minRank>
+    <maxRank>B</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+
+    <layoutMode>Open</layoutMode>
+    <openZoneRadiusRange><min>7</min><max>13</max></openZoneRadiusRange>
+    <roster>
+      <li><kind>IsekaiOrc_Whelp</kind><weight>1.3</weight></li>
+      <li><kind>IsekaiGoblin_Warrior</kind><weight>1.1</weight></li>
+      <li><kind>IsekaiGoblin_Archer</kind><weight>1.0</weight></li>
+      <li><kind>IsekaiOrc_Warrior</kind><weight>0.9</weight><minDepth>0.35</minDepth></li>
+      <li><kind>IsekaiGoblin_Marksman</kind><weight>0.8</weight><minDepth>0.5</minDepth></li>
+      <li><kind>IsekaiGoblin_Hobgoblin</kind><weight>0.7</weight><minDepth>0.6</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiOrc_Warlord</li>
+      <li>IsekaiGoblin_King</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_Tower_Coldreach_B</defName>
+    <label>the cold floor</label>
+    <description>Open ground under a white sky, and the cold is not weather - it is the floor. Big things live out here because nothing up this high hunts them.</description>
+    <towerOnly>true</towerOnly>
+
+    <mapGenerator>IsekaiDungeons_Snowfield</mapGenerator>
+    <minRank>B</minRank>
+    <maxRank>S</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+
+    <layoutMode>Open</layoutMode>
+    <openZoneRadiusRange><min>7</min><max>13</max></openZoneRadiusRange>
+    <roster>
+      <li><kind>IsekaiTroll_Baby</kind><weight>1.2</weight></li>
+      <li><kind>IsekaiMinotaur_Adult</kind><weight>1.0</weight></li>
+      <li><kind>IsekaiTroll_Adult</kind><weight>1.0</weight><minDepth>0.3</minDepth></li>
+      <li><kind>IsekaiMinotaur_Upper</kind><weight>0.7</weight><minDepth>0.55</minDepth></li>
+      <li><kind>IsekaiTroll_Upper</kind><weight>0.7</weight><minDepth>0.65</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiTroll_Upper</li>
+      <li>IsekaiMinotaur_Upper</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_Tower_Cinderwaste_A</defName>
+    <label>the burnt floor</label>
+    <description>Something burned here for a very long time. The heat is gone and the colour never came back, and the shapes circling over it are deciding whether you are worth the descent.</description>
+    <towerOnly>true</towerOnly>
+
+    <mapGenerator>IsekaiDungeons_Ashland</mapGenerator>
+    <minRank>A</minRank>
+    <maxRank>SSS</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+
+    <layoutMode>Open</layoutMode>
+    <openZoneRadiusRange><min>7</min><max>13</max></openZoneRadiusRange>
+    <roster>
+      <li><kind>IsekaiWyvern_Sand</kind><weight>1.2</weight></li>
+      <li><kind>IsekaiWyvern_Rock</kind><weight>1.1</weight></li>
+      <li><kind>IsekaiWyvern_Normal</kind><weight>1.0</weight></li>
+      <li><kind>IsekaiWyvern_Dark</kind><weight>0.8</weight><minDepth>0.4</minDepth></li>
+      <li><kind>IsekaiWyvern_Poison</kind><weight>0.8</weight><minDepth>0.5</minDepth></li>
+      <li><kind>IsekaiDragon_True</kind><weight>0.4</weight><minDepth>0.7</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiDragon_True</li>
+      <li>IsekaiDragon_Ancient</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_Tower_Choir_SSS</defName>
+    <label>the open summit</label>
+    <description>There is no ceiling here, only a great deal of sky that is not the sky you came from. Whatever holds this floor was not built to be argued with, and it has never had to be.</description>
+    <towerOnly>true</towerOnly>
+
+    <mapGenerator>IsekaiDungeons_Celestial</mapGenerator>
+    <minRank>SSS</minRank>
+    <maxRank>SSS</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+
+    <layoutMode>Open</layoutMode>
+    <openZoneRadiusRange><min>7</min><max>13</max></openZoneRadiusRange>
+    <roster>
+      <li><kind>Empire_Fighter_Trooper</kind><weight>1.1</weight></li>
+      <li><kind>Empire_Fighter_Janissary</kind><weight>1.0</weight></li>
+      <li><kind>Empire_Fighter_Cataphract</kind><weight>0.8</weight><minDepth>0.35</minDepth></li>
+      <li><kind>Empire_Fighter_StellicGuardMelee</kind><weight>0.7</weight><minDepth>0.5</minDepth></li>
+      <li><kind>Empire_Fighter_StellicGuardRanged</kind><weight>0.7</weight><minDepth>0.5</minDepth></li>
+      <li><kind>IsekaiValkyrie_Common</kind><weight>0.6</weight><minDepth>0.65</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiArchangel_Common</li>
+      <li>IsekaiValkyrie_Common</li>
+    </bosses>
+    <requiresFullRoster>false</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_Tower_Plains</defName>
+    <label>the plains</label>
+    <description>Open grassland under a sky the tower has no business having. There are trees, there is running water somewhere out of sight, and the animals watch you go past without much interest.</description>
+    <towerOnly>true</towerOnly>
+
+    <mapGenerator>IsekaiDungeons_TowerPlains</mapGenerator>
+    <minRank>E</minRank>
+    <maxRank>SSS</maxRank>
+    <!-- PINNED, so this is reachable ONLY from the two archetypes that name
+         it: the plains floor and the market floor.
+
+         The header calls the plains roster "suppressed by the archetype", and
+         that is the whole design - a calm floor and a village floor, neither
+         of which spawns it. But nothing enforced it. Any archetype that
+         allowed Open could roll the plains as an ordinary fight, and its
+         roster is three small slimes, so above rank C every one of them falls
+         outside the band, the roster comes back empty, and the floor drops to
+         the generic rank-banded providers. That is a floor holding whatever
+         the tier happens to contain: the bestiary-instead-of-a-place failure
+         this file was rewritten to stop.
+
+         It is pinned rather than merely down-weighted because down-weighting
+         makes a wrong floor rarer, and rare is the worse failure - it becomes
+         the bug nobody can reproduce. selectionWeight is left at 0 to say the
+         same thing twice: a pin ignores it, so any value would be dead text,
+         and a zero cannot quietly resurrect this if the pin is ever removed. -->
+    <selectionWeight>0</selectionWeight>
+    <pinnedOnly>true</pinnedOnly>
+
+    <layoutMode>Open</layoutMode>
+    <openZoneRadiusRange><min>9</min><max>16</max></openZoneRadiusRange>
+    <roster>
+      <li><kind>IsekaiSlime_Blue_Small</kind><weight>1.0</weight></li>
+      <li><kind>IsekaiSlime_Green_Small</kind><weight>1.0</weight></li>
+      <li><kind>IsekaiSlime_Blue_Medium</kind><weight>0.6</weight><minDepth>0.5</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiSlime_Metal_Large</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+
+  <!--
+    FLOOR 50 - THE MIRROR HALL. Halfway up, the tower fights back with YOU.
+
+    One giant pillared chamber; the population is a locked character-forge
+    copy of every colonist who walks in (see DungeonKindDef.mirrorArena and
+    MirrorArena.cs). No roster, no bosses list - the party brings its own.
+
+    Band F-Nation on purpose: this def is PINNED to floor 50 by its archetype,
+    and a band that could ever exclude the floor's rolled rank would break the
+    pin (TowerLadder refuses out-of-band pins loudly). The rank only feeds the
+    loot payout - the fight's difficulty IS the player's own roster.
+  -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_Tower_MirrorHall_50</defName>
+    <label>the mirror hall</label>
+    <description>A single vaulted chamber, colonnades marching into the dark, polished floor like still water. Nothing lives here. The tower does not need anything to live here - whoever walks in supplies both sides of the fight.</description>
+    <towerOnly>true</towerOnly>
+    <mirrorArena>true</mirrorArena>
+
+    <mapGenerator>IsekaiDungeons_MirrorArena</mapGenerator>
+    <objectiveWorkerClass>IsekaiDungeons.DungeonObjectiveWorker_MirrorArena</objectiveWorkerClass>
+
+    <minRank>F</minRank>
+    <maxRank>SSS</maxRank>
+    <!-- pinnedOnly is what actually keeps this off other floors: a weight of
+         0 does NOT, because PickDungeon floors every weight at 0.01. -->
+    <selectionWeight>0</selectionWeight>
+
+    <layoutMode>Carve</layoutMode>
+    <pinnedOnly>true</pinnedOnly>
+    <roofed>true</roofed>
+    <floorTerrain>IsekaiDungeons_SanctumStone</floorTerrain>
+
+    <!-- The hall is 57 cells plus the alcove; 150 leaves a thick rock margin
+         all round while keeping the pocket map cheap to tick. -->
+    <mapSizeByRank>
+      <points>
+        <li>(0, 150)</li>
+        <li>(9, 150)</li>
+      </points>
+    </mapSizeByRank>
+
+    <!-- No roster and no requirement for one: the def is available on every
+         install because its population is the player's own party. -->
+    <requiresFullRoster>false</requiresFullRoster>
+    <bossIsElite>false</bossIsElite>
+  </IsekaiDungeons.DungeonKindDef>
+
+
+  <!--
+    FLOOR 100 - THE SUMMIT. Open ground under a sky that is not yours, which
+    is exactly how the summit letter has always described it, and Elijah
+    standing on it.
+
+    authoredBoss replaces the rolled boss with the character def, and bossOnly
+    empties the rest of the floor: no approach, no escort, nothing between the
+    stair and her. She has held this roof alone for five centuries and an
+    honour guard contradicts every line of that - it also buried the one thing
+    the floor exists for. Band S-Nation because the ladder puts floor 100 at
+    rank 9 and the archetype pins this def outright.
+  -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_Tower_Summit_100</defName>
+    <label>the summit</label>
+    <description>There is no ceiling here and no stair onward - just open ground, a horizon that does not behave, and one figure standing on it who has been standing on it for a very long time. She does not appear to be waiting for anything in particular. She simply has not been relieved.</description>
+    <towerOnly>true</towerOnly>
+
+    <!-- Its own generator: the Celestial field minus the ruins and plants. -->
+    <mapGenerator>IsekaiDungeons_Summit</mapGenerator>
+    <authoredBoss>IsekaiDungeons_Elijah</authoredBoss>
+
+    <minRank>S</minRank>
+    <maxRank>SSS</maxRank>
+    <!-- Never rolled: the archetype pins it. -->
+    <selectionWeight>0</selectionWeight>
+
+    <!-- OPEN, not Build. Build is the walled-compound mode that no shipped
+         dungeon uses, and it would put the final duel inside a corridor
+         complex; Open leaves the map untouched, which is the "open ground
+         under a sky that is not yours" the summit letter has always
+         described. Every other Celestial dungeon is Open too. -->
+    <layoutMode>Open</layoutMode>
+    <pinnedOnly>true</pinnedOnly>
+
+    <!-- ELIJAH, ALONE. No roster: bossOnly suppresses the population pass
+         outright, so an empty list here is the honest statement of it rather
+         than a list that happens never to be read. -->
+    <bossOnly>true</bossOnly>
+    <requiresFullRoster>false</requiresFullRoster>
+    <bossIsElite>false</bossIsElite>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- ═══════════════════════════════════════════════════════════════════
+       THE FLOORS ADDED TO BREAK THE MONOCULTURE.
+
+       Everything above this line was written band by band, and the bands
+       happened to leave holes: rank F had ONE indoor floor in the whole
+       catalogue and rank A had two, while the indoor archetypes carry three
+       quarters of the tower. A climber at floor 50 met the same two places
+       over and over, which is a content shortage wearing a scheduling bug's
+       clothes - and fixing only the scheduling would just have spread two
+       environments more evenly.
+
+       These four are deliberately built from generators and creature
+       families the mod ALREADY ships and the tower never used: the plain
+       stone dungeon above rank D, the insect hive, and the mechanoids, who
+       did not appear anywhere in the tower at all. No new art, no new
+       pawns - the gap was never in the content, only in the catalogue.
+       ═══════════════════════════════════════════════════════════════════ -->
+
+  <!-- F..C indoor. The tower's low water table, and the answer to rank F
+       having exactly one indoor floor - which made floors 1-3 the same place
+       every single game. Crystalline slimes rather than the field slimes of
+       the plains: same family, and read as a different room. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_Tower_Grotto_F</defName>
+    <label>the seeping floors</label>
+    <description>Water has got in, and it has been getting in for a long time. The stone is furred with something soft that holds the light, and the light bends wrong on the way through. Every surface here is faintly, patiently wet.</description>
+    <towerOnly>true</towerOnly>
+
+    <mapGenerator>IsekaiDungeons_Dungeon</mapGenerator>
+    <minRank>F</minRank>
+    <maxRank>C</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+
+    <layoutMode>Carve</layoutMode>
+    <roofed>true</roofed>
+    <floorTerrain>IsekaiDungeons_SanctumStone</floorTerrain>
+    <roster>
+      <li><kind>IsekaiSlime_Sky_Small</kind><weight>1.3</weight></li>
+      <li><kind>IsekaiSlime_Green_Small</kind><weight>1.1</weight></li>
+      <li><kind>IsekaiSlime_Yellow_Medium</kind><weight>1.0</weight><minDepth>0.25</minDepth></li>
+      <li><kind>IsekaiSlime_Sky_Medium</kind><weight>0.9</weight><minDepth>0.40</minDepth></li>
+      <li><kind>IsekaiSlime_Red_Medium</kind><weight>0.8</weight><minDepth>0.55</minDepth></li>
+      <li><kind>IsekaiSlime_Metal_Medium</kind><weight>0.6</weight><minDepth>0.70</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiSlime_Sky_Large</li>
+      <li>IsekaiSlime_Metal_Large</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- E..C indoor. Insects, which the tower never had. requiresFullRoster is
+       true and safe: every kind here is base RimWorld, so there is no install
+       on which this roster can come up short. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_Tower_Hollows_E</defName>
+    <label>the hollow floors</label>
+    <description>Something chewed these passages rather than cutting them, and it did not care where the tower wanted walls. The floor crunches. The sound carries a great deal further than it should, and it goes both ways.</description>
+    <towerOnly>true</towerOnly>
+
+    <mapGenerator>IsekaiDungeons_Hive</mapGenerator>
+    <minRank>E</minRank>
+    <maxRank>C</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+
+    <layoutMode>Carve</layoutMode>
+    <roofed>true</roofed>
+    <floorTerrain>IsekaiDungeons_SanctumStone</floorTerrain>
+    <roster>
+      <li><kind>Megascarab</kind><weight>1.4</weight></li>
+      <li><kind>Spelopede</kind><weight>1.0</weight><minDepth>0.25</minDepth></li>
+      <li><kind>Megaspider</kind><weight>0.7</weight><minDepth>0.50</minDepth></li>
+    </roster>
+    <bosses>
+      <li>Megaspider</li>
+      <li>Spelopede</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- C..A indoor. THE RANK-A HOLE. Above rank B the indoor catalogue was the
+       furnace and the fleshworks and nothing else, which is the floor range a
+       long campaign spends the most time in.
+
+       Orcs get their own floor here rather than sharing the warcamp's. The
+       warcamp is a surface camp of orcs and goblins together in the D..B
+       band; this is what the orcs built once they stopped camping. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_Tower_Deeps_C</defName>
+    <label>the hold floors</label>
+    <description>Someone has been improving the tower's work. The passages have been widened, squared and braced, and there are doors on them - heavy ones, hung properly, and hung from the far side.</description>
+    <towerOnly>true</towerOnly>
+
+    <mapGenerator>IsekaiDungeons_Dungeon</mapGenerator>
+    <minRank>C</minRank>
+    <maxRank>A</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+
+    <layoutMode>Carve</layoutMode>
+    <roofed>true</roofed>
+    <floorTerrain>IsekaiDungeons_SanctumStone</floorTerrain>
+    <roster>
+      <li><kind>IsekaiOrc_Whelp</kind><weight>1.3</weight></li>
+      <li><kind>IsekaiOrc_Warrior</kind><weight>1.1</weight></li>
+      <li><kind>IsekaiSkeleton_Orc</kind><weight>0.8</weight></li>
+      <li><kind>IsekaiTroll_Baby</kind><weight>0.9</weight><minDepth>0.25</minDepth></li>
+      <li><kind>IsekaiTroll_Adult</kind><weight>0.8</weight><minDepth>0.45</minDepth></li>
+      <li><kind>IsekaiTroll_Upper</kind><weight>0.5</weight><minDepth>0.70</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiOrc_Warlord</li>
+      <li>IsekaiTroll_Upper</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- B..SSS indoor. Mechanoids, who appeared NOWHERE in the tower despite
+       the mod shipping five mechanoid dungeons for the colony pool. The
+       widest band in the file on purpose: it is the only thing standing
+       between rank S and a two-environment stretch, and a machine floor is
+       the one enemy set here that does not care what rank it is fighting.
+
+       requiresFullRoster FALSE because most of these are Biotech - per the
+       rule at the top of the file, a player without the DLC loses the
+       entries rather than the floor. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_Tower_Machineworks_B</defName>
+    <label>the machine floors</label>
+    <description>This course was fitted out, not occupied. The walls carry conduit that still hums, the lighting is even, and nothing here has decayed by so much as a hinge. Whatever installed all this has never stopped maintaining it.</description>
+    <towerOnly>true</towerOnly>
+
+    <mapGenerator>IsekaiDungeons_Dungeon</mapGenerator>
+    <minRank>B</minRank>
+    <maxRank>SSS</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+
+    <layoutMode>Carve</layoutMode>
+    <roofed>true</roofed>
+    <floorTerrain>IsekaiDungeons_SanctumStone</floorTerrain>
+    <roster>
+      <li><kind>Mech_Lancer</kind><weight>1.2</weight></li>
+      <li><kind>Mech_Scyther</kind><weight>1.1</weight></li>
+      <li><kind>Mech_CentipedeGunner</kind><weight>0.9</weight></li>
+      <li><kind>Mech_CentipedeBlaster</kind><weight>0.8</weight><minDepth>0.30</minDepth></li>
+      <li><kind>Mech_Legionary</kind><weight>0.7</weight><minDepth>0.45</minDepth></li>
+      <li><kind>Mech_CentipedeBurner</kind><weight>0.6</weight><minDepth>0.60</minDepth></li>
+      <li><kind>Mech_Termite_Breach</kind><weight>0.5</weight><minDepth>0.75</minDepth></li>
+    </roster>
+    <bosses>
+      <li>Mech_Diabolus</li>
+      <li>Mech_Apocriton</li>
+      <li>Mech_Warqueen</li>
+    </bosses>
+    <requiresFullRoster>false</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+</Defs>

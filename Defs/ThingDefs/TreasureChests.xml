@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    THE TREASURE CHESTS. One drops where the boss died every time a dungeon or
+    tower floor is cleared (DungeonMapComponent.HandleCleared), tiered by the
+    rank band: T1 F-C, T2 B-A, T3 S-SS, T4 SSS-Nation.
+
+    They are ITEMS, deliberately: haulable, stockpileable, caravan-able, and
+    openable anywhere - the right-click Open ceremony works exactly the same
+    standing in the dungeon or back home a season later. Opening consumes the
+    chest and pays out one forge-enhanced weapon or armor via the reel window
+    (Window_TreasureReel); the odds and power tables live in TreasurePool.
+
+    Grades are METALS - bronze, silver, gold, jade - which is a separate
+    ladder from the item rarities the reel cards show. The defNames still read
+    Plain/Fine/Grand/Mythic because renaming them would strand chests in
+    existing saves; the label is what anyone actually sees.
+
+    The open-lid texture is found by convention: the def's texPath + "_Open".
+    All four have their own art now, so the base texPath here is only a
+    fallback - a new grade that forgets its graphicData gets the bronze chest
+    rather than a missing-texture square.
+  -->
+
+  <!--
+    PARENTED TO Items, NOT Root, AND THAT IS THE WHOLE REASON CHESTS ARE
+    HAULABLE. A default stockpile does not accept everything - ThingFilter
+    .SetFromPreset allows exactly eight categories (Foods, Manufactured,
+    ResourcesRaw, Items, Buildings, Weapons, Apparel, BodyParts) and nothing
+    else. A category hung directly off Root belongs to none of them, so no
+    stockpile would take a chest, no haul job was ever generated, and the
+    chests simply sat where they dropped forever.
+
+    Items is the vanilla catch-all for miscellaneous goods and is on that list,
+    so anything under it is hauled with no player setup at all. Keep any future
+    IsekaiDungeons category under one of the eight, and check with
+    Tools/verify_chests.py, which now fails the build if the chain does not
+    reach an allowed root.
+  -->
+  <ThingCategoryDef>
+    <defName>IsekaiDungeons_Treasures</defName>
+    <label>treasure chests</label>
+    <parent>Items</parent>
+  </ThingCategoryDef>
+
+  <ThingDef Name="IsekaiTreasureChestBase" Abstract="True">
+    <thingClass>IsekaiDungeons.TreasureChest</thingClass>
+    <category>Item</category>
+    <label>treasure chest</label>
+    <selectable>true</selectable>
+    <altitudeLayer>Item</altitudeLayer>
+    <alwaysHaulable>true</alwaysHaulable>
+    <tickerType>Never</tickerType>
+    <rotatable>false</rotatable>
+    <stackLimit>1</stackLimit>
+    <tradeability>Sellable</tradeability>
+    <pathCost>14</pathCost>
+    <thingCategories>
+      <li>IsekaiDungeons_Treasures</li>
+    </thingCategories>
+    <statBases>
+      <MaxHitPoints>150</MaxHitPoints>
+      <Mass>8</Mass>
+      <Flammability>0</Flammability>
+      <DeteriorationRate>0.5</DeteriorationRate>
+      <Beauty>4</Beauty>
+    </statBases>
+    <graphicData>
+      <texPath>Treasures/TreasureChest_Bronze</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.3,1.3)</drawSize>
+    </graphicData>
+    <drawGUIOverlay>false</drawGUIOverlay>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiTreasureChestBase">
+    <defName>IsekaiDungeons_TreasureChestPlain</defName>
+    <label>bronze chest</label>
+    <description>A dungeon's parting gift. Something is sealed inside - a weapon or a piece of armor, reinforced and possibly runed - and the only way to learn which is to open it. Anyone can open it, anywhere, and it is exactly as portable as it looks.</description>
+    <statBases>
+      <MarketValue>400</MarketValue>
+    </statBases>
+    <comps>
+      <li Class="IsekaiDungeons.CompProperties_TreasureChest">
+        <tier>1</tier>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiTreasureChestBase">
+    <defName>IsekaiDungeons_TreasureChestFine</defName>
+    <label>silver chest</label>
+    <graphicData>
+      <texPath>Treasures/TreasureChest_Silver</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.3,1.3)</drawSize>
+    </graphicData>
+    <description>A parting gift from a dungeon that meant it. The gear sealed in a chest of this grade arrives well reinforced, and runes are more likely than not.</description>
+    <statBases>
+      <MarketValue>950</MarketValue>
+    </statBases>
+    <comps>
+      <li Class="IsekaiDungeons.CompProperties_TreasureChest">
+        <tier>2</tier>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiTreasureChestBase">
+    <defName>IsekaiDungeons_TreasureChestGrand</defName>
+    <label>gold chest</label>
+    <graphicData>
+      <texPath>Treasures/TreasureChest_Gold</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <drawSize>(1.3,1.3)</drawSize>
+    </graphicData>
+    <description>Sealed by something that guarded it seriously. What comes out of a chest of this grade would anchor an armory.</description>
+    <statBases>
+      <MarketValue>1900</MarketValue>
+    </statBases>
+    <comps>
+      <li Class="IsekaiDungeons.CompProperties_TreasureChest">
+        <tier>3</tier>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <ThingDef ParentName="IsekaiTreasureChestBase">
+    <defName>IsekaiDungeons_TreasureChestMythic</defName>
+    <label>jade chest</label>
+    <graphicData>
+      <texPath>Treasures/TreasureChest_Jade</texPath>
+      <graphicClass>Graphic_Single</graphicClass>
+      <!--
+        NOT 1.3 like the others, and this is deliberate. The jade texture spends
+        a quarter of its canvas on wings, so the CASKET inside it is drawn at
+        75% and at the shared 1.3 it would render a quarter smaller than a gold
+        chest sitting beside it - the wings would have cost the chest its size
+        instead of adding to it.
+
+        1.74 is measured, not guessed: the jade casket inks 136px of the 256
+        texture against gold's 182, and 1.3 * 182/136 = 1.74 puts both caskets
+        at 0.924 tiles wide. Anchored on WIDTH because the box is the widest
+        part of both; the heights differ only because gold's finial is taller
+        in proportion than jade's coronet. The full wingspan then covers about
+        1.6 tiles, which is the overhang the wings are supposed to have.
+
+        If the wings are ever resized, RE-MEASURE: Tools/measure_drawsize.py
+        prints the value.
+      -->
+      <drawSize>(1.74,1.74)</drawSize>
+    </graphicData>
+    <description>There are not many of these, because there are not many places that can produce one. Whatever is inside was worth sealing behind the strongest thing a dungeon could field.</description>
+    <statBases>
+      <MarketValue>3600</MarketValue>
+    </statBases>
+    <comps>
+      <li Class="IsekaiDungeons.CompProperties_TreasureChest">
+        <tier>4</tier>
+      </li>
+    </comps>
+  </ThingDef>
+
+  <JobDef>
+    <defName>IsekaiDungeons_OpenTreasureChest</defName>
+    <driverClass>IsekaiDungeons.JobDriver_OpenTreasureChest</driverClass>
+    <reportString>opening TargetA.</reportString>
+    <allowOpportunisticPrefix>false</allowOpportunisticPrefix>
+  </JobDef>
+
+</Defs>

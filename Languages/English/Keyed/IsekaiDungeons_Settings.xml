@@ -1,0 +1,539 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!--
+    Mod settings window. Every setting has two keys named after its field on
+    IsekaiDungeonsSettings with the first letter capitalised:
+      IsekaiDungeons.Settings.FieldName       the label
+      IsekaiDungeons.Settings.FieldName.Desc  one or two sentences under it
+    Sections and tabs follow SettingsRegistry. A section's .Note is optional.
+  -->
+
+  <!-- ══ Window ══ -->
+  <IsekaiDungeons.Settings.SearchHint>Search every setting...</IsekaiDungeons.Settings.SearchHint>
+  <IsekaiDungeons.Settings.NoMatches>No setting matches "{QUERY}".</IsekaiDungeons.Settings.NoMatches>
+  <IsekaiDungeons.Settings.ShowDescriptions>Show descriptions</IsekaiDungeons.Settings.ShowDescriptions>
+  <IsekaiDungeons.Settings.ResetAll>Reset everything</IsekaiDungeons.Settings.ResetAll>
+  <IsekaiDungeons.Settings.ResetAll.Confirm>Put every Isekai Dungeons setting back to its default?</IsekaiDungeons.Settings.ResetAll.Confirm>
+  <IsekaiDungeons.Settings.ResetTab>Reset this tab</IsekaiDungeons.Settings.ResetTab>
+  <IsekaiDungeons.Settings.ResetOne>Back to default</IsekaiDungeons.Settings.ResetOne>
+  <IsekaiDungeons.Settings.On>On</IsekaiDungeons.Settings.On>
+  <IsekaiDungeons.Settings.Off>Off</IsekaiDungeons.Settings.Off>
+  <IsekaiDungeons.Settings.Tip.Default>Default: {VALUE}</IsekaiDungeons.Settings.Tip.Default>
+  <IsekaiDungeons.Settings.Tip.Range>Range: {MIN} to {MAX}</IsekaiDungeons.Settings.Tip.Range>
+  <IsekaiDungeons.Settings.Table.Empty>No extra rolls</IsekaiDungeons.Settings.Table.Empty>
+
+  <IsekaiDungeons.Settings.Unit.Days>{VALUE} days</IsekaiDungeons.Settings.Unit.Days>
+  <IsekaiDungeons.Settings.Unit.OneDay>1 day</IsekaiDungeons.Settings.Unit.OneDay>
+  <IsekaiDungeons.Settings.Unit.Day>day {VALUE}</IsekaiDungeons.Settings.Unit.Day>
+  <IsekaiDungeons.Settings.Unit.Hours>{VALUE} h</IsekaiDungeons.Settings.Unit.Hours>
+  <IsekaiDungeons.Settings.Unit.Seconds>{VALUE} s</IsekaiDungeons.Settings.Unit.Seconds>
+  <IsekaiDungeons.Settings.Unit.Cells>{VALUE} cells</IsekaiDungeons.Settings.Unit.Cells>
+  <IsekaiDungeons.Settings.Unit.OneCell>1 cell</IsekaiDungeons.Settings.Unit.OneCell>
+  <IsekaiDungeons.Settings.Unit.Floor>floor {VALUE}</IsekaiDungeons.Settings.Unit.Floor>
+  <IsekaiDungeons.Settings.Unit.PerSeason>{COUNT} per season (every {DAYS} days)</IsekaiDungeons.Settings.Unit.PerSeason>
+
+  <IsekaiDungeons.Settings.Column.Register.Hole>Hole</IsekaiDungeons.Settings.Column.Register.Hole>
+  <IsekaiDungeons.Settings.Column.Register.Lair>Lair</IsekaiDungeons.Settings.Column.Register.Lair>
+  <IsekaiDungeons.Settings.Column.Register.Stronghold>Stronghold</IsekaiDungeons.Settings.Column.Register.Stronghold>
+  <IsekaiDungeons.Settings.Column.Register.Temple>Temple</IsekaiDungeons.Settings.Column.Register.Temple>
+  <IsekaiDungeons.Settings.Column.Register.Wonder>Wonder</IsekaiDungeons.Settings.Column.Register.Wonder>
+  <IsekaiDungeons.Settings.Column.Grade.1>+ bronze</IsekaiDungeons.Settings.Column.Grade.1>
+  <IsekaiDungeons.Settings.Column.Grade.2>+ silver</IsekaiDungeons.Settings.Column.Grade.2>
+  <IsekaiDungeons.Settings.Column.Grade.3>+ gold</IsekaiDungeons.Settings.Column.Grade.3>
+  <IsekaiDungeons.Settings.Column.Grade.4>+ jade</IsekaiDungeons.Settings.Column.Grade.4>
+  <IsekaiDungeons.Settings.Column.Wave>Wave {VALUE}</IsekaiDungeons.Settings.Column.Wave>
+
+  <!-- ══ Tabs ══ -->
+  <IsekaiDungeons.Settings.Tab.General>General</IsekaiDungeons.Settings.Tab.General>
+  <IsekaiDungeons.Settings.Tab.General.Intro>Switch whole features on or off, scale everything at once, or start from a preset.</IsekaiDungeons.Settings.Tab.General.Intro>
+  <IsekaiDungeons.Settings.Tab.Gates>Local gates</IsekaiDungeons.Settings.Tab.Gates>
+  <IsekaiDungeons.Settings.Tab.Gates.Intro>Gates that tear open on your own colony map, unasked. They stay below your colony's rank. The guild's contracts are where the big expeditions come from.</IsekaiDungeons.Settings.Tab.Gates.Intro>
+  <IsekaiDungeons.Settings.Tab.Contracts>Guild contracts</IsekaiDungeons.Settings.Tab.Contracts>
+  <IsekaiDungeons.Settings.Tab.Contracts.Intro>Dungeon work the guild posts out in the world: gates found before they open, breaks that already happened, and rescues on other factions' land.</IsekaiDungeons.Settings.Tab.Contracts.Intro>
+  <IsekaiDungeons.Settings.Tab.Dungeons>Dungeons</IsekaiDungeons.Settings.Tab.Dungeons>
+  <IsekaiDungeons.Settings.Tab.Dungeons.Intro>How every dungeon is built and filled: its layout, its fights, its room events and its decor. These apply to dungeons generated after the change.</IsekaiDungeons.Settings.Tab.Dungeons.Intro>
+  <IsekaiDungeons.Settings.Tab.Rewards>Rewards</IsekaiDungeons.Settings.Tab.Rewards>
+  <IsekaiDungeons.Settings.Tab.Rewards.Intro>What a dungeon pays: the boss hoard, treasure rooms, chests and experience. The overall loot and experience multipliers are on the General tab.</IsekaiDungeons.Settings.Tab.Rewards.Intro>
+  <IsekaiDungeons.Settings.Tab.Tower>Tower</IsekaiDungeons.Settings.Tab.Tower>
+  <IsekaiDungeons.Settings.Tab.Tower.Intro>The Tower of Gods, its summit, and the autopilot that grinds tower floors and clears gate dungeons.</IsekaiDungeons.Settings.Tab.Tower.Intro>
+  <IsekaiDungeons.Settings.Tab.Deep>Deep dungeons</IsekaiDungeons.Settings.Tab.Deep>
+  <IsekaiDungeons.Settings.Tab.Deep.Intro>Multi-floor dungeons the guild surveys, and what carries from one floor to the next inside them.</IsekaiDungeons.Settings.Tab.Deep.Intro>
+  <IsekaiDungeons.Settings.Tab.Interface>Interface</IsekaiDungeons.Settings.Tab.Interface>
+  <IsekaiDungeons.Settings.Tab.Interface.Intro>Presentation only. Nothing here changes difficulty or rewards.</IsekaiDungeons.Settings.Tab.Interface.Intro>
+  <IsekaiDungeons.Settings.Tab.Advanced>Advanced</IsekaiDungeons.Settings.Tab.Advanced>
+  <IsekaiDungeons.Settings.Tab.Advanced.Intro>The raw tables and internals the balance was built on. Changing these can throw off the pacing of the whole mod. Every value has a reset button.</IsekaiDungeons.Settings.Tab.Advanced.Intro>
+
+  <!-- ══ Presets ══ -->
+  <IsekaiDungeons.Settings.Preset.Confirm>Apply the {PRESET} preset?
+
+Every setting goes back to its default first, then these change:
+
+{CHANGES}</IsekaiDungeons.Settings.Preset.Confirm>
+  <IsekaiDungeons.Settings.Preset.Default>Default</IsekaiDungeons.Settings.Preset.Default>
+  <IsekaiDungeons.Settings.Preset.Default.Desc>Every setting as the mod ships.</IsekaiDungeons.Settings.Preset.Default.Desc>
+  <IsekaiDungeons.Settings.Preset.Relaxed>Relaxed</IsekaiDungeons.Settings.Preset.Relaxed>
+  <IsekaiDungeons.Settings.Preset.Relaxed.Desc>Fewer gates, longer countdowns, weaker rooms and slightly better loot.</IsekaiDungeons.Settings.Preset.Relaxed.Desc>
+  <IsekaiDungeons.Settings.Preset.Challenging>Challenging</IsekaiDungeons.Settings.Preset.Challenging>
+  <IsekaiDungeons.Settings.Preset.Challenging.Desc>More gates and contracts, shorter countdowns, stronger and busier rooms.</IsekaiDungeons.Settings.Preset.Challenging.Desc>
+  <IsekaiDungeons.Settings.Preset.Brutal>Brutal</IsekaiDungeons.Settings.Preset.Brutal>
+  <IsekaiDungeons.Settings.Preset.Brutal.Desc>Gates every few days, breaches every 12 hours, packed rooms, higher local ranks and better pay.</IsekaiDungeons.Settings.Preset.Brutal.Desc>
+  <IsekaiDungeons.Settings.Preset.TreasureHunter>Treasure hunter</IsekaiDungeons.Settings.Preset.TreasureHunter>
+  <IsekaiDungeons.Settings.Preset.TreasureHunter.Desc>Much richer hoards, more chests and rarer prizes, with slightly tougher rooms.</IsekaiDungeons.Settings.Preset.TreasureHunter.Desc>
+  <IsekaiDungeons.Settings.Preset.TowerOnly>Tower only</IsekaiDungeons.Settings.Preset.TowerOnly>
+  <IsekaiDungeons.Settings.Preset.TowerOnly.Desc>Local gates, guild contracts and deep dungeon surveys all off. Just the climb.</IsekaiDungeons.Settings.Preset.TowerOnly.Desc>
+
+  <!-- ══ General ══ -->
+  <IsekaiDungeons.Settings.Section.General.Presets>Presets</IsekaiDungeons.Settings.Section.General.Presets>
+  <IsekaiDungeons.Settings.Section.General.Presets.Note>A preset puts every setting back to default, then changes a few. Nothing happens until you confirm.</IsekaiDungeons.Settings.Section.General.Presets.Note>
+  <IsekaiDungeons.Settings.Section.General.Features>Features</IsekaiDungeons.Settings.Section.General.Features>
+  <IsekaiDungeons.Settings.Section.General.Scaling>Global scaling</IsekaiDungeons.Settings.Section.General.Scaling>
+  <IsekaiDungeons.Settings.Section.General.Scaling.Note>These apply everywhere and stack with the tower and deep dungeon multipliers.</IsekaiDungeons.Settings.Section.General.Scaling.Note>
+
+  <IsekaiDungeons.Settings.LocalGatesEnabled>Local gates</IsekaiDungeons.Settings.LocalGatesEnabled>
+  <IsekaiDungeons.Settings.LocalGatesEnabled.Desc>Gates open on your colony map on their own schedule. Off stops new ones opening. Gates already open run their course.</IsekaiDungeons.Settings.LocalGatesEnabled.Desc>
+  <IsekaiDungeons.Settings.GuildContractsEnabled>Guild contracts</IsekaiDungeons.Settings.GuildContractsEnabled>
+  <IsekaiDungeons.Settings.GuildContractsEnabled.Desc>The guild posts dungeon contracts on the world map. Contracts already posted run their course.</IsekaiDungeons.Settings.GuildContractsEnabled.Desc>
+  <IsekaiDungeons.Settings.TowerEnabled>The Tower of Gods</IsekaiDungeons.Settings.TowerEnabled>
+  <IsekaiDungeons.Settings.TowerEnabled.Desc>The tower rises early in the playthrough. Off stops it rising. A tower that already stands is never removed.</IsekaiDungeons.Settings.TowerEnabled.Desc>
+  <IsekaiDungeons.Settings.DeepDungeonsEnabled>Deep dungeon surveys</IsekaiDungeons.Settings.DeepDungeonsEnabled>
+  <IsekaiDungeons.Settings.DeepDungeonsEnabled.Desc>The guild reports multi-floor dungeons it has surveyed. Deep dungeons already on the planet stay.</IsekaiDungeons.Settings.DeepDungeonsEnabled.Desc>
+  <IsekaiDungeons.Settings.GlobalEncounterMultiplier>Encounter strength</IsekaiDungeons.Settings.GlobalEncounterMultiplier>
+  <IsekaiDungeons.Settings.GlobalEncounterMultiplier.Desc>Scales the creature budget of every dungeon room, breach, broken site, tower floor and deep floor. Higher means more and stronger creatures.</IsekaiDungeons.Settings.GlobalEncounterMultiplier.Desc>
+  <IsekaiDungeons.Settings.GlobalLootMultiplier>Loot value</IsekaiDungeons.Settings.GlobalLootMultiplier>
+  <IsekaiDungeons.Settings.GlobalLootMultiplier.Desc>Scales the market value of every boss hoard and treasure room. Guaranteed mana cores are not affected.</IsekaiDungeons.Settings.GlobalLootMultiplier.Desc>
+  <IsekaiDungeons.Settings.GlobalXpMultiplier>Clear experience</IsekaiDungeons.Settings.GlobalXpMultiplier>
+  <IsekaiDungeons.Settings.GlobalXpMultiplier.Desc>Scales the experience colonists get for clearing a dungeon or killing a boss that escaped one.</IsekaiDungeons.Settings.GlobalXpMultiplier.Desc>
+
+  <!-- ══ Local gates ══ -->
+  <IsekaiDungeons.Settings.Section.Gates.Cadence>How often</IsekaiDungeons.Settings.Section.Gates.Cadence>
+  <IsekaiDungeons.Settings.Section.Gates.Rank>Rank</IsekaiDungeons.Settings.Section.Gates.Rank>
+  <IsekaiDungeons.Settings.Section.Gates.Rank.Note>The top of the window comes from a table on the Advanced tab, looked up by your best colonist's rank.</IsekaiDungeons.Settings.Section.Gates.Rank.Note>
+  <IsekaiDungeons.Settings.Section.Gates.Countdown>Countdown</IsekaiDungeons.Settings.Section.Gates.Countdown>
+  <IsekaiDungeons.Settings.Section.Gates.Breach>Breach</IsekaiDungeons.Settings.Section.Gates.Breach>
+  <IsekaiDungeons.Settings.Section.Gates.Breach.Note>When the countdown runs out the dungeon empties onto your map in waves, and the gate stays open the whole time. The wave shares are on the Advanced tab.</IsekaiDungeons.Settings.Section.Gates.Breach.Note>
+  <IsekaiDungeons.Settings.Section.Gates.AfterClear>After the clear</IsekaiDungeons.Settings.Section.Gates.AfterClear>
+
+  <IsekaiDungeons.Settings.GatesPerSeason>Gates per season</IsekaiDungeons.Settings.GatesPerSeason>
+  <IsekaiDungeons.Settings.GatesPerSeason.Desc>A season is 15 days. Gates keep their own schedule instead of competing with raids, so this number means what it says. At zero no gate opens on a schedule.</IsekaiDungeons.Settings.GatesPerSeason.Desc>
+  <IsekaiDungeons.Settings.FirstGateDay>First gate</IsekaiDungeons.Settings.FirstGateDay>
+  <IsekaiDungeons.Settings.FirstGateDay.Desc>No scheduled gate opens before this day of the playthrough.</IsekaiDungeons.Settings.FirstGateDay.Desc>
+  <IsekaiDungeons.Settings.GateIntervalJitter>Interval spread</IsekaiDungeons.Settings.GateIntervalJitter>
+  <IsekaiDungeons.Settings.GateIntervalJitter.Desc>How much the time between gates varies around the average, so they do not arrive like clockwork.</IsekaiDungeons.Settings.GateIntervalJitter.Desc>
+  <IsekaiDungeons.Settings.MaxActiveGatesPerMap>Most gates at once</IsekaiDungeons.Settings.MaxActiveGatesPerMap>
+  <IsekaiDungeons.Settings.MaxActiveGatesPerMap.Desc>Open or breaching gates one colony map can hold. When the map is full, the next gate waits.</IsekaiDungeons.Settings.MaxActiveGatesPerMap.Desc>
+  <IsekaiDungeons.Settings.LocalRankShift>Rank shift</IsekaiDungeons.Settings.LocalRankShift>
+  <IsekaiDungeons.Settings.LocalRankShift.Desc>Moves the rank window of local gates up or down. A local gate still never goes above SSS.</IsekaiDungeons.Settings.LocalRankShift.Desc>
+  <IsekaiDungeons.Settings.LocalRankWindowSpan>Rank window width</IsekaiDungeons.Settings.LocalRankWindowSpan>
+  <IsekaiDungeons.Settings.LocalRankWindowSpan.Desc>How many ranks below the top of the window a local gate can roll. The top of the window is the most common result.</IsekaiDungeons.Settings.LocalRankWindowSpan.Desc>
+  <IsekaiDungeons.Settings.BreakTimerMultiplier>Countdown length</IsekaiDungeons.Settings.BreakTimerMultiplier>
+  <IsekaiDungeons.Settings.BreakTimerMultiplier.Desc>Scales how long a gate counts down before it breaches. Each dungeon type sets its own base time by rank.</IsekaiDungeons.Settings.BreakTimerMultiplier.Desc>
+  <IsekaiDungeons.Settings.WarnHalfFraction>Half-way letter</IsekaiDungeons.Settings.WarnHalfFraction>
+  <IsekaiDungeons.Settings.WarnHalfFraction.Desc>How far through the countdown the first warning letter arrives.</IsekaiDungeons.Settings.WarnHalfFraction.Desc>
+  <IsekaiDungeons.Settings.FinalWarningHours>Final warning</IsekaiDungeons.Settings.FinalWarningHours>
+  <IsekaiDungeons.Settings.FinalWarningHours.Desc>Hours before the breach that the last warning letter arrives. Off sends no final warning.</IsekaiDungeons.Settings.FinalWarningHours.Desc>
+  <IsekaiDungeons.Settings.GateCountdownLetters>Countdown letters</IsekaiDungeons.Settings.GateCountdownLetters>
+  <IsekaiDungeons.Settings.GateCountdownLetters.Desc>Send the half-way and final warning letters. The breach itself is always announced.</IsekaiDungeons.Settings.GateCountdownLetters.Desc>
+  <IsekaiDungeons.Settings.BreachWaveIntervalHours>Time between breach waves</IsekaiDungeons.Settings.BreachWaveIntervalHours>
+  <IsekaiDungeons.Settings.BreachWaveIntervalHours.Desc>Hours between each wave of creatures leaving a breached gate.</IsekaiDungeons.Settings.BreachWaveIntervalHours.Desc>
+  <IsekaiDungeons.Settings.BreachWaveLetters>Letter for each wave</IsekaiDungeons.Settings.BreachWaveLetters>
+  <IsekaiDungeons.Settings.BreachWaveLetters.Desc>Send a letter for every breach wave. The final wave, which brings the boss out, always sends one.</IsekaiDungeons.Settings.BreachWaveLetters.Desc>
+  <IsekaiDungeons.Settings.BreachXpRadius>Escaped boss experience radius</IsekaiDungeons.Settings.BreachXpRadius>
+  <IsekaiDungeons.Settings.BreachXpRadius.Desc>Colonists this close to an escaped boss when it dies get the clear experience. If nobody is that close, the whole colony is paid.</IsekaiDungeons.Settings.BreachXpRadius.Desc>
+  <IsekaiDungeons.Settings.ClearedCollapseHours>Collapse after leaving</IsekaiDungeons.Settings.ClearedCollapseHours>
+  <IsekaiDungeons.Settings.ClearedCollapseHours.Desc>How long a cleared dungeon must stay empty of your pawns before its gate closes.</IsekaiDungeons.Settings.ClearedCollapseHours.Desc>
+  <IsekaiDungeons.Settings.EjectStunSeconds>Ejection stun</IsekaiDungeons.Settings.EjectStunSeconds>
+  <IsekaiDungeons.Settings.EjectStunSeconds.Desc>How long pawns are stunned when a collapsing or breaching dungeon throws them out.</IsekaiDungeons.Settings.EjectStunSeconds.Desc>
+
+  <!-- ══ Guild contracts ══ -->
+  <IsekaiDungeons.Settings.Section.Contracts.Cadence>How often</IsekaiDungeons.Settings.Section.Contracts.Cadence>
+  <IsekaiDungeons.Settings.Section.Contracts.Rank>Rank</IsekaiDungeons.Settings.Section.Contracts.Rank>
+  <IsekaiDungeons.Settings.Section.Contracts.Rank.Note>A contract is never pitched above your best colonist, whatever these say.</IsekaiDungeons.Settings.Section.Contracts.Rank.Note>
+  <IsekaiDungeons.Settings.Section.Contracts.Mix>What gets posted</IsekaiDungeons.Settings.Section.Contracts.Mix>
+  <IsekaiDungeons.Settings.Section.Contracts.Mix.Note>Whatever is left over is an ordinary contract: a gate found before it opens, with a countdown to beat.</IsekaiDungeons.Settings.Section.Contracts.Mix.Note>
+  <IsekaiDungeons.Settings.Section.Contracts.Travel>Travel</IsekaiDungeons.Settings.Section.Contracts.Travel>
+  <IsekaiDungeons.Settings.Section.Contracts.Lifetime>Lifetime</IsekaiDungeons.Settings.Section.Contracts.Lifetime>
+  <IsekaiDungeons.Settings.Section.Contracts.Rewards>Rewards</IsekaiDungeons.Settings.Section.Contracts.Rewards>
+  <IsekaiDungeons.Settings.Section.Contracts.Rewards.Note>The finder's fee is paid on top of whatever the dungeon itself holds.</IsekaiDungeons.Settings.Section.Contracts.Rewards.Note>
+  <IsekaiDungeons.Settings.Section.Contracts.BrokenSites>Broken sites</IsekaiDungeons.Settings.Section.Contracts.BrokenSites>
+
+  <IsekaiDungeons.Settings.QuestsPerSeason>Contracts per season</IsekaiDungeons.Settings.QuestsPerSeason>
+  <IsekaiDungeons.Settings.QuestsPerSeason.Desc>How many times per season (15 days) the guild posts work. Deep dungeon surveys come out of the same cycles. At zero the guild posts nothing.</IsekaiDungeons.Settings.QuestsPerSeason.Desc>
+  <IsekaiDungeons.Settings.FirstQuestDay>First contract</IsekaiDungeons.Settings.FirstQuestDay>
+  <IsekaiDungeons.Settings.FirstQuestDay.Desc>The guild posts no dungeon work before this day.</IsekaiDungeons.Settings.FirstQuestDay.Desc>
+  <IsekaiDungeons.Settings.QuestIntervalJitter>Interval spread</IsekaiDungeons.Settings.QuestIntervalJitter>
+  <IsekaiDungeons.Settings.QuestIntervalJitter.Desc>How much the time between contracts varies around the average.</IsekaiDungeons.Settings.QuestIntervalJitter.Desc>
+  <IsekaiDungeons.Settings.MaxActiveQuests>Most contracts at once</IsekaiDungeons.Settings.MaxActiveQuests>
+  <IsekaiDungeons.Settings.MaxActiveQuests.Desc>Contracts the world map can hold at once. Beyond this the guild waits.</IsekaiDungeons.Settings.MaxActiveQuests.Desc>
+  <IsekaiDungeons.Settings.ContractRankShift>Rank shift</IsekaiDungeons.Settings.ContractRankShift>
+  <IsekaiDungeons.Settings.ContractRankShift.Desc>Moves the rank contracts centre on up or down. They still never go above your best colonist.</IsekaiDungeons.Settings.ContractRankShift.Desc>
+  <IsekaiDungeons.Settings.CeilingChanceSolo>Work at your rank (lone champion)</IsekaiDungeons.Settings.CeilingChanceSolo>
+  <IsekaiDungeons.Settings.CeilingChanceSolo.Desc>Chance a contract reaches up to your best colonist's rank when nobody else is close to that rank.</IsekaiDungeons.Settings.CeilingChanceSolo.Desc>
+  <IsekaiDungeons.Settings.CeilingChanceNormal>Work at your rank (ordinary roster)</IsekaiDungeons.Settings.CeilingChanceNormal>
+  <IsekaiDungeons.Settings.CeilingChanceNormal.Desc>The same chance for a colony with a few colonists near the top.</IsekaiDungeons.Settings.CeilingChanceNormal.Desc>
+  <IsekaiDungeons.Settings.CeilingChanceDeep>Work at your rank (deep bench)</IsekaiDungeons.Settings.CeilingChanceDeep>
+  <IsekaiDungeons.Settings.CeilingChanceDeep.Desc>The same chance for a colony with a full expedition roster near the top.</IsekaiDungeons.Settings.CeilingChanceDeep.Desc>
+  <IsekaiDungeons.Settings.AtCeilingShare>Exactly at your rank</IsekaiDungeons.Settings.AtCeilingShare>
+  <IsekaiDungeons.Settings.AtCeilingShare.Desc>When a contract reaches up, how often it lands exactly on your best rank rather than somewhere between.</IsekaiDungeons.Settings.AtCeilingShare.Desc>
+  <IsekaiDungeons.Settings.DeepBenchCount>Deep bench size</IsekaiDungeons.Settings.DeepBenchCount>
+  <IsekaiDungeons.Settings.DeepBenchCount.Desc>Colonists within one rank of your best that count as a full expedition roster.</IsekaiDungeons.Settings.DeepBenchCount.Desc>
+  <IsekaiDungeons.Settings.ChancePostedBroken>Already broken</IsekaiDungeons.Settings.ChancePostedBroken>
+  <IsekaiDungeons.Settings.ChancePostedBroken.Desc>Chance a new contract is a gate that has already broken open, with creatures loose around it.</IsekaiDungeons.Settings.ChancePostedBroken.Desc>
+  <IsekaiDungeons.Settings.ChancePostedRescue>Rescue</IsekaiDungeons.Settings.ChancePostedRescue>
+  <IsekaiDungeons.Settings.ChancePostedRescue.Desc>Chance a new contract is a break on another faction's land, with their defenders holding the line.</IsekaiDungeons.Settings.ChancePostedRescue.Desc>
+  <IsekaiDungeons.Settings.ContractDistanceMultiplier>Travel distance</IsekaiDungeons.Settings.ContractDistanceMultiplier>
+  <IsekaiDungeons.Settings.ContractDistanceMultiplier.Desc>Scales how far away contracts are posted. Higher ranks are always sent farther.</IsekaiDungeons.Settings.ContractDistanceMultiplier.Desc>
+  <IsekaiDungeons.Settings.DaysBeforeBreak>Days before a contract breaks</IsekaiDungeons.Settings.DaysBeforeBreak>
+  <IsekaiDungeons.Settings.DaysBeforeBreak.Desc>How long a posted gate waits before it tears open by itself. It then turns into a broken contract instead of disappearing.</IsekaiDungeons.Settings.DaysBeforeBreak.Desc>
+  <IsekaiDungeons.Settings.BrokenSiteDays>Days a broken site stays</IsekaiDungeons.Settings.BrokenSiteDays>
+  <IsekaiDungeons.Settings.BrokenSiteDays.Desc>How long a broken site stays on the world map before the guild writes it off.</IsekaiDungeons.Settings.BrokenSiteDays.Desc>
+  <IsekaiDungeons.Settings.ContractFeeMultiplier>Finder's fee</IsekaiDungeons.Settings.ContractFeeMultiplier>
+  <IsekaiDungeons.Settings.ContractFeeMultiplier.Desc>Scales the silver the guild pays for a completed contract.</IsekaiDungeons.Settings.ContractFeeMultiplier.Desc>
+  <IsekaiDungeons.Settings.BrokenFeeMultiplier>Broken site bonus</IsekaiDungeons.Settings.BrokenFeeMultiplier>
+  <IsekaiDungeons.Settings.BrokenFeeMultiplier.Desc>Extra fee multiplier for clearing a broken or rescue site.</IsekaiDungeons.Settings.BrokenFeeMultiplier.Desc>
+  <IsekaiDungeons.Settings.RescueGoodwill>Rescue goodwill</IsekaiDungeons.Settings.RescueGoodwill>
+  <IsekaiDungeons.Settings.RescueGoodwill.Desc>Goodwill gained with the faction whose land you cleared.</IsekaiDungeons.Settings.RescueGoodwill.Desc>
+  <IsekaiDungeons.Settings.RescueFailureGoodwill>Failed rescue goodwill</IsekaiDungeons.Settings.RescueFailureGoodwill>
+  <IsekaiDungeons.Settings.RescueFailureGoodwill.Desc>Goodwill lost when a break on a faction's land is left to run its course.</IsekaiDungeons.Settings.RescueFailureGoodwill.Desc>
+  <IsekaiDungeons.Settings.BrokenSurfaceShare>Loose at a broken site</IsekaiDungeons.Settings.BrokenSurfaceShare>
+  <IsekaiDungeons.Settings.BrokenSurfaceShare.Desc>Share of the dungeon's creatures already on the surface when you arrive at a broken site.</IsekaiDungeons.Settings.BrokenSurfaceShare.Desc>
+  <IsekaiDungeons.Settings.BrokenScatterRadius>Scatter radius</IsekaiDungeons.Settings.BrokenScatterRadius>
+  <IsekaiDungeons.Settings.BrokenScatterRadius.Desc>How far from the torn gate the loose creatures are spread.</IsekaiDungeons.Settings.BrokenScatterRadius.Desc>
+  <IsekaiDungeons.Settings.DefenderRingRadius>Defender ring</IsekaiDungeons.Settings.DefenderRingRadius>
+  <IsekaiDungeons.Settings.DefenderRingRadius.Desc>How far from the gate a rescued faction's defenders hold.</IsekaiDungeons.Settings.DefenderRingRadius.Desc>
+
+  <!-- ══ Dungeons ══ -->
+  <IsekaiDungeons.Settings.Section.Dungeons.Layout>Layout</IsekaiDungeons.Settings.Section.Dungeons.Layout>
+  <IsekaiDungeons.Settings.Section.Dungeons.Layout.Note>Tower and deep dungeon floors are rebuilt on every visit, so these also reshape floors you have already seen.</IsekaiDungeons.Settings.Section.Dungeons.Layout.Note>
+  <IsekaiDungeons.Settings.Section.Dungeons.Encounters>Encounters</IsekaiDungeons.Settings.Section.Dungeons.Encounters>
+  <IsekaiDungeons.Settings.Section.Dungeons.Events>Room events</IsekaiDungeons.Settings.Section.Dungeons.Events>
+  <IsekaiDungeons.Settings.Section.Dungeons.BeastVaults>Beast vaults</IsekaiDungeons.Settings.Section.Dungeons.BeastVaults>
+  <IsekaiDungeons.Settings.Section.Dungeons.BeastVaults.Note>A treasure room with a live, rank-matched creature standing over the pile. Take it, tame it, or leave it alone.</IsekaiDungeons.Settings.Section.Dungeons.BeastVaults.Note>
+  <IsekaiDungeons.Settings.Section.Dungeons.Moods>Moods</IsekaiDungeons.Settings.Section.Dungeons.Moods>
+  <IsekaiDungeons.Settings.Section.Dungeons.Decor>Decor</IsekaiDungeons.Settings.Section.Dungeons.Decor>
+
+  <IsekaiDungeons.Settings.MapSizeMultiplier>Map size</IsekaiDungeons.Settings.MapSizeMultiplier>
+  <IsekaiDungeons.Settings.MapSizeMultiplier.Desc>Scales every dungeon, tower floor and deep floor map. Bigger maps cost more performance.</IsekaiDungeons.Settings.MapSizeMultiplier.Desc>
+  <IsekaiDungeons.Settings.RoomCountMultiplier>Room count</IsekaiDungeons.Settings.RoomCountMultiplier>
+  <IsekaiDungeons.Settings.RoomCountMultiplier.Desc>Scales how many combat rooms a dungeon has, up to 16.</IsekaiDungeons.Settings.RoomCountMultiplier.Desc>
+  <IsekaiDungeons.Settings.TreasureRoomsShift>Treasure rooms</IsekaiDungeons.Settings.TreasureRoomsShift>
+  <IsekaiDungeons.Settings.TreasureRoomsShift.Desc>Adds or removes treasure side rooms from each dungeon's own roll. Tower floors that set their own treasure count keep it.</IsekaiDungeons.Settings.TreasureRoomsShift.Desc>
+  <IsekaiDungeons.Settings.ShortcutMultiplier>Shortcut corridors</IsekaiDungeons.Settings.ShortcutMultiplier>
+  <IsekaiDungeons.Settings.ShortcutMultiplier.Desc>Scales the extra corridors that link rooms out of order and give high-rank dungeons loops to flank and fall back through.</IsekaiDungeons.Settings.ShortcutMultiplier.Desc>
+  <IsekaiDungeons.Settings.WingLengthShift>Side wing length</IsekaiDungeons.Settings.WingLengthShift>
+  <IsekaiDungeons.Settings.WingLengthShift.Desc>Lengthens or shortens the longest optional branch a dungeon can grow. A wing always has at least one room.</IsekaiDungeons.Settings.WingLengthShift.Desc>
+  <IsekaiDungeons.Settings.MaxWingRoomsPerDungeon>Most side wing rooms</IsekaiDungeons.Settings.MaxWingRoomsPerDungeon>
+  <IsekaiDungeons.Settings.MaxWingRoomsPerDungeon.Desc>Total rooms all the optional branches of one dungeon may use.</IsekaiDungeons.Settings.MaxWingRoomsPerDungeon.Desc>
+  <IsekaiDungeons.Settings.FirstRoomBudgetFactor>First room budget</IsekaiDungeons.Settings.FirstRoomBudgetFactor>
+  <IsekaiDungeons.Settings.FirstRoomBudgetFactor.Desc>Creature budget of the first combat room, as a multiple of the rank's room budget.</IsekaiDungeons.Settings.FirstRoomBudgetFactor.Desc>
+  <IsekaiDungeons.Settings.LastRoomBudgetFactor>Last room budget</IsekaiDungeons.Settings.LastRoomBudgetFactor>
+  <IsekaiDungeons.Settings.LastRoomBudgetFactor.Desc>Creature budget of the deepest combat room. Rooms between ramp from first to last, and no side room goes above this.</IsekaiDungeons.Settings.LastRoomBudgetFactor.Desc>
+  <IsekaiDungeons.Settings.OffPathBudgetFactor>Optional room budget</IsekaiDungeons.Settings.OffPathBudgetFactor>
+  <IsekaiDungeons.Settings.OffPathBudgetFactor.Desc>Budget multiplier for fights on side wings the party can walk past.</IsekaiDungeons.Settings.OffPathBudgetFactor.Desc>
+  <IsekaiDungeons.Settings.ChampionBudgetFactor>Wing guard budget</IsekaiDungeons.Settings.ChampionBudgetFactor>
+  <IsekaiDungeons.Settings.ChampionBudgetFactor.Desc>Budget multiplier for the room guarding a wing's treasure.</IsekaiDungeons.Settings.ChampionBudgetFactor.Desc>
+  <IsekaiDungeons.Settings.RoomTierRampDepth>Rank ramp</IsekaiDungeons.Settings.RoomTierRampDepth>
+  <IsekaiDungeons.Settings.RoomTierRampDepth.Desc>How many ranks below the gate the first room's creatures sit. The last room is always at the gate's own rank.</IsekaiDungeons.Settings.RoomTierRampDepth.Desc>
+  <IsekaiDungeons.Settings.MaxCreaturesPerRoom>Most creatures per room</IsekaiDungeons.Settings.MaxCreaturesPerRoom>
+  <IsekaiDungeons.Settings.MaxCreaturesPerRoom.Desc>A hard cap on creatures in one room, whatever the budget allows. Keeps high ranks readable and the game fast.</IsekaiDungeons.Settings.MaxCreaturesPerRoom.Desc>
+  <IsekaiDungeons.Settings.BossMinionsMin>Boss guards (fewest)</IsekaiDungeons.Settings.BossMinionsMin>
+  <IsekaiDungeons.Settings.BossMinionsMin.Desc>Fewest creatures that guard the boss.</IsekaiDungeons.Settings.BossMinionsMin.Desc>
+  <IsekaiDungeons.Settings.BossMinionsMax>Boss guards (most)</IsekaiDungeons.Settings.BossMinionsMax>
+  <IsekaiDungeons.Settings.BossMinionsMax.Desc>Most creatures that guard the boss.</IsekaiDungeons.Settings.BossMinionsMax.Desc>
+  <IsekaiDungeons.Settings.LeashSlackCells>Leash slack</IsekaiDungeons.Settings.LeashSlackCells>
+  <IsekaiDungeons.Settings.LeashSlackCells.Desc>How far an idle creature in an open-field dungeon may wander from its zone before it walks back.</IsekaiDungeons.Settings.LeashSlackCells.Desc>
+  <IsekaiDungeons.Settings.EventRoomFraction>Event rooms</IsekaiDungeons.Settings.EventRoomFraction>
+  <IsekaiDungeons.Settings.EventRoomFraction.Desc>Share of a dungeon's main-path rooms that can become room events such as ambushes, traps or guarded hoards.</IsekaiDungeons.Settings.EventRoomFraction.Desc>
+  <IsekaiDungeons.Settings.MinPlainRooms>Plain rooms kept</IsekaiDungeons.Settings.MinPlainRooms>
+  <IsekaiDungeons.Settings.MinPlainRooms.Desc>Rooms that always stay ordinary fights, however many events are allowed.</IsekaiDungeons.Settings.MinPlainRooms.Desc>
+  <IsekaiDungeons.Settings.BeastVaultMinRank>Beast vaults from</IsekaiDungeons.Settings.BeastVaultMinRank>
+  <IsekaiDungeons.Settings.BeastVaultMinRank.Desc>Lowest gate rank whose treasure rooms can hold a beast.</IsekaiDungeons.Settings.BeastVaultMinRank.Desc>
+  <IsekaiDungeons.Settings.BeastVaultChanceAtMinRank>Beast vault chance (lowest rank)</IsekaiDungeons.Settings.BeastVaultChanceAtMinRank>
+  <IsekaiDungeons.Settings.BeastVaultChanceAtMinRank.Desc>Chance a treasure room holds a beast at the lowest rank that allows one.</IsekaiDungeons.Settings.BeastVaultChanceAtMinRank.Desc>
+  <IsekaiDungeons.Settings.BeastVaultChanceAtMaxRank>Beast vault chance (Nation)</IsekaiDungeons.Settings.BeastVaultChanceAtMaxRank>
+  <IsekaiDungeons.Settings.BeastVaultChanceAtMaxRank.Desc>The chance at Nation rank. Ranks between are interpolated.</IsekaiDungeons.Settings.BeastVaultChanceAtMaxRank.Desc>
+  <IsekaiDungeons.Settings.DungeonDreadEnabled>Dungeon dread</IsekaiDungeons.Settings.DungeonDreadEnabled>
+  <IsekaiDungeons.Settings.DungeonDreadEnabled.Desc>Colonists inside a dungeon that is still alive get a mood penalty that grows with its rank. The other dungeon moods follow Isekai Leveling's mood setting.</IsekaiDungeons.Settings.DungeonDreadEnabled.Desc>
+  <IsekaiDungeons.Settings.DecorEnabled>Decor</IsekaiDungeons.Settings.DecorEnabled>
+  <IsekaiDungeons.Settings.DecorEnabled.Desc>Dress dungeons with torches, statues, furniture and worked stone that grow richer with rank.</IsekaiDungeons.Settings.DecorEnabled.Desc>
+  <IsekaiDungeons.Settings.DecorDensityMultiplier>Decor density</IsekaiDungeons.Settings.DecorDensityMultiplier>
+  <IsekaiDungeons.Settings.DecorDensityMultiplier.Desc>Scales how much decor every room gets.</IsekaiDungeons.Settings.DecorDensityMultiplier.Desc>
+  <IsekaiDungeons.Settings.DecorEntryFactor>Entry room decor</IsekaiDungeons.Settings.DecorEntryFactor>
+  <IsekaiDungeons.Settings.DecorEntryFactor.Desc>Decor multiplier for the room you arrive in.</IsekaiDungeons.Settings.DecorEntryFactor.Desc>
+  <IsekaiDungeons.Settings.DecorCombatFactor>Combat room decor</IsekaiDungeons.Settings.DecorCombatFactor>
+  <IsekaiDungeons.Settings.DecorCombatFactor.Desc>Decor multiplier for ordinary rooms.</IsekaiDungeons.Settings.DecorCombatFactor.Desc>
+  <IsekaiDungeons.Settings.DecorTreasureFactor>Treasure room decor</IsekaiDungeons.Settings.DecorTreasureFactor>
+  <IsekaiDungeons.Settings.DecorTreasureFactor.Desc>Decor multiplier for treasure rooms.</IsekaiDungeons.Settings.DecorTreasureFactor.Desc>
+  <IsekaiDungeons.Settings.DecorBossFactor>Boss room decor</IsekaiDungeons.Settings.DecorBossFactor>
+  <IsekaiDungeons.Settings.DecorBossFactor.Desc>Decor multiplier for the boss room.</IsekaiDungeons.Settings.DecorBossFactor.Desc>
+  <IsekaiDungeons.Settings.DecorDepthStart>Decor near the entrance</IsekaiDungeons.Settings.DecorDepthStart>
+  <IsekaiDungeons.Settings.DecorDepthStart.Desc>Decor multiplier at the start of the dungeon.</IsekaiDungeons.Settings.DecorDepthStart.Desc>
+  <IsekaiDungeons.Settings.DecorDepthEnd>Decor at the far end</IsekaiDungeons.Settings.DecorDepthEnd>
+  <IsekaiDungeons.Settings.DecorDepthEnd.Desc>Decor multiplier in the deepest rooms. Rooms between are interpolated.</IsekaiDungeons.Settings.DecorDepthEnd.Desc>
+  <IsekaiDungeons.Settings.DecorRefineFloors>Worked rock floors</IsekaiDungeons.Settings.DecorRefineFloors>
+  <IsekaiDungeons.Settings.DecorRefineFloors.Desc>Carved dungeons get rough-hewn and then smooth stone floors as rank rises.</IsekaiDungeons.Settings.DecorRefineFloors.Desc>
+  <IsekaiDungeons.Settings.DecorSmoothWalls>Smoothed walls</IsekaiDungeons.Settings.DecorSmoothWalls>
+  <IsekaiDungeons.Settings.DecorSmoothWalls.Desc>Carved dungeons get smoothed rock walls at higher ranks.</IsekaiDungeons.Settings.DecorSmoothWalls.Desc>
+  <IsekaiDungeons.Settings.DecorCorridorTorches>Corridor torches</IsekaiDungeons.Settings.DecorCorridorTorches>
+  <IsekaiDungeons.Settings.DecorCorridorTorches.Desc>Light the corridors of higher-rank dungeons with torches.</IsekaiDungeons.Settings.DecorCorridorTorches.Desc>
+  <IsekaiDungeons.Settings.CorridorTorchSpacingMultiplier>Torch spacing</IsekaiDungeons.Settings.CorridorTorchSpacingMultiplier>
+  <IsekaiDungeons.Settings.CorridorTorchSpacingMultiplier.Desc>Scales the distance between corridor torches. Higher means fewer torches.</IsekaiDungeons.Settings.CorridorTorchSpacingMultiplier.Desc>
+  <IsekaiDungeons.Settings.DecorFireSpacing>Space between fire lights</IsekaiDungeons.Settings.DecorFireSpacing>
+  <IsekaiDungeons.Settings.DecorFireSpacing.Desc>Least distance between two fire lights in the same room.</IsekaiDungeons.Settings.DecorFireSpacing.Desc>
+  <IsekaiDungeons.Settings.DecorPlantFireDistance>Cave plants kept from fire</IsekaiDungeons.Settings.DecorPlantFireDistance>
+  <IsekaiDungeons.Settings.DecorPlantFireDistance.Desc>Least distance between glowing cave plants and fire. Cave plants die in any other light.</IsekaiDungeons.Settings.DecorPlantFireDistance.Desc>
+  <IsekaiDungeons.Settings.DecorAttemptsPerRoom>Decor attempts per room</IsekaiDungeons.Settings.DecorAttemptsPerRoom>
+  <IsekaiDungeons.Settings.DecorAttemptsPerRoom.Desc>Placement tries per room before it gives up. More tries fill crowded rooms better and generate a little slower.</IsekaiDungeons.Settings.DecorAttemptsPerRoom.Desc>
+
+  <!-- ══ Rewards ══ -->
+  <IsekaiDungeons.Settings.Section.Rewards.Value>Treasure value</IsekaiDungeons.Settings.Section.Rewards.Value>
+  <IsekaiDungeons.Settings.Section.Rewards.Composition>What a hoard is made of</IsekaiDungeons.Settings.Section.Rewards.Composition>
+  <IsekaiDungeons.Settings.Section.Rewards.Composition.Note>Spent in order: gear, runes, coin, relics, elixirs. Whatever is left becomes gold and mana cores.</IsekaiDungeons.Settings.Section.Rewards.Composition.Note>
+  <IsekaiDungeons.Settings.Section.Rewards.Chests>Treasure chests</IsekaiDungeons.Settings.Section.Rewards.Chests>
+  <IsekaiDungeons.Settings.Section.Rewards.Chests.Note>Every clear pays one chest of its rank's grade. The extra chests and the rarity weights per grade are on the Advanced tab.</IsekaiDungeons.Settings.Section.Rewards.Chests.Note>
+  <IsekaiDungeons.Settings.Section.Rewards.Experience>Experience</IsekaiDungeons.Settings.Section.Rewards.Experience>
+
+  <IsekaiDungeons.Settings.TreasureLootFraction>Treasure room value</IsekaiDungeons.Settings.TreasureLootFraction>
+  <IsekaiDungeons.Settings.TreasureLootFraction.Desc>A treasure room's value as a share of the boss hoard's value.</IsekaiDungeons.Settings.TreasureLootFraction.Desc>
+  <IsekaiDungeons.Settings.WingLootBonusPerRoom>Longer wing bonus</IsekaiDungeons.Settings.WingLootBonusPerRoom>
+  <IsekaiDungeons.Settings.WingLootBonusPerRoom.Desc>Extra treasure value for each additional room in the wing that leads to it.</IsekaiDungeons.Settings.WingLootBonusPerRoom.Desc>
+  <IsekaiDungeons.Settings.GearShare>Gear</IsekaiDungeons.Settings.GearShare>
+  <IsekaiDungeons.Settings.GearShare.Desc>Share of the hoard's value spent on weapons and armour. Two pieces are always included.</IsekaiDungeons.Settings.GearShare.Desc>
+  <IsekaiDungeons.Settings.CoinShare>Coin</IsekaiDungeons.Settings.CoinShare>
+  <IsekaiDungeons.Settings.CoinShare.Desc>Share of the hoard paid as loose coin.</IsekaiDungeons.Settings.CoinShare.Desc>
+  <IsekaiDungeons.Settings.RelicShare>Relics</IsekaiDungeons.Settings.RelicShare>
+  <IsekaiDungeons.Settings.RelicShare.Desc>Share of the hoard spent on relics, from D rank up.</IsekaiDungeons.Settings.RelicShare.Desc>
+  <IsekaiDungeons.Settings.MaxRelicShare>Most one relic may cost</IsekaiDungeons.Settings.MaxRelicShare>
+  <IsekaiDungeons.Settings.MaxRelicShare.Desc>The priciest single relic, as a share of the hoard's value.</IsekaiDungeons.Settings.MaxRelicShare.Desc>
+  <IsekaiDungeons.Settings.ElixirChance>Elixirs</IsekaiDungeons.Settings.ElixirChance>
+  <IsekaiDungeons.Settings.ElixirChance.Desc>Chance an A-rank or better hoard includes elixirs.</IsekaiDungeons.Settings.ElixirChance.Desc>
+  <IsekaiDungeons.Settings.TreasureGearChance>Gear in treasure rooms</IsekaiDungeons.Settings.TreasureGearChance>
+  <IsekaiDungeons.Settings.TreasureGearChance.Desc>Chance a treasure room holds a weapon or piece of armour.</IsekaiDungeons.Settings.TreasureGearChance.Desc>
+  <IsekaiDungeons.Settings.GateScrollClearChance>Gate scroll in the hoard</IsekaiDungeons.Settings.GateScrollClearChance>
+  <IsekaiDungeons.Settings.GateScrollClearChance.Desc>Chance a cleared dungeon's hoard includes a gate summoning scroll of the dungeon's rank.</IsekaiDungeons.Settings.GateScrollClearChance.Desc>
+  <IsekaiDungeons.Settings.GateScrollTreasureChance>Gate scroll in treasure rooms</IsekaiDungeons.Settings.GateScrollTreasureChance>
+  <IsekaiDungeons.Settings.GateScrollTreasureChance.Desc>Chance a treasure room holds a gate summoning scroll of the dungeon's rank.</IsekaiDungeons.Settings.GateScrollTreasureChance.Desc>
+  <IsekaiDungeons.Settings.GateScrollQuestChance>Gate scroll as quest reward</IsekaiDungeons.Settings.GateScrollQuestChance>
+  <IsekaiDungeons.Settings.GateScrollQuestChance.Desc>Chance an Isekai hunt, bounty or creature quest adds a gate summoning scroll of the quest's rank to its reward.</IsekaiDungeons.Settings.GateScrollQuestChance.Desc>
+  <IsekaiDungeons.Settings.ExtraChestChanceMultiplier>Extra chests</IsekaiDungeons.Settings.ExtraChestChanceMultiplier>
+  <IsekaiDungeons.Settings.ExtraChestChanceMultiplier.Desc>Scales the chance of extra lower-grade chests on top of the one every clear pays.</IsekaiDungeons.Settings.ExtraChestChanceMultiplier.Desc>
+  <IsekaiDungeons.Settings.ChestCommonWeight>Common prizes</IsekaiDungeons.Settings.ChestCommonWeight>
+  <IsekaiDungeons.Settings.ChestCommonWeight.Desc>How likely a chest is to open on a common prize.</IsekaiDungeons.Settings.ChestCommonWeight.Desc>
+  <IsekaiDungeons.Settings.ChestRareWeight>Rare prizes</IsekaiDungeons.Settings.ChestRareWeight>
+  <IsekaiDungeons.Settings.ChestRareWeight.Desc>How likely a chest is to open on a rare prize.</IsekaiDungeons.Settings.ChestRareWeight.Desc>
+  <IsekaiDungeons.Settings.ChestEpicWeight>Epic prizes</IsekaiDungeons.Settings.ChestEpicWeight>
+  <IsekaiDungeons.Settings.ChestEpicWeight.Desc>How likely a chest is to open on an epic prize.</IsekaiDungeons.Settings.ChestEpicWeight.Desc>
+  <IsekaiDungeons.Settings.ChestLegendaryWeight>Legendary prizes</IsekaiDungeons.Settings.ChestLegendaryWeight>
+  <IsekaiDungeons.Settings.ChestLegendaryWeight.Desc>How likely a chest is to open on a legendary prize. Rarity also sets the prize's quality, refinement and rune chance.</IsekaiDungeons.Settings.ChestLegendaryWeight.Desc>
+  <IsekaiDungeons.Settings.ChestHaulMessage>Chest haul message</IsekaiDungeons.Settings.ChestHaulMessage>
+  <IsekaiDungeons.Settings.ChestHaulMessage.Desc>Name the chests a clear paid when it pays more than one.</IsekaiDungeons.Settings.ChestHaulMessage.Desc>
+  <IsekaiDungeons.Settings.ClearXpMultiplier>Clear experience premium</IsekaiDungeons.Settings.ClearXpMultiplier>
+  <IsekaiDungeons.Settings.ClearXpMultiplier.Desc>Dungeon clear experience as a multiple of the quest experience for the same rank. Every colonist inside gets it in full.</IsekaiDungeons.Settings.ClearXpMultiplier.Desc>
+
+  <!-- ══ Tower ══ -->
+  <IsekaiDungeons.Settings.Section.Tower.Tower>The tower</IsekaiDungeons.Settings.Section.Tower.Tower>
+  <IsekaiDungeons.Settings.Section.Tower.Tower.Note>A floor's rank and size are fixed the first time anyone reaches it. The tower's rank and size curves are on the Advanced tab.</IsekaiDungeons.Settings.Section.Tower.Tower.Note>
+  <IsekaiDungeons.Settings.Section.Tower.Summit>Summit and godhood</IsekaiDungeons.Settings.Section.Tower.Summit>
+  <IsekaiDungeons.Settings.Section.Tower.Autopilot>Autopilot</IsekaiDungeons.Settings.Section.Tower.Autopilot>
+  <IsekaiDungeons.Settings.Section.Tower.Autopilot.Note>Used by the auto-grind toggle on tower floors and the auto-clear toggle in gate dungeons.</IsekaiDungeons.Settings.Section.Tower.Autopilot.Note>
+
+  <IsekaiDungeons.Settings.TowerRaiseAfterSeconds>The tower rises after</IsekaiDungeons.Settings.TowerRaiseAfterSeconds>
+  <IsekaiDungeons.Settings.TowerRaiseAfterSeconds.Desc>Seconds of unpaused play after starting or loading a game before the tower appears. Also applies to existing saves that have no tower yet.</IsekaiDungeons.Settings.TowerRaiseAfterSeconds.Desc>
+  <IsekaiDungeons.Settings.TowerEncounterMultiplier>Tower encounters</IsekaiDungeons.Settings.TowerEncounterMultiplier>
+  <IsekaiDungeons.Settings.TowerEncounterMultiplier.Desc>Encounter strength on tower floors, on top of the global setting.</IsekaiDungeons.Settings.TowerEncounterMultiplier.Desc>
+  <IsekaiDungeons.Settings.TowerLootMultiplier>Tower loot</IsekaiDungeons.Settings.TowerLootMultiplier>
+  <IsekaiDungeons.Settings.TowerLootMultiplier.Desc>Loot value on tower floors, on top of the global setting.</IsekaiDungeons.Settings.TowerLootMultiplier.Desc>
+  <IsekaiDungeons.Settings.TowerXpMultiplier>Tower experience</IsekaiDungeons.Settings.TowerXpMultiplier>
+  <IsekaiDungeons.Settings.TowerXpMultiplier.Desc>Clear experience on tower floors, on top of the global setting.</IsekaiDungeons.Settings.TowerXpMultiplier.Desc>
+  <IsekaiDungeons.Settings.TowerVillagersMin>Villagers (fewest)</IsekaiDungeons.Settings.TowerVillagersMin>
+  <IsekaiDungeons.Settings.TowerVillagersMin.Desc>Fewest villagers living on a market floor.</IsekaiDungeons.Settings.TowerVillagersMin.Desc>
+  <IsekaiDungeons.Settings.TowerVillagersMax>Villagers (most)</IsekaiDungeons.Settings.TowerVillagersMax>
+  <IsekaiDungeons.Settings.TowerVillagersMax.Desc>Most villagers living on a market floor.</IsekaiDungeons.Settings.TowerVillagersMax.Desc>
+  <IsekaiDungeons.Settings.GodhoodChangesAppearance>Godhood changes appearance</IsekaiDungeons.Settings.GodhoodChangesAppearance>
+  <IsekaiDungeons.Settings.GodhoodChangesAppearance.Desc>Ascending turns the hair white. Turning this off gives every ascended colonist their own hair colour back within seconds. Skin is never changed.</IsekaiDungeons.Settings.GodhoodChangesAppearance.Desc>
+  <IsekaiDungeons.Settings.GodhoodHaloEnabled>Godhood halo</IsekaiDungeons.Settings.GodhoodHaloEnabled>
+  <IsekaiDungeons.Settings.GodhoodHaloEnabled.Desc>Draw the halo over pawns who carry Godhood.</IsekaiDungeons.Settings.GodhoodHaloEnabled.Desc>
+  <IsekaiDungeons.Settings.AutopilotFoodPauseBelow>Stop to eat below</IsekaiDungeons.Settings.AutopilotFoodPauseBelow>
+  <IsekaiDungeons.Settings.AutopilotFoodPauseBelow.Desc>Food level at which an autopilot pawn stops to eat, when nothing hostile is awake.</IsekaiDungeons.Settings.AutopilotFoodPauseBelow.Desc>
+  <IsekaiDungeons.Settings.AutopilotRestPauseBelow>Stop to sleep below</IsekaiDungeons.Settings.AutopilotRestPauseBelow>
+  <IsekaiDungeons.Settings.AutopilotRestPauseBelow.Desc>Rest level at which an autopilot pawn stops to sleep.</IsekaiDungeons.Settings.AutopilotRestPauseBelow.Desc>
+  <IsekaiDungeons.Settings.AutopilotFoodResumeAt>Back to work after eating at</IsekaiDungeons.Settings.AutopilotFoodResumeAt>
+  <IsekaiDungeons.Settings.AutopilotFoodResumeAt.Desc>Food level that sends a paused pawn back to work. Always kept above the stopping level.</IsekaiDungeons.Settings.AutopilotFoodResumeAt.Desc>
+  <IsekaiDungeons.Settings.AutopilotRestResumeAt>Back to work after sleeping at</IsekaiDungeons.Settings.AutopilotRestResumeAt>
+  <IsekaiDungeons.Settings.AutopilotRestResumeAt.Desc>Rest level that sends a paused pawn back to work. Always kept above the stopping level.</IsekaiDungeons.Settings.AutopilotRestResumeAt.Desc>
+  <IsekaiDungeons.Settings.AutopilotRangedHoldFraction>Ranged holding distance</IsekaiDungeons.Settings.AutopilotRangedHoldFraction>
+  <IsekaiDungeons.Settings.AutopilotRangedHoldFraction.Desc>How far into their weapon's range ranged pawns walk before they hold position and fire.</IsekaiDungeons.Settings.AutopilotRangedHoldFraction.Desc>
+  <IsekaiDungeons.Settings.AutopilotIdleTimeoutHours>Give up waiting after</IsekaiDungeons.Settings.AutopilotIdleTimeoutHours>
+  <IsekaiDungeons.Settings.AutopilotIdleTimeoutHours.Desc>A paused pawn who is awake and not eating goes back to work after this long, so empty packs never stall the grind.</IsekaiDungeons.Settings.AutopilotIdleTimeoutHours.Desc>
+  <IsekaiDungeons.Settings.AutopilotSnoozeHours>No new stop for</IsekaiDungeons.Settings.AutopilotSnoozeHours>
+  <IsekaiDungeons.Settings.AutopilotSnoozeHours.Desc>After a stop ends, the pawn cannot stop again for this long.</IsekaiDungeons.Settings.AutopilotSnoozeHours.Desc>
+  <IsekaiDungeons.Settings.AutopilotDeferSeconds>Wait for other orders</IsekaiDungeons.Settings.AutopilotDeferSeconds>
+  <IsekaiDungeons.Settings.AutopilotDeferSeconds.Desc>How long the autopilot stands aside for an order it did not give, from you or from another mod, before it takes over again.</IsekaiDungeons.Settings.AutopilotDeferSeconds.Desc>
+
+  <!-- ══ Deep dungeons ══ -->
+  <IsekaiDungeons.Settings.Section.Deep.Surveys>Surveys</IsekaiDungeons.Settings.Section.Deep.Surveys>
+  <IsekaiDungeons.Settings.Section.Deep.Scaling>Scaling</IsekaiDungeons.Settings.Section.Deep.Scaling>
+  <IsekaiDungeons.Settings.Section.Deep.Behaviours>What carries between floors</IsekaiDungeons.Settings.Section.Deep.Behaviours>
+  <IsekaiDungeons.Settings.Section.Deep.Behaviours.Note>Each deep dungeon has one of these: the dead rise and follow you, creatures flee downward, the hive grows back, the depths go on alert, or the cold or the heat builds floor by floor.</IsekaiDungeons.Settings.Section.Deep.Behaviours.Note>
+
+  <IsekaiDungeons.Settings.ChancePostedDeepReport>Survey chance</IsekaiDungeons.Settings.ChancePostedDeepReport>
+  <IsekaiDungeons.Settings.ChancePostedDeepReport.Desc>Chance a guild cycle reports a deep dungeon instead of posting a contract. With contracts off, every cycle tries a survey.</IsekaiDungeons.Settings.ChancePostedDeepReport.Desc>
+  <IsekaiDungeons.Settings.MaxDeepDungeonsOnPlanet>Surveyed dungeons on the planet</IsekaiDungeons.Settings.MaxDeepDungeonsOnPlanet>
+  <IsekaiDungeons.Settings.MaxDeepDungeonsOnPlanet.Desc>Most deep dungeons that can be on the world map at once.</IsekaiDungeons.Settings.MaxDeepDungeonsOnPlanet.Desc>
+  <IsekaiDungeons.Settings.DeepEncounterMultiplier>Deep encounters</IsekaiDungeons.Settings.DeepEncounterMultiplier>
+  <IsekaiDungeons.Settings.DeepEncounterMultiplier.Desc>Encounter strength on deep dungeon floors, on top of the global setting.</IsekaiDungeons.Settings.DeepEncounterMultiplier.Desc>
+  <IsekaiDungeons.Settings.DeepLootMultiplier>Deep loot</IsekaiDungeons.Settings.DeepLootMultiplier>
+  <IsekaiDungeons.Settings.DeepLootMultiplier.Desc>Loot value on deep dungeon floors, on top of the global setting.</IsekaiDungeons.Settings.DeepLootMultiplier.Desc>
+  <IsekaiDungeons.Settings.DeepXpMultiplier>Deep experience</IsekaiDungeons.Settings.DeepXpMultiplier>
+  <IsekaiDungeons.Settings.DeepXpMultiplier.Desc>Clear experience on deep dungeon floors, on top of the global setting.</IsekaiDungeons.Settings.DeepXpMultiplier.Desc>
+  <IsekaiDungeons.Settings.RisingDeadMax>Most risen dead</IsekaiDungeons.Settings.RisingDeadMax>
+  <IsekaiDungeons.Settings.RisingDeadMax.Desc>Most corpses that rise and follow you down to the next floor.</IsekaiDungeons.Settings.RisingDeadMax.Desc>
+  <IsekaiDungeons.Settings.RetreatMax>Most fled creatures</IsekaiDungeons.Settings.RetreatMax>
+  <IsekaiDungeons.Settings.RetreatMax.Desc>Most creatures that flee down to the next floor and wait for you there.</IsekaiDungeons.Settings.RetreatMax.Desc>
+  <IsekaiDungeons.Settings.RegrowthMinShare>Regrowth (least)</IsekaiDungeons.Settings.RegrowthMinShare>
+  <IsekaiDungeons.Settings.RegrowthMinShare.Desc>Share of a floor's creatures that grows back when you went only one floor past it.</IsekaiDungeons.Settings.RegrowthMinShare.Desc>
+  <IsekaiDungeons.Settings.RegrowthMaxShare>Regrowth (most)</IsekaiDungeons.Settings.RegrowthMaxShare>
+  <IsekaiDungeons.Settings.RegrowthMaxShare.Desc>Share that grows back once you went far enough past it.</IsekaiDungeons.Settings.RegrowthMaxShare.Desc>
+  <IsekaiDungeons.Settings.RegrowthFullAtDepth>Full regrowth after (floors)</IsekaiDungeons.Settings.RegrowthFullAtDepth>
+  <IsekaiDungeons.Settings.RegrowthFullAtDepth.Desc>How many floors past a floor you must go before it grows back fully.</IsekaiDungeons.Settings.RegrowthFullAtDepth.Desc>
+  <IsekaiDungeons.Settings.AlertPerFloor>Alert per floor</IsekaiDungeons.Settings.AlertPerFloor>
+  <IsekaiDungeons.Settings.AlertPerFloor.Desc>Alert gained for each new floor you reach.</IsekaiDungeons.Settings.AlertPerFloor.Desc>
+  <IsekaiDungeons.Settings.AlertPerDay>Alert per day</IsekaiDungeons.Settings.AlertPerDay>
+  <IsekaiDungeons.Settings.AlertPerDay.Desc>Alert gained for each day spent on a floor.</IsekaiDungeons.Settings.AlertPerDay.Desc>
+  <IsekaiDungeons.Settings.AlertMaxShare>Reinforcements at full alert</IsekaiDungeons.Settings.AlertMaxShare>
+  <IsekaiDungeons.Settings.AlertMaxShare.Desc>Extra creatures a floor gets at full alert, as a share of its normal population.</IsekaiDungeons.Settings.AlertMaxShare.Desc>
+  <IsekaiDungeons.Settings.ColdFirstFloorTemp>Deep cold: first floor</IsekaiDungeons.Settings.ColdFirstFloorTemp>
+  <IsekaiDungeons.Settings.ColdFirstFloorTemp.Desc>Temperature on the first floor of a cold dungeon.</IsekaiDungeons.Settings.ColdFirstFloorTemp.Desc>
+  <IsekaiDungeons.Settings.ColdDeepestTemp>Deep cold: deepest floor</IsekaiDungeons.Settings.ColdDeepestTemp>
+  <IsekaiDungeons.Settings.ColdDeepestTemp.Desc>Temperature on its deepest floor. Floors between are interpolated.</IsekaiDungeons.Settings.ColdDeepestTemp.Desc>
+  <IsekaiDungeons.Settings.HeatFirstFloorTemp>Deep heat: first floor</IsekaiDungeons.Settings.HeatFirstFloorTemp>
+  <IsekaiDungeons.Settings.HeatFirstFloorTemp.Desc>Temperature on the first floor of a hot dungeon.</IsekaiDungeons.Settings.HeatFirstFloorTemp.Desc>
+  <IsekaiDungeons.Settings.HeatDeepestTemp>Deep heat: deepest floor</IsekaiDungeons.Settings.HeatDeepestTemp>
+  <IsekaiDungeons.Settings.HeatDeepestTemp.Desc>Temperature on its deepest floor. Floors between are interpolated.</IsekaiDungeons.Settings.HeatDeepestTemp.Desc>
+
+  <!-- ══ Interface ══ -->
+  <IsekaiDungeons.Settings.Section.Interface.Arrival>Arrival</IsekaiDungeons.Settings.Section.Interface.Arrival>
+  <IsekaiDungeons.Settings.Section.Interface.Gates>Gates on the map</IsekaiDungeons.Settings.Section.Interface.Gates>
+  <IsekaiDungeons.Settings.Section.Interface.Treasure>Treasure</IsekaiDungeons.Settings.Section.Interface.Treasure>
+  <IsekaiDungeons.Settings.Section.Interface.Music>Music</IsekaiDungeons.Settings.Section.Interface.Music>
+  <IsekaiDungeons.Settings.Section.Interface.Music.Note>Isekai Leveling's soundtrack switch and volume still apply.</IsekaiDungeons.Settings.Section.Interface.Music.Note>
+
+  <IsekaiDungeons.Settings.TitleCardEnabled>Arrival title card</IsekaiDungeons.Settings.TitleCardEnabled>
+  <IsekaiDungeons.Settings.TitleCardEnabled.Desc>Show the dungeon's name and rank when you arrive.</IsekaiDungeons.Settings.TitleCardEnabled.Desc>
+  <IsekaiDungeons.Settings.GateLabelsEnabled>Gate name labels</IsekaiDungeons.Settings.GateLabelsEnabled>
+  <IsekaiDungeons.Settings.GateLabelsEnabled.Desc>Show a gate's name and rank when you hover over it.</IsekaiDungeons.Settings.GateLabelsEnabled.Desc>
+  <IsekaiDungeons.Settings.GateLabelScale>Gate label size</IsekaiDungeons.Settings.GateLabelScale>
+  <IsekaiDungeons.Settings.GateLabelScale.Desc>Scales the hover label.</IsekaiDungeons.Settings.GateLabelScale.Desc>
+  <IsekaiDungeons.Settings.GateEffectsStrength>Gate glow strength</IsekaiDungeons.Settings.GateEffectsStrength>
+  <IsekaiDungeons.Settings.GateEffectsStrength.Desc>Strength of the white light layered over gate portals.</IsekaiDungeons.Settings.GateEffectsStrength.Desc>
+  <IsekaiDungeons.Settings.ReelSpinSeconds>Treasure reel spin</IsekaiDungeons.Settings.ReelSpinSeconds>
+  <IsekaiDungeons.Settings.ReelSpinSeconds.Desc>How long the chest reel spins before it lands. The prize is decided before it starts, so closing the window early loses nothing.</IsekaiDungeons.Settings.ReelSpinSeconds.Desc>
+  <IsekaiDungeons.Settings.DungeonMusicEnabled>Dungeon music</IsekaiDungeons.Settings.DungeonMusicEnabled>
+  <IsekaiDungeons.Settings.DungeonMusicEnabled.Desc>Play the dungeon themes while you are looking at a dungeon or tower floor.</IsekaiDungeons.Settings.DungeonMusicEnabled.Desc>
+  <IsekaiDungeons.Settings.MusicFadeOutSeconds>Fade out</IsekaiDungeons.Settings.MusicFadeOutSeconds>
+  <IsekaiDungeons.Settings.MusicFadeOutSeconds.Desc>Seconds the old track takes to fade away when a dungeon theme starts or ends.</IsekaiDungeons.Settings.MusicFadeOutSeconds.Desc>
+  <IsekaiDungeons.Settings.MusicGapSeconds>Silence between tracks</IsekaiDungeons.Settings.MusicGapSeconds>
+  <IsekaiDungeons.Settings.MusicGapSeconds.Desc>Quiet between the old track and the new one.</IsekaiDungeons.Settings.MusicGapSeconds.Desc>
+  <IsekaiDungeons.Settings.MusicFadeInSeconds>Fade in</IsekaiDungeons.Settings.MusicFadeInSeconds>
+  <IsekaiDungeons.Settings.MusicFadeInSeconds.Desc>Seconds the new track takes to fade in.</IsekaiDungeons.Settings.MusicFadeInSeconds.Desc>
+  <IsekaiDungeons.Settings.TowerMusicSplitFloor>Tower theme changes after</IsekaiDungeons.Settings.TowerMusicSplitFloor>
+  <IsekaiDungeons.Settings.TowerMusicSplitFloor.Desc>The last floor that plays the lower tower theme.</IsekaiDungeons.Settings.TowerMusicSplitFloor.Desc>
+
+  <!-- ══ Advanced ══ -->
+  <IsekaiDungeons.Settings.Section.Advanced.RankTables>Rank tables</IsekaiDungeons.Settings.Section.Advanced.RankTables>
+  <IsekaiDungeons.Settings.Section.Advanced.RankTables.Note>One column per rank. Where a value is itself a rank, it is a number from 0 (F) to 9 (Nation).</IsekaiDungeons.Settings.Section.Advanced.RankTables.Note>
+  <IsekaiDungeons.Settings.Section.Advanced.Curves>Curves</IsekaiDungeons.Settings.Section.Advanced.Curves>
+  <IsekaiDungeons.Settings.Section.Advanced.Curves.Note>Values between the listed points are interpolated.</IsekaiDungeons.Settings.Section.Advanced.Curves.Note>
+  <IsekaiDungeons.Settings.Section.Advanced.Chests>Chest tables</IsekaiDungeons.Settings.Section.Advanced.Chests>
+  <IsekaiDungeons.Settings.Section.Advanced.Chests.Note>Extra chests: each column is its own chance of one more chest, one grade lower each time. Use + and - to add or remove rolls. Rarity: relative weights, before the Rewards tab multipliers.</IsekaiDungeons.Settings.Section.Advanced.Chests.Note>
+  <IsekaiDungeons.Settings.Section.Advanced.Breach>Breach waves</IsekaiDungeons.Settings.Section.Advanced.Breach>
+  <IsekaiDungeons.Settings.Section.Advanced.Breach.Note>Each wave takes this share of whatever is still inside. The last wave always takes everything, the boss included.</IsekaiDungeons.Settings.Section.Advanced.Breach.Note>
+  <IsekaiDungeons.Settings.Section.Advanced.Internals>Internals</IsekaiDungeons.Settings.Section.Advanced.Internals>
+  <IsekaiDungeons.Settings.Section.Advanced.Performance>Performance</IsekaiDungeons.Settings.Section.Advanced.Performance>
+  <IsekaiDungeons.Settings.Section.Advanced.Performance.Note>Shorter poll intervals react faster and cost more.</IsekaiDungeons.Settings.Section.Advanced.Performance.Note>
+  <IsekaiDungeons.Settings.Section.Advanced.Diagnostics>Diagnostics</IsekaiDungeons.Settings.Section.Advanced.Diagnostics>
+
+  <IsekaiDungeons.Settings.LocalRankTopByColonyRank>Local gate window top</IsekaiDungeons.Settings.LocalRankTopByColonyRank>
+  <IsekaiDungeons.Settings.LocalRankTopByColonyRank.Desc>The highest rank a local gate can roll, by your best colonist's rank. Capped at 8 (SSS).</IsekaiDungeons.Settings.LocalRankTopByColonyRank.Desc>
+  <IsekaiDungeons.Settings.ContractCentreOffsetByBestRank>Contract ranks below your best</IsekaiDungeons.Settings.ContractCentreOffsetByBestRank>
+  <IsekaiDungeons.Settings.ContractCentreOffsetByBestRank.Desc>How many ranks below your best colonist contracts centre on, by that colonist's rank.</IsekaiDungeons.Settings.ContractCentreOffsetByBestRank.Desc>
+  <IsekaiDungeons.Settings.ContractMinTilesByRank>Contract nearest distance</IsekaiDungeons.Settings.ContractMinTilesByRank>
+  <IsekaiDungeons.Settings.ContractMinTilesByRank.Desc>Fewest world tiles away a contract of each rank is posted, before the travel distance setting.</IsekaiDungeons.Settings.ContractMinTilesByRank.Desc>
+  <IsekaiDungeons.Settings.ContractMaxTilesByRank>Contract farthest distance</IsekaiDungeons.Settings.ContractMaxTilesByRank>
+  <IsekaiDungeons.Settings.ContractMaxTilesByRank.Desc>Most world tiles away, before the travel distance setting.</IsekaiDungeons.Settings.ContractMaxTilesByRank.Desc>
+  <IsekaiDungeons.Settings.ContractSilverByRank>Finder's fee silver</IsekaiDungeons.Settings.ContractSilverByRank>
+  <IsekaiDungeons.Settings.ContractSilverByRank.Desc>Silver the guild pays at each rank, before the finder's fee setting.</IsekaiDungeons.Settings.ContractSilverByRank.Desc>
+  <IsekaiDungeons.Settings.ContractGuildGoodwillByRank>Guild goodwill</IsekaiDungeons.Settings.ContractGuildGoodwillByRank>
+  <IsekaiDungeons.Settings.ContractGuildGoodwillByRank.Desc>Goodwill with the Adventurers' Guild for completing a contract at each rank. Needs the Guild Faction add-on.</IsekaiDungeons.Settings.ContractGuildGoodwillByRank.Desc>
+  <IsekaiDungeons.Settings.ClearXpBaseByRank>Clear experience base</IsekaiDungeons.Settings.ClearXpBaseByRank>
+  <IsekaiDungeons.Settings.ClearXpBaseByRank.Desc>Base experience at each rank, before the clear experience premium.</IsekaiDungeons.Settings.ClearXpBaseByRank.Desc>
+  <IsekaiDungeons.Settings.ShortcutBudgetByRank>Shortcut corridors by rank</IsekaiDungeons.Settings.ShortcutBudgetByRank>
+  <IsekaiDungeons.Settings.ShortcutBudgetByRank.Desc>Extra corridors a dungeon of each rank may add, before the shortcut setting.</IsekaiDungeons.Settings.ShortcutBudgetByRank.Desc>
+  <IsekaiDungeons.Settings.MaxWingLengthByRank>Longest wing by rank</IsekaiDungeons.Settings.MaxWingLengthByRank>
+  <IsekaiDungeons.Settings.MaxWingLengthByRank.Desc>Longest optional branch at each rank, before the side wing setting.</IsekaiDungeons.Settings.MaxWingLengthByRank.Desc>
+  <IsekaiDungeons.Settings.RelicDrawsByRank>Relics by rank</IsekaiDungeons.Settings.RelicDrawsByRank>
+  <IsekaiDungeons.Settings.RelicDrawsByRank.Desc>Expected relics per hoard. The whole part is guaranteed and the rest is a chance. F and E are zero on purpose: the only relic cheap enough there is one nobody can use yet.</IsekaiDungeons.Settings.RelicDrawsByRank.Desc>
+  <IsekaiDungeons.Settings.GeneCountByRank>Genes per genepack</IsekaiDungeons.Settings.GeneCountByRank>
+  <IsekaiDungeons.Settings.GeneCountByRank.Desc>Genes packed into a relic genepack at each rank.</IsekaiDungeons.Settings.GeneCountByRank.Desc>
+  <IsekaiDungeons.Settings.DecorPointsByRank>Decor points</IsekaiDungeons.Settings.DecorPointsByRank>
+  <IsekaiDungeons.Settings.DecorPointsByRank.Desc>Decor budget of a reference room at each rank.</IsekaiDungeons.Settings.DecorPointsByRank.Desc>
+  <IsekaiDungeons.Settings.TowerRankByFloor>Tower rank by floor</IsekaiDungeons.Settings.TowerRankByFloor>
+  <IsekaiDungeons.Settings.TowerRankByFloor.Desc>Rank number at each floor, from 0 (F) to 8 (SSS). Only floors nobody has reached yet are affected.</IsekaiDungeons.Settings.TowerRankByFloor.Desc>
+  <IsekaiDungeons.Settings.TowerMapSizeByFloor>Tower map size by floor</IsekaiDungeons.Settings.TowerMapSizeByFloor>
+  <IsekaiDungeons.Settings.TowerMapSizeByFloor.Desc>Map edge length at each floor, before the map size setting. Only floors nobody has reached yet are affected.</IsekaiDungeons.Settings.TowerMapSizeByFloor.Desc>
+  <IsekaiDungeons.Settings.CorridorTorchSpacingByRegister>Corridor torch spacing</IsekaiDungeons.Settings.CorridorTorchSpacingByRegister>
+  <IsekaiDungeons.Settings.CorridorTorchSpacingByRegister.Desc>Cells between corridor torches at each decor level, from the lowest ranks to the highest. Zero means no torches.</IsekaiDungeons.Settings.CorridorTorchSpacingByRegister.Desc>
+  <IsekaiDungeons.Settings.ExtraChestChancesBronze>Extra chests on a bronze clear</IsekaiDungeons.Settings.ExtraChestChancesBronze>
+  <IsekaiDungeons.Settings.ExtraChestChancesBronze.Desc>Chances of extra chests when a clear pays bronze (F to C). Nothing is below bronze, so its rolls repeat bronze.</IsekaiDungeons.Settings.ExtraChestChancesBronze.Desc>
+  <IsekaiDungeons.Settings.ExtraChestChancesSilver>Extra chests on a silver clear</IsekaiDungeons.Settings.ExtraChestChancesSilver>
+  <IsekaiDungeons.Settings.ExtraChestChancesSilver.Desc>Chances of extra chests when a clear pays silver (B and A).</IsekaiDungeons.Settings.ExtraChestChancesSilver.Desc>
+  <IsekaiDungeons.Settings.ExtraChestChancesGold>Extra chests on a gold clear</IsekaiDungeons.Settings.ExtraChestChancesGold>
+  <IsekaiDungeons.Settings.ExtraChestChancesGold.Desc>Chances of extra chests when a clear pays gold (S and SS).</IsekaiDungeons.Settings.ExtraChestChancesGold.Desc>
+  <IsekaiDungeons.Settings.ExtraChestChancesJade>Extra chests on a jade clear</IsekaiDungeons.Settings.ExtraChestChancesJade>
+  <IsekaiDungeons.Settings.ExtraChestChancesJade.Desc>Chances of extra chests when a clear pays jade (SSS and Nation).</IsekaiDungeons.Settings.ExtraChestChancesJade.Desc>
+  <IsekaiDungeons.Settings.RarityWeightsBronze>Bronze chest rarity</IsekaiDungeons.Settings.RarityWeightsBronze>
+  <IsekaiDungeons.Settings.RarityWeightsBronze.Desc>Relative weight of each rarity in a bronze chest.</IsekaiDungeons.Settings.RarityWeightsBronze.Desc>
+  <IsekaiDungeons.Settings.RarityWeightsSilver>Silver chest rarity</IsekaiDungeons.Settings.RarityWeightsSilver>
+  <IsekaiDungeons.Settings.RarityWeightsSilver.Desc>Relative weight of each rarity in a silver chest.</IsekaiDungeons.Settings.RarityWeightsSilver.Desc>
+  <IsekaiDungeons.Settings.RarityWeightsGold>Gold chest rarity</IsekaiDungeons.Settings.RarityWeightsGold>
+  <IsekaiDungeons.Settings.RarityWeightsGold.Desc>Relative weight of each rarity in a gold chest.</IsekaiDungeons.Settings.RarityWeightsGold.Desc>
+  <IsekaiDungeons.Settings.RarityWeightsJade>Jade chest rarity</IsekaiDungeons.Settings.RarityWeightsJade>
+  <IsekaiDungeons.Settings.RarityWeightsJade.Desc>Relative weight of each rarity in a jade chest.</IsekaiDungeons.Settings.RarityWeightsJade.Desc>
+  <IsekaiDungeons.Settings.BreachWaveShares>Breach wave shares</IsekaiDungeons.Settings.BreachWaveShares>
+  <IsekaiDungeons.Settings.BreachWaveShares.Desc>Share of the creatures still inside that each wave takes, in order. The number of values is the number of waves.</IsekaiDungeons.Settings.BreachWaveShares.Desc>
+  <IsekaiDungeons.Settings.MaxShortcutSkip>Rooms a shortcut may skip</IsekaiDungeons.Settings.MaxShortcutSkip>
+  <IsekaiDungeons.Settings.MaxShortcutSkip.Desc>Most main-path rooms one shortcut may bypass below S rank.</IsekaiDungeons.Settings.MaxShortcutSkip.Desc>
+  <IsekaiDungeons.Settings.MaxShortcutSkipHighRank>Rooms a shortcut may skip (S and up)</IsekaiDungeons.Settings.MaxShortcutSkipHighRank>
+  <IsekaiDungeons.Settings.MaxShortcutSkipHighRank.Desc>The same, at S rank and above.</IsekaiDungeons.Settings.MaxShortcutSkipHighRank.Desc>
+  <IsekaiDungeons.Settings.WingDepthStepFrac>Wing depth step</IsekaiDungeons.Settings.WingDepthStepFrac>
+  <IsekaiDungeons.Settings.WingDepthStepFrac.Desc>How much deeper each wing room counts, as a share of one main-path step. Deeper rooms get stronger creatures.</IsekaiDungeons.Settings.WingDepthStepFrac.Desc>
+  <IsekaiDungeons.Settings.OpenPackingEfficiency>Open field packing</IsekaiDungeons.Settings.OpenPackingEfficiency>
+  <IsekaiDungeons.Settings.OpenPackingEfficiency.Desc>Share of an open field's area its encounter zones may cover.</IsekaiDungeons.Settings.OpenPackingEfficiency.Desc>
+  <IsekaiDungeons.Settings.DecorReferenceArea>Decor reference area</IsekaiDungeons.Settings.DecorReferenceArea>
+  <IsekaiDungeons.Settings.DecorReferenceArea.Desc>Room size in cells that gets exactly the rank's decor points. Bigger rooms get more, smaller ones less.</IsekaiDungeons.Settings.DecorReferenceArea.Desc>
+  <IsekaiDungeons.Settings.DecorAreaFactorMin>Small room decor floor</IsekaiDungeons.Settings.DecorAreaFactorMin>
+  <IsekaiDungeons.Settings.DecorAreaFactorMin.Desc>Least decor multiplier a small room gets for its size.</IsekaiDungeons.Settings.DecorAreaFactorMin.Desc>
+  <IsekaiDungeons.Settings.DecorAreaFactorMax>Large room decor ceiling</IsekaiDungeons.Settings.DecorAreaFactorMax>
+  <IsekaiDungeons.Settings.DecorAreaFactorMax.Desc>Most decor multiplier a large room gets for its size.</IsekaiDungeons.Settings.DecorAreaFactorMax.Desc>
+  <IsekaiDungeons.Settings.BeastVaultPickAttempts>Beast vault picks</IsekaiDungeons.Settings.BeastVaultPickAttempts>
+  <IsekaiDungeons.Settings.BeastVaultPickAttempts.Desc>Tries to find a tameable creature for a beast vault before giving up on it.</IsekaiDungeons.Settings.BeastVaultPickAttempts.Desc>
+  <IsekaiDungeons.Settings.RosterRankMargin>Creatures above the dungeon</IsekaiDungeons.Settings.RosterRankMargin>
+  <IsekaiDungeons.Settings.RosterRankMargin.Desc>How many ranks above the dungeon a themed creature or boss may be.</IsekaiDungeons.Settings.RosterRankMargin.Desc>
+  <IsekaiDungeons.Settings.RosterRankFloorMargin>Creatures below the dungeon</IsekaiDungeons.Settings.RosterRankFloorMargin>
+  <IsekaiDungeons.Settings.RosterRankFloorMargin.Desc>How many ranks below the dungeon a ranked creature may be.</IsekaiDungeons.Settings.RosterRankFloorMargin.Desc>
+  <IsekaiDungeons.Settings.BackboneWeightFactor>Vanilla creature dungeons</IsekaiDungeons.Settings.BackboneWeightFactor>
+  <IsekaiDungeons.Settings.BackboneWeightFactor.Desc>How often a dungeon of vanilla creatures is picked when themed dungeons exist at the same rank.</IsekaiDungeons.Settings.BackboneWeightFactor.Desc>
+  <IsekaiDungeons.Settings.LootFallbackMultiplier>Fallback loot multiplier</IsekaiDungeons.Settings.LootFallbackMultiplier>
+  <IsekaiDungeons.Settings.LootFallbackMultiplier.Desc>Only used by a dungeon type that has no loot curve of its own, such as one from another mod.</IsekaiDungeons.Settings.LootFallbackMultiplier.Desc>
+  <IsekaiDungeons.Settings.RelicSoftFloorShare>Cheap relic cutoff</IsekaiDungeons.Settings.RelicSoftFloorShare>
+  <IsekaiDungeons.Settings.RelicSoftFloorShare.Desc>Relics worth less than this share of the hoard become less likely, so high ranks stop paying out trinkets.</IsekaiDungeons.Settings.RelicSoftFloorShare.Desc>
+  <IsekaiDungeons.Settings.GateStateIntervalTicks>Gate poll interval (ticks)</IsekaiDungeons.Settings.GateStateIntervalTicks>
+  <IsekaiDungeons.Settings.GateStateIntervalTicks.Desc>How often gates check their countdown and breach state. 60 ticks is one second at normal speed.</IsekaiDungeons.Settings.GateStateIntervalTicks.Desc>
+  <IsekaiDungeons.Settings.MapStateIntervalTicks>Dungeon poll interval (ticks)</IsekaiDungeons.Settings.MapStateIntervalTicks>
+  <IsekaiDungeons.Settings.MapStateIntervalTicks.Desc>How often a dungeon checks room aggro and whether it has been cleared.</IsekaiDungeons.Settings.MapStateIntervalTicks.Desc>
+  <IsekaiDungeons.Settings.SuppressDungeonWildlife>No wildlife in dungeons</IsekaiDungeons.Settings.SuppressDungeonWildlife>
+  <IsekaiDungeons.Settings.SuppressDungeonWildlife.Desc>Stop the biome's wild animals wandering into dungeon maps. Turning this off lets them in, and every animal is another pawn to simulate.</IsekaiDungeons.Settings.SuppressDungeonWildlife.Desc>
+  <IsekaiDungeons.Settings.LogGenerationSummaries>Log generation summaries</IsekaiDungeons.Settings.LogGenerationSummaries>
+  <IsekaiDungeons.Settings.LogGenerationSummaries.Desc>Write one line to the log for each generated layout and decor pass. Useful when reporting a bug.</IsekaiDungeons.Settings.LogGenerationSummaries.Desc>
+
+</LanguageData>

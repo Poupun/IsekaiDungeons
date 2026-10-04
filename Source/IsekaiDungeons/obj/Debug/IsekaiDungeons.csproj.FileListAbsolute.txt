@@ -1,0 +1,5 @@
+C:\Users\User\OneDrive\Documents\Jelly Creative\Modding\Rimworld\IsekaiDungeons\Assemblies\IsekaiDungeons.dll
+C:\Users\User\OneDrive\Documents\Jelly Creative\Modding\Rimworld\IsekaiDungeons\Source\IsekaiDungeons\obj\Debug\IsekaiDungeons.csproj.AssemblyReference.cache
+C:\Users\User\OneDrive\Documents\Jelly Creative\Modding\Rimworld\IsekaiDungeons\Source\IsekaiDungeons\obj\Debug\IsekaiDungeons.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\OneDrive\Documents\Jelly Creative\Modding\Rimworld\IsekaiDungeons\Source\IsekaiDungeons\obj\Debug\IsekaiDungeons.csproj.CoreCompileInputs.cache
+C:\Users\User\OneDrive\Documents\Jelly Creative\Modding\Rimworld\IsekaiDungeons\Source\IsekaiDungeons\obj\Debug\IsekaiDungeons.dll

@@ -1,0 +1,64 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\User\\OneDrive\\Documents\\Jelly Creative\\Modding\\Rimworld\\IsekaiDungeons\\Source\\IsekaiDungeons\\IsekaiDungeons.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\User\\OneDrive\\Documents\\Jelly Creative\\Modding\\Rimworld\\IsekaiDungeons\\Source\\IsekaiDungeons\\IsekaiDungeons.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\User\\OneDrive\\Documents\\Jelly Creative\\Modding\\Rimworld\\IsekaiDungeons\\Source\\IsekaiDungeons\\IsekaiDungeons.csproj",
+        "projectName": "IsekaiDungeons",
+        "projectPath": "C:\\Users\\User\\OneDrive\\Documents\\Jelly Creative\\Modding\\Rimworld\\IsekaiDungeons\\Source\\IsekaiDungeons\\IsekaiDungeons.csproj",
+        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\User\\OneDrive\\Documents\\Jelly Creative\\Modding\\Rimworld\\IsekaiDungeons\\Source\\IsekaiDungeons\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net48"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net48": {
+            "targetAlias": "net48",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net48": {
+          "targetAlias": "net48",
+          "dependencies": {
+            "Lib.Harmony": {
+              "include": "Compile, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "target": "Package",
+              "version": "[2.2.2, )"
+            },
+            "Microsoft.NETFramework.ReferenceAssemblies": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.0.3, )",
+              "autoReferenced": true
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.304\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

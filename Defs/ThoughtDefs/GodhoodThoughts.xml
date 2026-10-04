@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    ANGELIC — what it is like to stand in a room with a god.
+
+    Social-situational, the same machinery as vanilla's Pretty: every humanlike
+    who knows them and can see carries the opinion while the godhood trait is
+    carried. +50 is deliberately past the top of the beauty ladder (stunning is
+    +40) — this is not "very pretty", it is a different category of thing, the
+    face gone magnificently androgynous and the hair gone white.
+
+    NO nullifyingTraits, unlike Pretty (Ascetic, Kind). An ascetic can decline
+    to care that someone is handsome; declining to notice an ascended being is
+    not a temperament, and Kind pawns are not "seeing past" anything — there is
+    nothing unkind in awe.
+
+    Worker checks sight on the observer (blind pawns keep their own counsel)
+    but deliberately NOT disfigurement on the god — a scar does not dent
+    divinity. See ThoughtWorker_Angelic.
+  -->
+  <ThoughtDef>
+    <defName>IsekaiDungeons_Angelic</defName>
+    <thoughtClass>Thought_SituationalSocial</thoughtClass>
+    <workerClass>IsekaiDungeons.ThoughtWorker_Angelic</workerClass>
+    <validWhileDespawned>true</validWhileDespawned>
+    <stages>
+      <li>
+        <label>angelic</label>
+        <baseOpinionOffset>50</baseOpinionOffset>
+      </li>
+    </stages>
+  </ThoughtDef>
+
+</Defs>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Patch>
+  <!--
+    The Ancient Complex stairway is the icon that reads as "a way down", but it
+    ships in Ideology's asset bundle, not Core. The defs default to Core art so
+    a no-DLC game never asks for a texture that is not there; this puts the
+    stairway back when Ideology is loaded.
+  -->
+  <Operation Class="PatchOperationFindMod">
+    <mods>
+      <li>Ideology</li>
+    </mods>
+    <match Class="PatchOperationSequence">
+      <operations>
+        <li Class="PatchOperationReplace">
+          <xpath>Defs/SitePartDef[defName="IsekaiDungeons_DungeonContractPart"]/expandingIconTexture</xpath>
+          <value>
+            <expandingIconTexture>World/WorldObjects/Expanding/Sites/AncientComplex</expandingIconTexture>
+          </value>
+        </li>
+        <li Class="PatchOperationReplace">
+          <xpath>Defs/WorldObjectDef[defName="IsekaiDungeons_MultiFloorDungeon"]/expandingIconTexture</xpath>
+          <value>
+            <expandingIconTexture>World/WorldObjects/Expanding/Sites/AncientComplex</expandingIconTexture>
+          </value>
+        </li>
+      </operations>
+    </match>
+  </Operation>
+</Patch>

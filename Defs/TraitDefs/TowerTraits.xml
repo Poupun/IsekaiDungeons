@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    GODHOOD - the Tower of Gods summit reward.
+
+    SHIPS IN THE ADD-ON BY DESIGN. The tower is what grants it, so the tower is
+    what should own it: keeping the power means keeping the mod that earned it.
+
+    THE CONSEQUENCE, STATED PLAINLY. Verse.Trait.ExposeData does not drop an
+    unresolvable TraitDef - at ResolvingCrossRefs it runs
+    "def = DefDatabase<TraitDef>.GetRandom()". So removing this add-on from a
+    save where someone holds Godhood does not remove the trait; it replaces it
+    with a RANDOM vanilla trait, which could be anything at all. That is
+    RimWorld behaviour and no mod can intercept it, because by then this mod is
+    not loaded to intercept anything.
+
+    THE TRAIT ITSELF IS INERT - completely. No stat offsets, no XP multiplier
+    (the old x100 was a placeholder and is gone), no abilities.
+    Everything godhood actually DOES lives elsewhere and keys off this defName
+    STRING, so the base mod stays perfectly happy when this def is absent:
+
+      - IsekaiDungeons_GodhoodBody (GodhoodHediff.xml) is the physiology -
+        ageless, disease-proof, unkillable short of the brain, incapable of a
+        mental break, psychically sensitive past all reason, white hair.
+        Paired to this trait in both directions by GodhoodBodyUtility.
+      - IsekaiDungeons_Angelic (GodhoodThoughts.xml) is the +50 opinion.
+      - GodhoodHalo draws the mark.
+      - IsekaiLeveling's TraitColorPatch paints the label gold, the same gold
+        the archetypes and ranks S/SS/SSS wear.
+
+    EARNED ONLY. commonality 0 so it never rolls at pawn generation, and it is
+    deliberately absent from RollableTraits and TraitCommonality.
+
+    NO conflictingTraits, on purpose. AddIsekaiTrait scans reverse conflicts, so
+    anything listed here would make the summit token silently refuse to work on
+    that archetype - including Protagonist, who is the pawn most likely to have
+    been sent up the tower in the first place.
+  -->
+  <TraitDef>
+    <defName>Isekai_Godhood</defName>
+    <commonality>0</commonality>
+    <degreeDatas>
+      <li>
+        <label>godhood</label>
+        <description>This one climbed the tower to the top, and whatever was waiting up there did not send them back the way they came.
+
+They are not stronger than they were, and they do not learn any faster. What changed is the body they came back in. The hair has gone white as fresh snow, the face somewhere past man or woman, and people who meet them forget what they were about to say.
+
+It has stopped aging - not slowed, stopped, on the day they came down. Sickness will not take hold of it: plagues burn out, parasites starve, and the slow failures of old flesh simply never arrive. And it will not die. Wounds that would kill anyone else put it into a healing sleep instead, and it wakes up.
+
+Nothing reaches the mind either. Grief, terror, the long grinding misery that breaks ordinary people - it arrives, and it finds nowhere to land. What did get through is the other direction: the psychic weather of the world is deafening to them now, and they have learned to stand inside it and use it.
+
+There is one way to end them, and everyone who has thought about it for a minute has worked out what it is.
+
+They do not talk about the hundredth floor.
+
+- Does not age
+- Immune to disease, infection, and the failures of old flesh
+- Cannot die unless the brain is destroyed
+- Never suffers a mental break, whatever is done to them
+- Psychic sensitivity +1000%
+- Beheld as angelic (+50 opinion from those who can see)
+- Cannot be born with it. It is taken.</description>
+        <degree>0</degree>
+        <!--
+          NO statOffsets, and both removals are deliberate.
+
+          PsychicSensitivity +20% moved to IsekaiDungeons_GodhoodBody and became
+          +1000% there. MentalBreakThreshold -10% is simply superseded: the body
+          sets blocksMentalBreaks, so a god cannot break at all and nudging the
+          threshold they no longer have is noise on the character sheet.
+
+          Which leaves this trait carrying no mechanical effect whatsoever - and
+          that is the intended shape. See the header: identity here, physiology
+          in the hediff, one place to look for each.
+        -->
+      </li>
+    </degreeDatas>
+  </TraitDef>
+
+</Defs>

@@ -1,0 +1,674 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+  <!--
+    Isekai Dungeons Add-on — English source strings.
+    TRANSLATORS: translate ONLY the text between the tags. Never change the tag names.
+      {RANK}  = the dungeon's rank letter (F…SSS, Nation), already colored by the game.
+      {DAYS}  = a plain number of days, e.g. "4".
+      {TIME}  = an already-formatted time period, e.g. "2.3 days" or "18 hours".
+      {XP} / {COUNT} = formatted numbers.
+      Keep every placeholder EXACTLY as written, braces and CAPITALS included.
+      You MAY move a placeholder anywhere in the sentence.
+      \n = a line break. Keep it.
+      &lt;color=#RRGGBB&gt;...&lt;/color&gt; = colour markup. Keep the tags, translate the text inside.
+    Each key holds a WHOLE sentence so you can reorder words naturally in your language.
+  -->
+
+  <!-- ═══ Letters — gate lifecycle, in chronological order ═══ -->
+
+  <!-- Letter title when a gate spawns. -->
+  <IsekaiDungeons.Letter.GateSpawned.Label>{RANK}-rank gate opened</IsekaiDungeons.Letter.GateSpawned.Label>
+  <IsekaiDungeons.Letter.GateSpawned.Text>The air split open with a sound like tearing cloth. A stone arch now stands where there was nothing, and behind it hangs a darkness that presses against the skin — raw mana leaking through from somewhere else.\n\nThe pressure marks it plainly: this gate is {RANK}-rank. Clear the dungeon behind it — kill the boss that rules it — and the gate dies with its master.\n\nIf no one does, the gate will break in {DAYS} days, and everything nesting inside will pour out at once.</IsekaiDungeons.Letter.GateSpawned.Text>
+
+  <!-- Appended to the GateSpawned letter body when the gate rolled ABOVE the colony's rank cap. -->
+  <IsekaiDungeons.Letter.RedGate.Suffix>\n\n&lt;color=#FF4444&gt;WARNING: This is a red gate. The mana pressure reads a full rank above anything this colony has ever fielded. Enter only with everything you have — or dig in and prepare for the break.&lt;/color&gt;</IsekaiDungeons.Letter.RedGate.Suffix>
+
+  <!-- Warning letter at the halfway point of the countdown. -->
+  <IsekaiDungeons.Letter.HalfTime.Label>Gate at half-time: {RANK}</IsekaiDungeons.Letter.HalfTime.Label>
+  <IsekaiDungeons.Letter.HalfTime.Text>Half of the {RANK}-rank gate's countdown is gone. The arch has begun to hum, and the darkness inside it swells against the surface like water behind glass.\n\nTime remaining before the break: {TIME}.</IsekaiDungeons.Letter.HalfTime.Text>
+
+  <!-- Warning letter when less than a day remains. -->
+  <IsekaiDungeons.Letter.FinalWarning.Label>Gate breaking soon: {RANK}</IsekaiDungeons.Letter.FinalWarning.Label>
+  <IsekaiDungeons.Letter.FinalWarning.Text>The {RANK}-rank gate is failing. Hairline cracks of violet light crawl across the arch, and the mana pressure around it is strong enough to taste.\n\nOnly {TIME} remains. After that, the dungeon empties itself onto the colony.</IsekaiDungeons.Letter.FinalWarning.Text>
+
+  <!-- Letter on FIRST entry. The body is COMPOSED at runtime from the four
+       Narrative.* fragments below (where / how big / how bad / what now), so a
+       cave and a snowfield do not share one description. {DUNGEON} is the
+       dungeon's own label. -->
+  <IsekaiDungeons.Letter.Entered.Label>Entered {DUNGEON} ({RANK})</IsekaiDungeons.Letter.Entered.Label>
+
+  <!-- Positive letter when the boss is defeated. {XP} is the amount EVERY colonist inside received. -->
+  <IsekaiDungeons.Letter.Cleared.Label>Dungeon cleared: {RANK}</IsekaiDungeons.Letter.Cleared.Label>
+  <IsekaiDungeons.Letter.Cleared.Text>The boss is down, and the dungeon knows it. The crushing mana pressure collapses like a held breath let out — the countdown is broken. This {RANK}-rank gate will never burst.\n\nEvery colonist inside felt the dungeon's mana rush through them as it died: {XP} XP each.\n\nThe boss chamber holds the dungeon's hoard. Haul it out before the gate closes for good.</IsekaiDungeons.Letter.Cleared.Text>
+
+  <!-- ═══ The breach ═══
+       The countdown expiring does not end the dungeon. It starts draining
+       itself onto the colony map, one wave a day, weakest first — and the gate
+       stays OPEN throughout, so the player can still storm it and race the
+       dungeon to its own boss. {WAVES} is the total number of waves. -->
+
+  <IsekaiDungeons.Letter.Breach.Label>GATE BREACHED: {RANK}</IsekaiDungeons.Letter.Breach.Label>
+  <IsekaiDungeons.Letter.Breach.Text>The countdown reached zero and the {RANK}-rank gate tore wide open. It did not shatter — it is worse than that. The dungeon is emptying itself onto your ground, and it is taking its time.
+
+Expect {WAVES} waves, one a day, weakest first. The last one brings whatever rules the place.
+
+The arch is still standing, and it still leads somewhere. If you go in now and kill the master before it walks out on its own, the rest never comes.</IsekaiDungeons.Letter.Breach.Text>
+
+  <!-- One per ordinary wave. -->
+  <IsekaiDungeons.Letter.BreachWave.Label>Breach wave {WAVE}/{WAVES}</IsekaiDungeons.Letter.BreachWave.Label>
+  <IsekaiDungeons.Letter.BreachWave.Text>{COUNT} creatures walk out of the {RANK}-rank breach and turn on the colony. That is wave {WAVE} of {WAVES}.
+
+Whatever is left inside is stronger than what just came out.</IsekaiDungeons.Letter.BreachWave.Text>
+
+  <!-- The last wave: everything still standing, plus the boss. -->
+  <IsekaiDungeons.Letter.BreachFinal.Label>THE GATE EMPTIES: wave {WAVE}/{WAVES}</IsekaiDungeons.Letter.BreachFinal.Label>
+  <IsekaiDungeons.Letter.BreachFinal.Text>The {RANK}-rank dungeon comes out all at once — {COUNT} of them, and the thing that ruled them walking in the middle of it. The arch behind them is already going dark.
+
+It still carries the dungeon's hoard. Kill it here and the dungeon pays what it owed.</IsekaiDungeons.Letter.BreachFinal.Text>
+
+  <!-- Killing an escaped boss on the colony map. Same reward as a clear. -->
+  <IsekaiDungeons.Letter.BossSlain.Label>Dungeon settled: {RANK}</IsekaiDungeons.Letter.BossSlain.Label>
+  <IsekaiDungeons.Letter.BossSlain.Text>The master of {DUNGEON} is dead on your own ground, and the debt goes with it. The hoard it was carrying spills out where it fell.
+
+Everyone who stood the line takes {XP} XP.
+
+It would have been worth more inside — the treasure the dungeon hid in its side rooms burned with the gate. But the fight is over, and you won it.</IsekaiDungeons.Letter.BossSlain.Text>
+
+  <!-- Kept for the one case that cannot have a breach: a dungeon whose map
+       will not generate, which erupts in one go the way gates used to. -->
+  <IsekaiDungeons.Letter.Break.Label>DUNGEON BREAK: {RANK}</IsekaiDungeons.Letter.Break.Label>
+  <IsekaiDungeons.Letter.Break.Text>The countdown reached zero. The {RANK}-rank gate shattered like glass — and the dungeon emptied itself in a single breath.\n\n{COUNT} creatures have poured out of the broken arch, mad with gate-mana and hostile to everything that breathes. There is no dungeon left to clear. There is only the fight.</IsekaiDungeons.Letter.Break.Text>
+
+  <!-- ═══ On-screen messages ═══ -->
+
+  <!-- Message when a spent gate finally collapses (after the loot window). -->
+  <IsekaiDungeons.Message.Collapsed>The {RANK}-rank dungeon gate crumbles into dead stone.</IsekaiDungeons.Message.Collapsed>
+  <!-- Message when the breach has released everything and the arch dies. -->
+  <!-- Shown INSIDE the dungeon when a wave leaves, so creatures do not simply vanish. -->
+  <IsekaiDungeons.Message.WaveDeparting>The dungeon is emptying around you — they are being pulled out through the gate.</IsekaiDungeons.Message.WaveDeparting>
+  <IsekaiDungeons.Message.BreachSpent>The {RANK}-rank gate collapses. Everything it held is out here with you now.</IsekaiDungeons.Message.BreachSpent>
+  <!-- Message when a dungeon room's creatures notice an intruding colonist. Keep it short and ominous. -->
+  <IsekaiDungeons.Message.RoomAggro>Something in the dark has noticed you.</IsekaiDungeons.Message.RoomAggro>
+
+  <!-- Shown when dungeon map generation failed and was cleaned up. Rare; a bug indicator. -->
+  <IsekaiDungeons.Message.GenerationFailed>The gate flickers and refuses to open. Whatever lies beyond it failed to take shape.</IsekaiDungeons.Message.GenerationFailed>
+
+  <!-- Disabled-reason once generation failed for this gate; it can never open. -->
+  <IsekaiDungeons.Gate.GenerationFailedReason>the space beyond this gate never formed</IsekaiDungeons.Gate.GenerationFailedReason>
+
+  <!-- Disabled-reason on the enter gizmo while the gate is tearing itself down. -->
+  <IsekaiDungeons.Gate.CollapsingReason>the gate is collapsing</IsekaiDungeons.Gate.CollapsingReason>
+
+  <!-- ═══ Gate inspect pane (one line each — keep short) ═══ -->
+
+  <IsekaiDungeons.Inspect.Rank>Rank: {RANK}</IsekaiDungeons.Inspect.Rank>
+  <IsekaiDungeons.Inspect.BreakIn>Gate breaks in: {TIME}</IsekaiDungeons.Inspect.BreakIn>
+  <!-- {SENT} waves have ALREADY gone out, of {WAVES}. Phrased as a count of
+       what has left rather than "wave N", which read as though N were in
+       progress when it was actually next. -->
+  <IsekaiDungeons.Inspect.Breaching>BREACHED — {SENT} of {WAVES} waves out</IsekaiDungeons.Inspect.Breaching>
+  <IsekaiDungeons.Inspect.NextWaveIn>Next wave in: {TIME}</IsekaiDungeons.Inspect.NextWaveIn>
+  <IsekaiDungeons.Inspect.BreachSpent>Emptied — the gate is dying</IsekaiDungeons.Inspect.BreachSpent>
+  <IsekaiDungeons.Inspect.ClearedLinger>Cleared — collapses in: {TIME}</IsekaiDungeons.Inspect.ClearedLinger>
+  <!-- Shown when the linger period is over but pawns (or loot hauling) keep the dungeon open. -->
+  <IsekaiDungeons.Inspect.WaitingEmpty>Cleared — waiting for everyone to come out</IsekaiDungeons.Inspect.WaitingEmpty>
+
+  <!-- ═══ Dungeon door inspect pane (one line — keep short) ═══ -->
+
+  <!-- Appended to the vanilla door inspect lines. Tells the player two things:
+       the dungeon's own creatures cannot use this door, and opening it is a
+       one-way decision. No placeholders. -->
+  <IsekaiDungeons.Door.Inspect>Sealed by the dungeon — nothing inside can open it. Once forced, it stays open.</IsekaiDungeons.Door.Inspect>
+
+  <!-- ═══ Room events ═══ -->
+
+  <!-- Shown when the party walks into a room another delving party holds. -->
+  <IsekaiDungeons.Event.RivalParty.Entered>Another party is already here — and they have seen you.</IsekaiDungeons.Event.RivalParty.Entered>
+
+  <!-- Trap warning. The blast lands ~2 seconds later, so this is the cue to scatter. -->
+  <IsekaiDungeons.Event.Trap.Triggered>Something clicks under the floor.</IsekaiDungeons.Event.Trap.Triggered>
+
+  <!-- The "empty" room turning out not to be. -->
+  <IsekaiDungeons.Event.Ambush.Sprung>Ambush! They were waiting in the dark.</IsekaiDungeons.Event.Ambush.Sprung>
+
+  <IsekaiDungeons.Event.GuardedHoard.Entered>A hoard — and something coiled on top of it.</IsekaiDungeons.Event.GuardedHoard.Entered>
+
+  <IsekaiDungeons.Event.Champion.Entered>One of them is far bigger than the rest.</IsekaiDungeons.Event.Champion.Entered>
+
+  <!-- The mana spring waking up when the party comes for the cores. -->
+  <IsekaiDungeons.Event.ManaSpring.Stirs>The mana shivers — something is coming for it.</IsekaiDungeons.Event.ManaSpring.Stirs>
+
+  <!-- Rescue letter. {PAWN} is the survivor's short name. -->
+  <IsekaiDungeons.Event.Survivor.Label>Survivor found</IsekaiDungeons.Event.Survivor.Label>
+  <IsekaiDungeons.Event.Survivor.Text>{PAWN} is alive in here — barely. Whoever they came in with is not.
+
+Carry them out through the gate and they will owe you a life.</IsekaiDungeons.Event.Survivor.Text>
+
+  <!-- ═══ Arrival narrative (composed into the entry letter) ═══
+       Order in the letter: WHERE → HOW BIG → HOW BAD → WHAT NOW.
+       Each is a whole sentence so translators can reorder freely. -->
+
+  <!-- WHERE — generic fallbacks, used only when an environment has no flavour
+       of its own (a modded generator without the extension). -->
+  <IsekaiDungeons.Narrative.Where.Carve>Your people step through into stale, still air. The {RANK}-rank dungeon is a warren cut from the living rock, and the dark ahead does not echo back.</IsekaiDungeons.Narrative.Where.Carve>
+  <IsekaiDungeons.Narrative.Where.Open>Your people step through and the ground opens out around them. There are no walls here — the {RANK}-rank dungeon is a whole country under a sky the wrong colour, and whatever lives in it is already out there.</IsekaiDungeons.Narrative.Where.Open>
+  <IsekaiDungeons.Narrative.Where.Built>Your people step through into standing structure. Something built this {RANK}-rank place, walled it, and then stopped coming back.</IsekaiDungeons.Narrative.Where.Built>
+
+  <!-- HOW BIG. {COUNT} is a number, {ROOMS} the environment's word for its spaces. -->
+  <IsekaiDungeons.Narrative.Scale>Scouts count {COUNT} {ROOMS} between here and whatever holds the far end.</IsekaiDungeons.Narrative.Scale>
+
+  <IsekaiDungeons.Narrative.Noun.Rooms>chambers</IsekaiDungeons.Narrative.Noun.Rooms>
+  <IsekaiDungeons.Narrative.Noun.Zones>hunting grounds</IsekaiDungeons.Narrative.Noun.Zones>
+
+  <!-- HOW BAD — measured against THIS colony, which is what makes it land. -->
+  <IsekaiDungeons.Narrative.Danger.Beneath>The pressure barely registers. Your strongest have stood in worse and walked out bored — this is a training run.</IsekaiDungeons.Narrative.Danger.Beneath>
+  <IsekaiDungeons.Narrative.Danger.Even>The mana pressure sits about where your best fighters do. Fought properly, this is winnable. Fought carelessly, it is not.</IsekaiDungeons.Narrative.Danger.Even>
+  <IsekaiDungeons.Narrative.Danger.Above>The pressure here is heavier than anything your colony has fielded. Everyone who walks deeper is betting they are better than the record says.</IsekaiDungeons.Narrative.Danger.Above>
+  <IsekaiDungeons.Narrative.Danger.Red>&lt;color=#FF4444&gt;This is a red gate. The pressure is a full rank past your best, and it is not pretending otherwise. Leaving is still an option.&lt;/color&gt;</IsekaiDungeons.Narrative.Danger.Red>
+
+  <!-- WHAT NOW. Used unless the dungeon's objective worker supplies its own line. -->
+  <IsekaiDungeons.Narrative.Objective.Boss>Find whatever rules this place and kill it; the gate dies with its master.</IsekaiDungeons.Narrative.Objective.Boss>
+  <IsekaiDungeons.Narrative.Countdown>The gate breaks in {TIME} — the exit behind you stays open until then.</IsekaiDungeons.Narrative.Countdown>
+
+  <!-- ═══ Title card (shown on arriving at a dungeon map) ═══
+       This is the text on the ribbon and it has to stay SHORT — the ribbon is
+       a fixed-width chevron and anything past about 11 characters is shrunk to
+       fit. {RANK} is F..SSS or "Nation". -->
+
+  <IsekaiDungeons.Title.RankLine>{RANK} Rank</IsekaiDungeons.Title.RankLine>
+
+  <!-- ═══ Environment flavour ═══
+       Flavor  = the WHERE sentence of the arrival letter. {RANK} available.
+       Subtitle = 2-4 words. Used as the title card's second line ONLY for a
+                  dungeon that has no description of its own to quote.
+       RoomNoun = what a "room" is called here, used by the scale sentence. -->
+
+  <IsekaiDungeons.Env.Cavern.Flavor>Your people step through into cold, unmoving air. The {RANK}-rank dungeon is a warren gnawed out of the rock, and every sound they make comes back a moment too late.</IsekaiDungeons.Env.Cavern.Flavor>
+  <IsekaiDungeons.Env.Cavern.Subtitle>Cavern</IsekaiDungeons.Env.Cavern.Subtitle>
+  <IsekaiDungeons.Env.Cavern.RoomNoun>chambers</IsekaiDungeons.Env.Cavern.RoomNoun>
+
+  <IsekaiDungeons.Env.Hive.Flavor>The walls of this {RANK}-rank tunnel are too smooth, and they are warm. Something chewed these passages, and it did not do it alone.</IsekaiDungeons.Env.Hive.Flavor>
+  <IsekaiDungeons.Env.Hive.Subtitle>Hive</IsekaiDungeons.Env.Hive.Subtitle>
+  <IsekaiDungeons.Env.Hive.RoomNoun>galleries</IsekaiDungeons.Env.Hive.RoomNoun>
+
+  <IsekaiDungeons.Env.Crypt.Flavor>Cut stone, laid deliberately, a very long time ago. Whoever built this {RANK}-rank place meant it to be sealed — and it was, until now.</IsekaiDungeons.Env.Crypt.Flavor>
+  <IsekaiDungeons.Env.Crypt.Subtitle>Crypt</IsekaiDungeons.Env.Crypt.Subtitle>
+  <IsekaiDungeons.Env.Crypt.RoomNoun>vaults</IsekaiDungeons.Env.Crypt.RoomNoun>
+
+  <IsekaiDungeons.Env.Abyss.Flavor>The heat hits first. This {RANK}-rank hollow glows from below, the stone is scorched black, and the air tastes of iron and ash.</IsekaiDungeons.Env.Abyss.Flavor>
+  <IsekaiDungeons.Env.Abyss.Subtitle>The Abyss</IsekaiDungeons.Env.Abyss.Subtitle>
+  <IsekaiDungeons.Env.Abyss.RoomNoun>pits</IsekaiDungeons.Env.Abyss.RoomNoun>
+
+  <IsekaiDungeons.Env.Snowfield.Flavor>Your people step through into a wind that was not there a second ago. The {RANK}-rank gate opens onto an ice plain with no walls and no horizon worth the name — and things are standing out on it, waiting.</IsekaiDungeons.Env.Snowfield.Flavor>
+  <IsekaiDungeons.Env.Snowfield.Subtitle>Frozen Expanse</IsekaiDungeons.Env.Snowfield.Subtitle>
+  <IsekaiDungeons.Env.Snowfield.RoomNoun>hunting grounds</IsekaiDungeons.Env.Snowfield.RoomNoun>
+
+  <IsekaiDungeons.Env.Verdant.Flavor>Green, and far too loud. The {RANK}-rank gate opens onto open forest that has never been cut, and the things holding ground out there heard you arrive.</IsekaiDungeons.Env.Verdant.Flavor>
+  <IsekaiDungeons.Env.Verdant.Subtitle>Overgrowth</IsekaiDungeons.Env.Verdant.Subtitle>
+  <IsekaiDungeons.Env.Verdant.RoomNoun>thickets</IsekaiDungeons.Env.Verdant.RoomNoun>
+
+  <IsekaiDungeons.Env.Ashland.Flavor>Ash, to every edge of sight, and nothing growing in it. The {RANK}-rank gate opens onto a burned plain under a low red sky, and the shapes on it are not rocks.</IsekaiDungeons.Env.Ashland.Flavor>
+  <IsekaiDungeons.Env.Ashland.Subtitle>Ashen Waste</IsekaiDungeons.Env.Ashland.Subtitle>
+  <IsekaiDungeons.Env.Ashland.RoomNoun>burn grounds</IsekaiDungeons.Env.Ashland.RoomNoun>
+
+  <IsekaiDungeons.Env.Ruins.Flavor>Old stonework, most of it down. The {RANK}-rank gate opens onto a broken field of somebody's city, and whatever moved in after them is still in residence.</IsekaiDungeons.Env.Ruins.Flavor>
+  <IsekaiDungeons.Env.Ruins.Subtitle>Broken Field</IsekaiDungeons.Env.Ruins.Subtitle>
+  <IsekaiDungeons.Env.Ruins.RoomNoun>ruin grounds</IsekaiDungeons.Env.Ruins.RoomNoun>
+
+  <IsekaiDungeons.Env.Foundry.Flavor>Flat steel plate and machine-scarred ground, stretching further than it has any right to. Nothing about this {RANK}-rank place was grown, and nothing in it is asleep.</IsekaiDungeons.Env.Foundry.Flavor>
+  <IsekaiDungeons.Env.Foundry.Subtitle>The Foundry</IsekaiDungeons.Env.Foundry.Subtitle>
+  <IsekaiDungeons.Env.Foundry.RoomNoun>yards</IsekaiDungeons.Env.Foundry.RoomNoun>
+
+
+  <IsekaiDungeons.Env.Voidscape.Flavor>Your people step through and there is nothing to step onto but black glass, running flat to every edge of sight. The {RANK}-rank gate did not open onto a place — it opened onto the hole where one used to be kept. Nothing here casts a shadow, and something out there is already moving.</IsekaiDungeons.Env.Voidscape.Flavor>
+  <IsekaiDungeons.Env.Voidscape.Subtitle>The Unmade</IsekaiDungeons.Env.Voidscape.Subtitle>
+  <IsekaiDungeons.Env.Voidscape.RoomNoun>reaches</IsekaiDungeons.Env.Voidscape.RoomNoun>
+
+  <IsekaiDungeons.Env.Celestial.Flavor>Pale marble, painfully bright, running to every horizon at once. The {RANK}-rank gate opened onto somewhere that does not want people in it.</IsekaiDungeons.Env.Celestial.Flavor>
+  <IsekaiDungeons.Env.Celestial.Subtitle>Pale Reach</IsekaiDungeons.Env.Celestial.Subtitle>
+  <IsekaiDungeons.Env.Celestial.RoomNoun>reaches</IsekaiDungeons.Env.Celestial.RoomNoun>
+
+  <!-- Loading-screen line while a never-entered dungeon is generated at breach time. -->
+  <IsekaiDungeons.LongEvent.OpeningBreach>The gate is tearing open...</IsekaiDungeons.LongEvent.OpeningBreach>
+
+  <!-- ═══ Gate-bound (the escaped boss bounty) ═══ -->
+  <IsekaiDungeons.Hediff.GateBound.Label>gate-bound ({RANK})</IsekaiDungeons.Hediff.GateBound.Label>
+
+
+  <!-- ═══ THE TOWER ═══
+       A hundred floors, one live at a time. Floor names are composed:
+       "Floor 23 - Village". {WHAT} is the archetype's own word when it has one,
+       otherwise the dungeon the floor borrowed. -->
+
+  <!-- The floor's DESCRIPTIVE name, used by letters, the enter menu and the
+       stored ladder record - it keeps the archetype, because "Enter Floor 40"
+       tells the player less than "Enter Floor 40 - Deep Landing". The world
+       TILE has its own key below; the two are different jobs. -->
+  <IsekaiDungeons.Tower.FloorName>Floor {FLOOR} — {WHAT}</IsekaiDungeons.Tower.FloorName>
+  <IsekaiDungeons.Tower.FloorTileName>Tower of Gods • Floor {FLOOR}</IsekaiDungeons.Tower.FloorTileName>
+  <!-- The archetype moved out of the label and into the description: the tile
+       should say WHERE you are at a glance, and what kind of floor it is is a
+       detail for the panel. -->
+  <IsekaiDungeons.Tower.FloorDesc>Floor {FLOOR} of the Tower of Gods, {WHAT}, classified {RANK}.
+
+The tower was not built so much as stacked, and the registers agree only on the order: every course was laid on top of the one before it, a hundred times, and whatever stands on the last of them holds the whole thing together. Nobody has ever found a quarry, a mason, or a reason.
+
+A floor is not a room in a building. It is a place the tower has decided to keep, and the way up is always at the far end of it. Climbers who turn back report the stair behind them exactly where they left it. Climbers who do not turn back are the reason the upper registers are so short.
+
+What stands at the hundredth is spoken of in the past tense by people who have never seen it.</IsekaiDungeons.Tower.FloorDesc>
+
+  <IsekaiDungeons.Letter.TowerRises.Label>GUILD NOTICE: CLASSIFICATION UNIDENTIFIED</IsekaiDungeons.Letter.TowerRises.Label>
+  <IsekaiDungeons.Letter.TowerRises.Text><![CDATA[A tower went up overnight, a few days' travel from your colony. Nobody saw it being built and nothing has come out of it yet, so the Guild has no way to rank it. It stays on the board as unidentified until someone climbs it.
+
+<b>Climb all {FLOORS} floors of the Tower of Gods.</b>
+
+• Each floor is a separate dungeon. Clear it and the stairs to the next floor open.
+• Floor 1 is F-rank, so a new colony can handle it. The ranks go up as you climb, and the last stretch is SSS.
+• There's no time limit and the tower won't break open. You can leave at any time and come back to the highest floor you've reached.
+• Floor {FLOORS} has a guardian. The Guild doesn't know what it is.
+
+The reward for completing the tower is <color=#FFD700><b>GODHOOD</b></color>, which grants a godlike body.
+The floors on the way up have their own loot, and every one of them is worth a lot of experience.
+
+Your colony is the closest charter, so the contract is yours. Climb as high as you can and report back.
+
+<color=#666666>Posted under branch seal. The oldest record we have calls it the Tower of Gods, so that's the name on the notice.</color>
+
+<color=#999999>Archive note, unsigned: the entry we copied from is itself a copy. Three hands at least, and the earliest of them was already working from something older. Nobody in that chain surveyed anything either.</color>]]></IsekaiDungeons.Letter.TowerRises.Text>
+
+  <!-- Board and quest-log entry, in the Guild's standard contract layout. -->
+  <IsekaiDungeons.Quest.Tower.Name>[Guild] Unidentified Class: The Tower of Gods</IsekaiDungeons.Quest.Tower.Name>
+  <IsekaiDungeons.Quest.Tower.Description><![CDATA[<color=#FFD700>━━━ SURVEY CONTRACT ━━━</color>
+
+Target: The Tower of Gods (<color=#FF3333>Unidentified class</color>)
+
+<color=#FFD700>Objective:</color> <b>Reach floor 100 and defeat its guardian.</b>
+
+<color=#FFD700>Reward:</color> <b>GODHOOD</b>, which grants a godlike body.
+
+How it works:
+• Each floor is a separate dungeon. Clear it to open the stairs up.
+• Floor 1 is F-rank. The ranks go up as you climb, all the way to SSS.
+• No time limit. Leave whenever you want and come back to any floor you've reached.
+• Every floor has loot and gives experience.
+
+<color=#888888>Briefing: the tower went up overnight and nothing has come out of it, so the Guild can't rank it the usual way. The only record of it is an archive entry older than the Guild, and nobody has ever checked it.</color>
+
+<color=#666666>— Adventurer's Guild</color>]]></IsekaiDungeons.Quest.Tower.Description>
+
+  <IsekaiDungeons.Tower.EnterFloor>Enter floor {FLOOR}</IsekaiDungeons.Tower.EnterFloor>
+  <IsekaiDungeons.Tower.ChooseFloor>Choose floor</IsekaiDungeons.Tower.ChooseFloor>
+  <IsekaiDungeons.Tower.ChooseFloorDesc>Travel to a floor you have already climbed to. The floor currently open will be left behind — anything you dropped on it is lost, though your people and your dead always come home.</IsekaiDungeons.Tower.ChooseFloorDesc>
+  <IsekaiDungeons.Tower.Inspect>Highest reached: {HIGHEST}
+Open: floor {CURRENT}</IsekaiDungeons.Tower.Inspect>
+  <IsekaiDungeons.Tower.FloorFailed>Floor {FLOOR} refused to take shape. The tower is unchanged.</IsekaiDungeons.Tower.FloorFailed>
+  <IsekaiDungeons.Tower.Recovered>{COUNT} of yours came back down with the floor.</IsekaiDungeons.Tower.Recovered>
+
+  <!-- The picker -->
+  <IsekaiDungeons.Tower.PickerTitle>The Tower</IsekaiDungeons.Tower.PickerTitle>
+  <IsekaiDungeons.Tower.NoTower>No tower stands.</IsekaiDungeons.Tower.NoTower>
+  <IsekaiDungeons.Tower.NothingDiscovered>You have climbed nothing yet. Walk in and take the first floor.</IsekaiDungeons.Tower.NothingDiscovered>
+  <IsekaiDungeons.Tower.Travel>Travel</IsekaiDungeons.Tower.Travel>
+  <IsekaiDungeons.Tower.CurrentFloor>open</IsekaiDungeons.Tower.CurrentFloor>
+  <IsekaiDungeons.Tower.ClearedTag>(cleared)</IsekaiDungeons.Tower.ClearedTag>
+  <IsekaiDungeons.Tower.TravelConfirm>Leaving floor {FROM} for floor {TO} abandons it. Your people and your dead come home; anything left on the ground does not.
+
+Go anyway?</IsekaiDungeons.Tower.TravelConfirm>
+
+  <!-- The stair -->
+  <IsekaiDungeons.Tower.Climb>Climb to floor {FLOOR}</IsekaiDungeons.Tower.Climb>
+  <IsekaiDungeons.Tower.ClimbDesc>Take everyone on this floor up. The floor below is left behind.</IsekaiDungeons.Tower.ClimbDesc>
+  <IsekaiDungeons.Tower.StairSealed>Sealed — something on this floor still objects.</IsekaiDungeons.Tower.StairSealed>
+  <IsekaiDungeons.Tower.StairOpen>Open — leads to floor {FLOOR}.</IsekaiDungeons.Tower.StairOpen>
+  <IsekaiDungeons.Tower.NoGate>The tower's foot is gone. There is nothing to climb.</IsekaiDungeons.Tower.NoGate>
+  <IsekaiDungeons.Tower.Summit>This is the top. There is no floor above it.</IsekaiDungeons.Tower.Summit>
+  <IsekaiDungeons.Tower.Ascended.Label>Floor {FLOOR}</IsekaiDungeons.Tower.Ascended.Label>
+  <IsekaiDungeons.Tower.Ascended.Text>The stair closes behind you. {NAME}.</IsekaiDungeons.Tower.Ascended.Text>
+
+  <!-- The planet-view marker -->
+  <IsekaiDungeons.Tower.MarkerLabel>Tower of Gods</IsekaiDungeons.Tower.MarkerLabel>
+  <IsekaiDungeons.Tower.SiteInspect>Nobody has been inside yet.</IsekaiDungeons.Tower.SiteInspect>
+  <IsekaiDungeons.Tower.MarkerLabelProgress>Tower of Gods • Floor {FLOOR}</IsekaiDungeons.Tower.MarkerLabelProgress>
+  <IsekaiDungeons.Tower.MarkerDesc>Highest floor reached: {FLOOR}
+Floors cleared: {CLEARED}</IsekaiDungeons.Tower.MarkerDesc>
+
+
+  <!-- The summit and its reward -->
+  <IsekaiDungeons.Tower.Summit.Label>THE SUMMIT</IsekaiDungeons.Tower.Summit.Label>
+  <IsekaiDungeons.Tower.Summit.Text><![CDATA[{FLOORS} floors, and nothing above this one. No stair, no ceiling, no more tower. She is dead on open ground under a sky that is not yours, and she was the last thing holding the roof on.
+
+She was the hundredth. There is a page in the old registers with ninety-nine names on it and a space left ready at the bottom, and now you know what the space was for: the state that settles on {PAWN} is the same one they granted her, and it was never a prize. It is the condition a body has to be in before it can be set into a ceiling.
+
+{PAWN} did the most to put her down, so {PAWN} is who it settled on. There was never going to be a second one.
+
+The ground under your feet has started to shift. Somewhere below, a hundred courses of masonry are giving way now that nothing stands on top of them. The tower will not fall while any of yours are still inside it, and it will let no one back in. Take everyone out.
+
+{PAWN} has GODHOOD.
+
+<color=#999999>Archive note: the Register's last page is a list of names in a hand that grows worse toward the bottom. Beneath the ninety-ninth there is a space left ready, and nothing written in it. The keepers ruled that line before they knew who would fill it. They always did.</color>]]></IsekaiDungeons.Tower.Summit.Text>
+
+
+  <!-- The end of the survey contract: the tower falls. Sent from outside,
+       after the last of them has walked out, because the collapse waits for
+       that and the letter says they watched it. -->
+  <IsekaiDungeons.Tower.Sank.Label>THE TOWER FELL</IsekaiDungeons.Tower.Sank.Label>
+  <IsekaiDungeons.Tower.Sank.Text><![CDATA[The last of them was clear of it when it started.
+
+It came down from the top. The summit went first, folding onto the floor beneath it, and that floor onto the one below, course after course, until {FLOORS} floors had crumbled into the ground they stood on. There was dust for most of an hour and a sound like a quarry at work, and then nothing at all.
+
+When the dust settled there was no rubble to pick through. The ground had taken every stone of it. Where the tower stood there is a wide ring of turned earth, and in a season there will be grass on that too.
+
+Nothing is left standing on that tile, and nothing will be. The Guild will close the file with the survey attached: every floor walked, the summit included.
+
+<color=#666666>The old registers ended on a page with a space left ready at the bottom. There is no tower left for anyone to fill it.</color>
+
+<color=#999999>Archive note, final: the entry has been amended twice. Where it read CITED, it now reads WALKED, and beneath that, in a newer hand, FALLEN.</color>]]></IsekaiDungeons.Tower.Sank.Text>
+
+  <!-- Once Elijah is dead the tower is coming down and takes nobody back in. -->
+  <IsekaiDungeons.Tower.Enter.Collapsing>The tower is coming down. Nobody is going back in.</IsekaiDungeons.Tower.Enter.Collapsing>
+  <IsekaiDungeons.Tower.CollapsingInspect>Coming down. It holds only until the last of yours is out of it.</IsekaiDungeons.Tower.CollapsingInspect>
+
+  <!-- Clearing a tower floor, as distinct from finishing a whole dungeon -->
+  <IsekaiDungeons.Letter.FloorCleared.Label>Floor {FLOOR} cleared</IsekaiDungeons.Letter.FloorCleared.Label>
+  <IsekaiDungeons.Letter.FloorCleared.Text>Nothing on floor {FLOOR} is still moving. The stair at the far end has stopped refusing to open.
+
+The floor was rated {RANK}. Everyone who fought here takes {XP} experience.
+
+Up, or back down — the tower does not care which, and it will still be here either way.</IsekaiDungeons.Letter.FloorCleared.Text>
+
+  <!-- Entering, leaving and climbing the tower -->
+  <IsekaiDungeons.Tower.Enter>Enter the tower — floor {FLOOR} ({NAME})</IsekaiDungeons.Tower.Enter>
+  <IsekaiDungeons.Tower.Enter.Busy>Enter the tower (someone is already inside)</IsekaiDungeons.Tower.Enter.Busy>
+  <IsekaiDungeons.Tower.Approaching>entering the tower at floor {FLOOR}</IsekaiDungeons.Tower.Approaching>
+  <IsekaiDungeons.Tower.EnterFailed>The tower would not open. Whatever is on that floor is not finished being made.</IsekaiDungeons.Tower.EnterFailed>
+  <IsekaiDungeons.Tower.ClimbFailed>The stair leads nowhere. The floor above is not finished being made.</IsekaiDungeons.Tower.ClimbFailed>
+  <IsekaiDungeons.Tower.Leave>Leave the tower</IsekaiDungeons.Tower.Leave>
+  <IsekaiDungeons.Tower.LeaveDesc>Everyone on this floor walks out together and forms a caravan on the open ground the tower stands on. Nobody gets left behind, because there would be no way to reach them.</IsekaiDungeons.Tower.LeaveDesc>
+  <IsekaiDungeons.Tower.ExitDesc>The way out. Floor {FLOOR}.</IsekaiDungeons.Tower.ExitDesc>
+  <IsekaiDungeons.Tower.LeftTower>{COUNT} left the tower.</IsekaiDungeons.Tower.LeftTower>
+  <IsekaiDungeons.Tower.NothingWalkedOut>Nobody walked out of the tower. Whatever they were carrying is still in there.</IsekaiDungeons.Tower.NothingWalkedOut>
+
+  <!-- The floor picker -->
+  <IsekaiDungeons.Tower.PickerTitleDev>Travel to any floor (dev)</IsekaiDungeons.Tower.PickerTitleDev>
+  <IsekaiDungeons.Tower.PickerHint>Search by floor number, name, rank or dungeon.</IsekaiDungeons.Tower.PickerHint>
+  <IsekaiDungeons.Tower.PickerCleared>cleared</IsekaiDungeons.Tower.PickerCleared>
+  <IsekaiDungeons.Tower.PickerSeen>reached</IsekaiDungeons.Tower.PickerSeen>
+  <IsekaiDungeons.Tower.PickerUnseen>unexplored</IsekaiDungeons.Tower.PickerUnseen>
+  <IsekaiDungeons.Tower.EnterPick>Enter the tower at a floor…</IsekaiDungeons.Tower.EnterPick>
+  <IsekaiDungeons.Tower.EnterAnyDev>(Dev) Enter the tower at ANY floor…</IsekaiDungeons.Tower.EnterAnyDev>
+  <IsekaiDungeons.Tower.ClimbAnyDev>(Dev) Jump to ANY floor…</IsekaiDungeons.Tower.ClimbAnyDev>
+  <IsekaiDungeons.Tower.Summit.Late>Someone in this colony has already stood on the {FLOORS}th floor and walked back out of it, and nothing was ever settled for that.
+
+The record of who struck the hardest up there is gone, so it has gone to {PAWN} instead, the one with the furthest to fall. The registers would not have cared either. They only ever recorded that the post was filled.
+
+With nothing left standing at the top, the tower has started to come apart. It will hold until the last of yours is out of it, and it will take no one back in.
+
+{PAWN} has GODHOOD.</IsekaiDungeons.Tower.Summit.Late>
+
+  <!-- Mod options: Languages/English/Keyed/IsekaiDungeons_Settings.xml -->
+
+  <!-- ══ GUILD DUNGEON CONTRACTS ══════════════════════════════════════════
+       Same letterhead as the base mod's hunt and bounty contracts, because in
+       the fiction it is the same guild. Named placeholders throughout, so a
+       translator can reorder a sentence without silently swapping the rank and
+       the distance. -->
+
+  <IsekaiDungeons.Site.Inspect.Located>Dungeon gate ({RANK}-Rank) - intact, counting down</IsekaiDungeons.Site.Inspect.Located>
+  <IsekaiDungeons.Site.Inspect.Broken>Dungeon gate ({RANK}-Rank) - BROKEN OPEN</IsekaiDungeons.Site.Inspect.Broken>
+  <IsekaiDungeons.Site.Inspect.Rescue>Dungeon gate ({RANK}-Rank) - broken open on {FACTION} land</IsekaiDungeons.Site.Inspect.Rescue>
+
+  <IsekaiDungeons.Contract.Located.Title>[Guild] {RANK}-Rank Dungeon: {DUNGEON}</IsekaiDungeons.Contract.Located.Title>
+  <IsekaiDungeons.Contract.Located.Desc><![CDATA[<color=#FFD700>━━━ DUNGEON CONTRACT ━━━</color>
+
+Site: {DUNGEON} ({RANK})
+Distance: roughly {TILES} tiles from your colony
+Guild fee: {SILVER} silver on completion
+
+{FLAVOUR}
+
+<color=#888888>The gate is intact and its countdown is running. Reach it, go in, and put down whatever is holding the deepest room. Everything you carry out is yours; the fee is the Guild's, for the paperwork.</color>
+
+<color=#999999>If nobody takes this contract, the gate will open on its own terms instead of ours.</color>]]></IsekaiDungeons.Contract.Located.Desc>
+  <IsekaiDungeons.Contract.Located.Letter.Label>[Guild] {RANK}-Rank Dungeon Located</IsekaiDungeons.Contract.Located.Letter.Label>
+  <IsekaiDungeons.Contract.Located.Letter.Text><![CDATA[<color=#FFD700>━━━ ADVENTURER'S GUILD ━━━</color>
+
+Our scouts have found a gate.
+
+Site: {DUNGEON}
+Threat Level: {RANK}
+Fee: {SILVER} silver
+
+<color=#888888>It is intact, which means it is still on a clock. Send a caravan to the marked tile and clear it before that clock runs out.</color>
+
+<color=#666666>- Sent by the Adventurer's Guild</color>]]></IsekaiDungeons.Contract.Located.Letter.Text>
+
+  <IsekaiDungeons.Contract.Broken.Title>[Guild] {RANK}-Rank Break: {DUNGEON}</IsekaiDungeons.Contract.Broken.Title>
+  <IsekaiDungeons.Contract.Broken.Desc><![CDATA[<color=#FFD700>━━━ CONTAINMENT CONTRACT ━━━</color>
+
+Site: {DUNGEON} ({RANK})
+Distance: roughly {TILES} tiles from your colony
+Guild fee: {SILVER} silver on completion
+
+{FLAVOUR}
+
+<color=#888888>This one is already open. What was in the front of it is standing on the ground outside, and the rest is still inside. Clear what has come out, then go in and finish it.</color>]]></IsekaiDungeons.Contract.Broken.Desc>
+  <IsekaiDungeons.Contract.Broken.Letter.Label>[Guild] {RANK}-Rank Dungeon Break</IsekaiDungeons.Contract.Broken.Letter.Label>
+  <IsekaiDungeons.Contract.Broken.Letter.Text><![CDATA[<color=#FFD700>━━━ ADVENTURER'S GUILD ━━━</color>
+
+A gate has broken open.
+
+Site: {DUNGEON}
+Threat Level: {RANK}
+Fee: {SILVER} silver
+
+<color=#888888>Nobody reached it in time. It is draining onto open ground and it will keep draining. Containment pays better than prevention, which is the Guild's way of admitting we should have paid more for the first contract.</color>
+
+<color=#666666>- Sent by the Adventurer's Guild</color>]]></IsekaiDungeons.Contract.Broken.Letter.Text>
+
+  <IsekaiDungeons.Contract.Rescue.Title>[Guild] {RANK}-Rank Rescue: {DUNGEON}</IsekaiDungeons.Contract.Rescue.Title>
+  <IsekaiDungeons.Contract.Rescue.Desc><![CDATA[<color=#FFD700>━━━ RESCUE CONTRACT ━━━</color>
+
+Site: {DUNGEON} ({RANK})
+Holding: {FACTION}
+Distance: roughly {TILES} tiles from your colony
+Guild fee: {SILVER} silver on completion
+
+{FLAVOUR}
+
+<color=#888888>The gate opened on somebody's doorstep. They are still alive in there and they are still fighting, which will not be true for long. Get to the settlement, clear the ground, and finish the gate.</color>
+
+<color=#999999>{FACTION} will remember whether anyone came.</color>]]></IsekaiDungeons.Contract.Rescue.Desc>
+  <IsekaiDungeons.Contract.Rescue.Letter.Label>[Guild] {RANK}-Rank Break on {FACTION} Land</IsekaiDungeons.Contract.Rescue.Letter.Label>
+  <IsekaiDungeons.Contract.Rescue.Letter.Text><![CDATA[<color=#FFD700>━━━ ADVENTURER'S GUILD ━━━</color>
+
+A gate has broken open on inhabited ground.
+
+Site: {DUNGEON}
+Threat Level: {RANK}
+Holding: {FACTION}
+Fee: {SILVER} silver
+
+<color=#888888>They are holding, barely. Anyone close enough to help is being asked to help.</color>
+
+<color=#666666>- Sent by the Adventurer's Guild</color>]]></IsekaiDungeons.Contract.Rescue.Letter.Text>
+
+  <IsekaiDungeons.Contract.Converted.Letter.Label>[Guild] {RANK}-Rank Gate Has Broken</IsekaiDungeons.Contract.Converted.Letter.Label>
+  <IsekaiDungeons.Contract.Converted.Letter.Text><![CDATA[<color=#FFD700>━━━ ADVENTURER'S GUILD ━━━</color>
+
+The contract expired. The gate did not.
+
+Site: {DUNGEON}
+Threat Level: {RANK}
+
+<color=#888888>It has torn itself open and is emptying onto the ground around it. The contract has been reissued as containment work, at a higher fee, on the same tile.</color>
+
+<color=#666666>- Sent by the Adventurer's Guild</color>]]></IsekaiDungeons.Contract.Converted.Letter.Text>
+
+  <IsekaiDungeons.Contract.Fee.Label>Guild payment received</IsekaiDungeons.Contract.Fee.Label>
+  <IsekaiDungeons.Contract.Fee.Text>The Adventurer's Guild has settled its account for the {RANK}-Rank dungeon contract: {SILVER} silver, delivered by pod.</IsekaiDungeons.Contract.Fee.Text>
+
+  <IsekaiDungeons.Godhood.BodyAscended>{PAWN}'s body has finished ascending: it will not age past this day, no sickness can keep hold of it, and it cannot die while the brain endures. The hair has gone white as fresh snow.</IsekaiDungeons.Godhood.BodyAscended>
+
+  <IsekaiDungeons.Tower.Autopilot.Label>auto-grind</IsekaiDungeons.Tower.Autopilot.Label>
+  <IsekaiDungeons.Tower.Autopilot.Desc>Let this colonist grind the tower on their own.
+
+While toggled on, they will hunt down every creature on the floor, walk into each den to wake it, and — once the floor is beaten — lead the party up the stair and start the next one.
+
+Melee fighters charge; shooters walk to a firing position and shoot on their own. When food or rest runs low and nothing is awake, they stand down to eat from their inventory or sleep on the ground, then pick the grind back up. Any order you give them yourself takes priority until it is finished.
+
+The climb takes the whole party, exactly as the stair always does.</IsekaiDungeons.Tower.Autopilot.Desc>
+  <IsekaiDungeons.Gate.Autopilot.Label>auto-clear</IsekaiDungeons.Gate.Autopilot.Label>
+  <IsekaiDungeons.Gate.Autopilot.Desc>Let this colonist clear the dungeon on their own.
+
+While toggled on, they will hunt down every creature in the dungeon, walking into each den to wake it and putting down anything that refuses to wake. When nothing is left alive, the toggle switches itself off and they stand down — the hoard is yours to haul out.
+
+Melee fighters charge; shooters walk to a firing position and shoot on their own. When food or rest runs low and nothing is awake, they stand down to eat from their inventory or sleep on the ground, then pick the sweep back up. Any order you give them yourself takes priority until it is finished.</IsekaiDungeons.Gate.Autopilot.Desc>
+  <IsekaiDungeons.Gate.Autopilot.Done>Nothing is left alive in the dungeon. Auto-clear has switched itself off, and the party is standing down.</IsekaiDungeons.Gate.Autopilot.Done>
+  <IsekaiDungeons.Tower.Autopilot.SummitOff>The tower has no more floors to grind. Auto-grind has switched itself off.</IsekaiDungeons.Tower.Autopilot.SummitOff>
+
+  <IsekaiDungeons.MirrorArena.Letter.Label>The Mirror</IsekaiDungeons.MirrorArena.Letter.Label>
+  <IsekaiDungeons.MirrorArena.Letter.Text>The hall was empty when you walked in. It is not empty now.
+
+{COUNT} figures stand in the middle of the floor, and every one of them is somebody you brought. Same faces. Same names. Same scars, same gear, same tricks - everything you spent fifty floors becoming, standing on the other side.
+
+The tower is done sending monsters. Beat yourselves, and the stair opens.</IsekaiDungeons.MirrorArena.Letter.Text>
+  <IsekaiDungeons.MirrorArena.Objective>Defeat every mirror of your party.</IsekaiDungeons.MirrorArena.Objective>
+
+
+  <!-- Treasure chests and the opening reel -->
+  <IsekaiDungeons.Treasure.Open>Open {CHEST}</IsekaiDungeons.Treasure.Open>
+  <IsekaiDungeons.Treasure.OpenNoPath>Cannot reach {CHEST}</IsekaiDungeons.Treasure.OpenNoPath>
+  <IsekaiDungeons.Treasure.Inspect>Sealed. Right-click with a colonist selected to open.</IsekaiDungeons.Treasure.Inspect>
+  <!-- Chest grades are METALS, kept separate from the item rarities the reel
+       cards show: a Silver chest shifts the odds, it does not promise a Rare
+       item, and sharing the words implied otherwise. -->
+  <IsekaiDungeons.Treasure.ChestBronze>Bronze Chest</IsekaiDungeons.Treasure.ChestBronze>
+  <IsekaiDungeons.Treasure.ChestSilver>Silver Chest</IsekaiDungeons.Treasure.ChestSilver>
+  <IsekaiDungeons.Treasure.ChestGold>Gold Chest</IsekaiDungeons.Treasure.ChestGold>
+  <IsekaiDungeons.Treasure.ChestJade>Jade Chest</IsekaiDungeons.Treasure.ChestJade>
+  <IsekaiDungeons.Treasure.Haul>The clear leaves behind {CHESTS}.</IsekaiDungeons.Treasure.Haul>
+  <IsekaiDungeons.Treasure.Take>Take it</IsekaiDungeons.Treasure.Take>
+  <IsekaiDungeons.Treasure.Awarded>The chest held {ITEM}.</IsekaiDungeons.Treasure.Awarded>
+  <IsekaiDungeons.Treasure.Rarity.Common>Common</IsekaiDungeons.Treasure.Rarity.Common>
+  <IsekaiDungeons.Treasure.Rarity.Rare>Rare</IsekaiDungeons.Treasure.Rarity.Rare>
+  <IsekaiDungeons.Treasure.Rarity.Epic>Epic</IsekaiDungeons.Treasure.Rarity.Epic>
+  <IsekaiDungeons.Treasure.Rarity.Legendary>Legendary</IsekaiDungeons.Treasure.Rarity.Legendary>
+
+
+  <!-- ═══ MULTI-FLOOR DUNGEONS ═══
+       Structures you caravan to and walk down into. No gate, no break timer. -->
+  <IsekaiDungeons.MultiFloor.FloorTileName>{PLACE} • Floor {FLOOR}</IsekaiDungeons.MultiFloor.FloorTileName>
+  <IsekaiDungeons.MultiFloor.FloorDesc>Floor {FLOOR} of {TOTAL}, in {PLACE}. Classified {RANK}.</IsekaiDungeons.MultiFloor.FloorDesc>
+
+  <IsekaiDungeons.MultiFloor.Enter>Enter {PLACE}</IsekaiDungeons.MultiFloor.Enter>
+  <IsekaiDungeons.MultiFloor.EnterReport>entering {PLACE}</IsekaiDungeons.MultiFloor.EnterReport>
+  <IsekaiDungeons.MultiFloor.ExitUp>the way up</IsekaiDungeons.MultiFloor.ExitUp>
+  <IsekaiDungeons.MultiFloor.ExitDown>the way down</IsekaiDungeons.MultiFloor.ExitDown>
+  <IsekaiDungeons.MultiFloor.ExitDescription>The way you came into {PLACE}. It does not lead to another floor. It leads out, all the way out, to the open ground above, and everyone leaves together or nobody does.</IsekaiDungeons.MultiFloor.ExitDescription>
+  <IsekaiDungeons.MultiFloor.ExitInspect>The way out. Floor {FLOOR} of {TOTAL}.</IsekaiDungeons.MultiFloor.ExitInspect>
+  <IsekaiDungeons.MultiFloor.Leave>Leave {PLACE}</IsekaiDungeons.MultiFloor.Leave>
+  <IsekaiDungeons.MultiFloor.LeaveDesc>Everyone on this floor walks out together and forms a caravan on the ground above. Nobody gets left behind, because there would be no way to reach them. Floors you have cleared stay cleared.</IsekaiDungeons.MultiFloor.LeaveDesc>
+  <IsekaiDungeons.MultiFloor.StairUpLabel>ascending stair</IsekaiDungeons.MultiFloor.StairUpLabel>
+  <IsekaiDungeons.MultiFloor.StairUpDescription>Steps climbing to the landing above. It will not open while anything on this level still objects to you being here.</IsekaiDungeons.MultiFloor.StairUpDescription>
+  <IsekaiDungeons.MultiFloor.AlreadyInside>Somebody is already inside.</IsekaiDungeons.MultiFloor.AlreadyInside>
+
+  <IsekaiDungeons.MultiFloor.Descend>Descend to floor {FLOOR}</IsekaiDungeons.MultiFloor.Descend>
+  <IsekaiDungeons.MultiFloor.Ascend>Climb to floor {FLOOR}</IsekaiDungeons.MultiFloor.Ascend>
+  <IsekaiDungeons.MultiFloor.OnwardDesc>Move the whole party on. Anything downed or dead comes with you.</IsekaiDungeons.MultiFloor.OnwardDesc>
+  <IsekaiDungeons.MultiFloor.Bottom>There is nothing below this.</IsekaiDungeons.MultiFloor.Bottom>
+  <IsekaiDungeons.MultiFloor.StairSealed>Something on this floor still objects.</IsekaiDungeons.MultiFloor.StairSealed>
+  <IsekaiDungeons.MultiFloor.OnwardFailed>The way on will not open.</IsekaiDungeons.MultiFloor.OnwardFailed>
+
+  <IsekaiDungeons.MultiFloor.Arrived.Label>Floor {FLOOR}</IsekaiDungeons.MultiFloor.Arrived.Label>
+  <IsekaiDungeons.MultiFloor.Arrived.Text>Floor {FLOOR} of {TOTAL}, in {PLACE}.
+
+The way you came is behind you. The way on is at the far end, and it will not open while anything here is still standing.</IsekaiDungeons.MultiFloor.Arrived.Text>
+
+  <IsekaiDungeons.MultiFloor.Inspect.Depth>{TOTAL} floors, {MINRANK} down to {MAXRANK}.</IsekaiDungeons.MultiFloor.Inspect.Depth>
+  <IsekaiDungeons.MultiFloor.Inspect.Progress>Reached floor {DEEPEST} of {TOTAL}.</IsekaiDungeons.MultiFloor.Inspect.Progress>
+  <IsekaiDungeons.MultiFloor.Inspect.Completed>Cleared to the bottom.</IsekaiDungeons.MultiFloor.Inspect.Completed>
+
+  <IsekaiDungeons.MultiFloor.Autopilot.BottomOff>The bottom is clear. Auto-clear is off; walk them out when you are ready.</IsekaiDungeons.MultiFloor.Autopilot.BottomOff>
+  <IsekaiDungeons.MultiFloor.Autopilot.Refused>Auto-clear will not take them deeper unattended.</IsekaiDungeons.MultiFloor.Autopilot.Refused>
+
+  <IsekaiDungeons.MultiFloor.Report.Label>Guild survey: {PLACE}</IsekaiDungeons.MultiFloor.Report.Label>
+  <IsekaiDungeons.MultiFloor.Report.Text>The guild's scouts have finished mapping {PLACE} and marked it on your world map.
+
+{WHAT}
+
+They put it at {FLOORS} floors. The mouth reads {TOPRANK}; the bottom reads {DEEPRANK}, and the scouts did not go that far.
+
+There is no gate on it and nothing counting down. It will keep. Take a caravan when you are ready. Whatever is down there is yours, and the guild will pay {SILVER} silver to whoever clears the bottom floor.</IsekaiDungeons.MultiFloor.Report.Text>
+
+  <!-- ══ Clearing floors, and finishing the descent ══ -->
+  <IsekaiDungeons.MultiFloor.WayDown>down</IsekaiDungeons.MultiFloor.WayDown>
+  <IsekaiDungeons.MultiFloor.WayUp>up</IsekaiDungeons.MultiFloor.WayUp>
+  <IsekaiDungeons.MultiFloor.FloorCleared.Label>Floor {FLOOR} of {TOTAL} cleared</IsekaiDungeons.MultiFloor.FloorCleared.Label>
+  <IsekaiDungeons.MultiFloor.FloorCleared.Text>Floor {FLOOR} of {TOTAL} in {PLACE} is clear. It was a {RANK} floor, and every colonist who fought on it gained {XP} XP.
+
+The stair {ONWARD} is open. The way out is still where you came in, and a cleared floor stays cleared if you leave and come back.</IsekaiDungeons.MultiFloor.FloorCleared.Text>
+  <IsekaiDungeons.MultiFloor.FloorCleared.Withheld>Nothing on this floor was left lying out. Whatever it held has been carried down to the hoard on the bottom shelf, and that is the only place it will be found.</IsekaiDungeons.MultiFloor.FloorCleared.Withheld>
+  <IsekaiDungeons.MultiFloor.Conquered.Label>{PLACE} conquered</IsekaiDungeons.MultiFloor.Conquered.Label>
+  <IsekaiDungeons.MultiFloor.Conquered.Text>The last floor of {PLACE} is clear. All {TOTAL} floors, down to the {RANK} bottom, have been fought through, and what ruled the place is dead.</IsekaiDungeons.MultiFloor.Conquered.Text>
+  <IsekaiDungeons.MultiFloor.Conquered.Chest>Beside the spoils of this floor, the bottom held something it was keeping for itself: {CHEST}.</IsekaiDungeons.MultiFloor.Conquered.Chest>
+  <IsekaiDungeons.MultiFloor.Conquered.Bounty>The guild's bounty of {SILVER} silver is on its way to your colony by drop pod.</IsekaiDungeons.MultiFloor.Conquered.Bounty>
+  <IsekaiDungeons.MultiFloor.Conquered.Spent>Carry out what you want to keep. Once the last of you is out, the place goes quiet for good and the guild strikes it from the map.</IsekaiDungeons.MultiFloor.Conquered.Spent>
+  <IsekaiDungeons.MultiFloor.Spent>{PLACE} has gone quiet. The guild has struck it from the map.</IsekaiDungeons.MultiFloor.Spent>
+  <IsekaiDungeons.MultiFloor.Hoard.Label>The hoard</IsekaiDungeons.MultiFloor.Hoard.Label>
+  <IsekaiDungeons.MultiFloor.Hoard.Text>The nest's master is dead, and the hoard it sat on is open. Everything the {FLOORS} floors above would have paid is piled here at the bottom of {PLACE}.</IsekaiDungeons.MultiFloor.Hoard.Text>
+
+  <!-- ══ The survey, in the Quests tab ══ -->
+  <IsekaiDungeons.Quest.Deep.Name>Survey: {PLACE}</IsekaiDungeons.Quest.Deep.Name>
+  <IsekaiDungeons.Quest.Deep.Description>The guild has surveyed {PLACE} and marked it on your world map.
+
+{WHAT}
+
+{TOTAL} floors. The mouth reads {TOPRANK}; the bottom reads {DEEPRANK}. There is no deadline: it will keep until you are ready.
+
+Reward for clearing the bottom floor: {SILVER} silver from the guild, a bonus treasure chest, and everything found on the way down.</IsekaiDungeons.Quest.Deep.Description>
+  <IsekaiDungeons.Quest.Deep.Unvisited>Nobody from your colony has been inside yet.</IsekaiDungeons.Quest.Deep.Unvisited>
+  <IsekaiDungeons.Quest.Deep.Progress>Floors cleared: {CLEARED} of {TOTAL}. Deepest reached: floor {DEEPEST}.</IsekaiDungeons.Quest.Deep.Progress>
+
+  <!-- ══ The spines: what each multi-floor dungeon carries between its floors ══ -->
+
+  <IsekaiDungeons.Spine.RisingDead.Label>They came down with you</IsekaiDungeons.Spine.RisingDead.Label>
+  <IsekaiDungeons.Spine.RisingDead.Text>{COUNT} of the things you killed on the floor above are standing at the mouth of this one.
+
+They are not fresh, and they are not what they were. But they are between you and the way back.
+
+The ossuary counts what you leave behind. Burn the bodies, or keep meeting them.</IsekaiDungeons.Spine.RisingDead.Text>
+
+  <IsekaiDungeons.Spine.Retreat.Label>The stragglers ran ahead</IsekaiDungeons.Spine.Retreat.Label>
+  <IsekaiDungeons.Spine.Retreat.Text>{COUNT} that you left alive upstairs did not stay there. They came down first and told somebody.
+
+Whatever you do not finish on a floor is waiting on the next one, and it brings friends.</IsekaiDungeons.Spine.Retreat.Text>
+
+  <IsekaiDungeons.Spine.Regrowth.Label>Floor {FLOOR} has grown back</IsekaiDungeons.Spine.Regrowth.Label>
+  <IsekaiDungeons.Spine.Regrowth.Text>You cleared this floor. It did not stay cleared.
+
+{COUNT} have filled the rooms behind you while you were below. The hive does not wait, and the way out is up through here.
+
+It grows back once. Cross it now and it stays crossed.</IsekaiDungeons.Spine.Regrowth.Text>
+
+  <IsekaiDungeons.Spine.Alert.Label>The stack is awake</IsekaiDungeons.Spine.Alert.Label>
+  <IsekaiDungeons.Spine.Alert.Text>Alert level {PCT}. The plant has routed {COUNT} extra units onto this floor ahead of you.
+
+Every floor you enter raises it, and every day you spend on one raises it faster. Nothing resets it. Move.</IsekaiDungeons.Spine.Alert.Text>
+
+  <IsekaiDungeons.Spine.Alert.Level>Alert level {PCT}.</IsekaiDungeons.Spine.Alert.Level>
+
+  <IsekaiDungeons.Spine.Cold.Entered>The cold here is {TEMP}C.</IsekaiDungeons.Spine.Cold.Entered>
+  <IsekaiDungeons.Spine.Heat.Entered>The heat here is {TEMP}C.</IsekaiDungeons.Spine.Heat.Entered>
+  <IsekaiDungeons.Spine.Climate.Refused>Auto-clear stopped: the next floor reads {TEMP}C and {PAWN} is not dressed for it.</IsekaiDungeons.Spine.Climate.Refused>
+
+  <!-- Gate summoning scrolls (Items/CompUseEffect_SummonGate.cs). -->
+  <IsekaiDungeons.GateScroll.CannotInDungeon>A gate cannot be opened from inside another one.</IsekaiDungeons.GateScroll.CannotInDungeon>
+  <IsekaiDungeons.GateScroll.HomeOnly>A gate can only be anchored on your colony's own ground.</IsekaiDungeons.GateScroll.HomeOnly>
+  <IsekaiDungeons.GateScroll.NoRoom>There is no clear ground nearby for a gate to open on.</IsekaiDungeons.GateScroll.NoRoom>
+  <IsekaiDungeons.GateScroll.Fizzled>The scroll's ink stirs, then settles. No dungeon answers at this rank.</IsekaiDungeons.GateScroll.Fizzled>
+  <IsekaiDungeons.GateScroll.ConfirmRed>This scroll opens a {RANK}-rank gate, above anything this colony has fielded. It will be a red gate, and it will break if no one clears it.\n\nRead it anyway?</IsekaiDungeons.GateScroll.ConfirmRed>
+  <IsekaiDungeons.Letter.GateSummoned.Label>{RANK}-rank gate summoned</IsekaiDungeons.Letter.GateSummoned.Label>
+  <IsekaiDungeons.Letter.GateSummoned.Text>{PAWN_nameDef} read the scroll aloud. The ink burned off the page line by line, and the air in front of {PAWN_objective} split open. A stone arch now stands there, with a darkness behind it that presses against the skin.\n\nThe pressure marks it plainly: this gate is {RANK}-rank. Clear the dungeon behind it and kill the boss that rules it, and the gate dies with its master.\n\nA summoned gate is still a gate. If no one clears it, it will break in {DAYS} days.</IsekaiDungeons.Letter.GateSummoned.Text>
+
+</LanguageData>

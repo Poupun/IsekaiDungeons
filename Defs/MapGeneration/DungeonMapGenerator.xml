@@ -1,0 +1,1132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    ═══════════════════════════════════════════════════════════════════════
+    DUNGEON ENVIRONMENTS
+    ═══════════════════════════════════════════════════════════════════════
+
+    Ten shared MapGeneratorDefs. A DungeonKindDef picks one via <mapGenerator>;
+    everything else about a dungeon (floor, walls, doors, roster) is theme data
+    on the kind def — and on an OPEN kind most of that theme data is simply
+    absent, because Open reads no floor and no wall fields at all. No dungeon
+    gets a bespoke generator.
+
+    TWO FAMILIES — see DungeonLayoutMode in DungeonKindDef.cs:
+
+      CARVE  (Cavern, Hive, Crypt, Abyss)
+        isUnderground true, so MapGenerator pre-fills the whole map with
+        RoofRockThick and IsekaiDungeons_Underground_RocksFromGrid fills it with
+        rock (vanilla's step with its random ores zeroed; IsekaiDungeons_ManaOre
+        then seeds mana ore, see ManaOreGenSteps.xml). Our
+        layout step SUBTRACTS rooms and corridors; the leftover rock IS the
+        wall shell. Always roofed — they are holes in the ground.
+
+      OPEN  (Snowfield, Verdant, Ashland, Ruins, Foundry, Celestial)
+        isUnderground false, a real surface biome, open ground — and it STAYS
+        open ground. Our layout step deliberately NO-OPS here: no walls, no
+        corridors, no doors, terrain untouched. The biome IS the dungeon and
+        difficulty is nothing but where the creature groups stand. These are the
+        Solo-Leveling "alternative world" gates: you step through and stand
+        under a strange sky, not in a hole. Underground_RocksFromGrid is
+        deliberately ABSENT — there is no rock to carve and no build pass to
+        demolish it, so running it would leave a map of solid stone (the Open
+        invariants in DungeonKindDef.ConfigErrors reject that pairing outright).
+
+    GENSTEP ORDER. The list below is documentation only: MapGenerator sorts the
+    steps by GenStepDef.order, not by list position. Core orders, verified
+    against Data/Core/Defs/MapGeneration/CommonMapGenerator.xml:
+      ElevationFertility 10 → IsekaiDungeons_Underground_RocksFromGrid 200
+      → IsekaiDungeons_ManaOre 201 → Terrain 210
+      → [ours: decor 300-320 / Layout 410 / Entrance 420 / Population 430]
+      → Plants 900 → Fog 1500
+    Layout must run after Terrain (on a Carve map it rewrites terrain and
+    destroys edifices), Entrance after Layout (needs the entry room/zone),
+    Population after Entrance (rooms + exit must exist), and everything before
+    Fog (fog must cover the finished layout). Surface decor sits at 300-320 —
+    see the DECOR section at the bottom of this file for why it must be BEFORE
+    410, not after.
+
+    PLANTS ON OPEN MAPS. Plants runs at 900 and seeds the biome's own wild
+    growth across the whole field. Our layout step floored nothing for it to
+    grow onto, so plant cover here is purely a property of the biome picked
+    below (plantDensity) and not of any kind def: a forest field grows over,
+    encounter zones included (Verdant), a barren one never does (Ashland,
+    Celestial, the IceSheet Snowfield).
+
+    BIOMES. Carve maps share the IsekaiDungeons_Dungeon biome defined at the
+    bottom of this file. Open maps use REAL CORE biomes (verified present in
+    Data/Core/Defs/BiomeDefs) so the mod needs no DLC and no invented biome
+    tables; none of them declare extraGenSteps or preventGenSteps, so they add
+    nothing to the pipeline above. pocketMapProperties.temperature overrides the
+    biome's climate outright, which is how two dungeons can share one biome and
+    still feel nothing alike.
+  -->
+
+  <!-- ══════════════════ CARVE ENVIRONMENTS ══════════════════ -->
+
+  <!--
+    CAVERN — classic rough rock tunnels. The original dungeon generator; the
+    defName is frozen (IsekaiDungeonsDefOf.IsekaiDungeons_Dungeon and the gate's
+    <portal><pocketMapGenerator> both point at it), so "Cavern" in the catalogue
+    IS this def.
+    Catalogue: 1 Slime Ranch, 2 Vermin Burrow, 3 Kobold Den, 4 Mudflow Sink,
+    11 Sparkpool Cavern, 19 Goblin King's Warren, 20 Troll Bridge Chasm,
+    26 Metal Slime Vault.
+  -->
+  <MapGeneratorDef>
+    <defName>IsekaiDungeons_Dungeon</defName>
+    <!-- Narrative flavour for the arrival letter and the title card.
+         Lives on the ENVIRONMENT so all its dungeons describe the same
+         place consistently, and so a modder can attach the same
+         extension to their own generator. -->
+    <modExtensions>
+      <li Class="IsekaiDungeons.DungeonEnvironmentExtension">
+        <entryFlavorKey>IsekaiDungeons.Env.Cavern.Flavor</entryFlavorKey>
+        <titleSubtitleKey>IsekaiDungeons.Env.Cavern.Subtitle</titleSubtitleKey>
+        <roomNounKey>IsekaiDungeons.Env.Cavern.RoomNoun</roomNounKey>
+      </li>
+    </modExtensions>
+    <label>dungeon</label>
+    <isUnderground>true</isUnderground>
+    <!-- forceCaves gives cave plants (glowing agarilux etc.) — the dungeon's
+         only ambient light besides the exit glower. -->
+    <forceCaves>true</forceCaves>
+    <ignoreAreaRevealedLetter>true</ignoreAreaRevealedLetter>
+    <disableCallAid>true</disableCallAid>
+    <customMapComponents>
+      <li>IsekaiDungeons.DungeonMapComponent</li>
+    </customMapComponents>
+    <pocketMapProperties>
+      <biome>IsekaiDungeons_Dungeon</biome>
+      <temperature>12</temperature>
+    </pocketMapProperties>
+    <genSteps>
+      <li>IsekaiDungeons_TowerWhiteout</li>
+      <li>ElevationFertility</li>
+      <li>IsekaiDungeons_Underground_RocksFromGrid</li>
+      <li>IsekaiDungeons_ManaOre</li>
+      <li>Terrain</li>
+      <li>IsekaiDungeons_Layout</li>
+      <li>IsekaiDungeons_Entrance</li>
+      <li>IsekaiDungeons_Decor</li>
+      <li>IsekaiDungeons_Population</li>
+      <li>Plants</li>
+      <li>Fog</li>
+    </genSteps>
+  </MapGeneratorDef>
+
+  <!--
+    HIVE — insect tunnels over damp gravel. Same rock as the Cavern; the crawling
+    feel comes from the kind's floor theme and the roster. Warm and close (20°C),
+    the temperature an insect nest keeps itself at.
+    Catalogue: 5 Scarab Nest, 9 Spider Hollow, 14 Megaspider Hive.
+  -->
+  <MapGeneratorDef>
+    <defName>IsekaiDungeons_Hive</defName>
+    <!-- Narrative flavour for the arrival letter and the title card.
+         Lives on the ENVIRONMENT so all its dungeons describe the same
+         place consistently, and so a modder can attach the same
+         extension to their own generator. -->
+    <modExtensions>
+      <li Class="IsekaiDungeons.DungeonEnvironmentExtension">
+        <entryFlavorKey>IsekaiDungeons.Env.Hive.Flavor</entryFlavorKey>
+        <titleSubtitleKey>IsekaiDungeons.Env.Hive.Subtitle</titleSubtitleKey>
+        <roomNounKey>IsekaiDungeons.Env.Hive.RoomNoun</roomNounKey>
+      </li>
+    </modExtensions>
+    <label>dungeon hive</label>
+    <isUnderground>true</isUnderground>
+    <forceCaves>true</forceCaves>
+    <ignoreAreaRevealedLetter>true</ignoreAreaRevealedLetter>
+    <disableCallAid>true</disableCallAid>
+    <customMapComponents>
+      <li>IsekaiDungeons.DungeonMapComponent</li>
+    </customMapComponents>
+    <pocketMapProperties>
+      <biome>IsekaiDungeons_Dungeon</biome>
+      <temperature>20</temperature>
+    </pocketMapProperties>
+    <genSteps>
+      <li>IsekaiDungeons_TowerWhiteout</li>
+      <li>ElevationFertility</li>
+      <li>IsekaiDungeons_Underground_RocksFromGrid</li>
+      <li>IsekaiDungeons_ManaOre</li>
+      <li>Terrain</li>
+      <li>IsekaiDungeons_Layout</li>
+      <li>IsekaiDungeons_Entrance</li>
+      <li>IsekaiDungeons_Decor</li>
+      <li>IsekaiDungeons_Population</li>
+      <li>Plants</li>
+      <li>Fog</li>
+    </genSteps>
+  </MapGeneratorDef>
+
+  <!--
+    CRYPT — cut stone and tomb tile. Grave-cold at 5°C, which is cold enough to
+    read as a tomb without costing an unprepared party hypothermia.
+    Catalogue: 8 Bone Ossuary, 25 Skeleton Legion Crypt, 28 Lich Catacombs,
+    40 Chimera Warren, 42 Lich King's Necropolis.
+  -->
+  <MapGeneratorDef>
+    <defName>IsekaiDungeons_Crypt</defName>
+    <!-- Narrative flavour for the arrival letter and the title card.
+         Lives on the ENVIRONMENT so all its dungeons describe the same
+         place consistently, and so a modder can attach the same
+         extension to their own generator. -->
+    <modExtensions>
+      <li Class="IsekaiDungeons.DungeonEnvironmentExtension">
+        <entryFlavorKey>IsekaiDungeons.Env.Crypt.Flavor</entryFlavorKey>
+        <titleSubtitleKey>IsekaiDungeons.Env.Crypt.Subtitle</titleSubtitleKey>
+        <roomNounKey>IsekaiDungeons.Env.Crypt.RoomNoun</roomNounKey>
+      </li>
+    </modExtensions>
+    <label>dungeon crypt</label>
+    <isUnderground>true</isUnderground>
+    <forceCaves>true</forceCaves>
+    <ignoreAreaRevealedLetter>true</ignoreAreaRevealedLetter>
+    <disableCallAid>true</disableCallAid>
+    <customMapComponents>
+      <li>IsekaiDungeons.DungeonMapComponent</li>
+    </customMapComponents>
+    <pocketMapProperties>
+      <biome>IsekaiDungeons_Dungeon</biome>
+      <temperature>5</temperature>
+    </pocketMapProperties>
+    <genSteps>
+      <li>IsekaiDungeons_TowerWhiteout</li>
+      <li>ElevationFertility</li>
+      <li>IsekaiDungeons_Underground_RocksFromGrid</li>
+      <li>IsekaiDungeons_ManaOre</li>
+      <li>Terrain</li>
+      <li>IsekaiDungeons_Layout</li>
+      <li>IsekaiDungeons_Entrance</li>
+      <li>IsekaiDungeons_Decor</li>
+      <li>IsekaiDungeons_Population</li>
+      <li>Plants</li>
+      <li>Fog</li>
+    </genSteps>
+  </MapGeneratorDef>
+
+  <!--
+    ABYSS — scorched infernal rock. 40°C is the one environment whose climate is
+    itself a threat: parkas and heavy armour become a liability, so an Abyss run
+    is a real kit decision rather than a reskin.
+    Catalogue: 13 Imp Furnace, 21 Demon Gate, 29 Hell Ogre Pit,
+    33 Fleshmass Womb, 37 Demon Lord's Court, 43 Abyssal Throne,
+    47 Void Chimera Den, 50 Midhir's Deep.
+  -->
+  <MapGeneratorDef>
+    <defName>IsekaiDungeons_Abyss</defName>
+    <!-- Narrative flavour for the arrival letter and the title card.
+         Lives on the ENVIRONMENT so all its dungeons describe the same
+         place consistently, and so a modder can attach the same
+         extension to their own generator. -->
+    <modExtensions>
+      <li Class="IsekaiDungeons.DungeonEnvironmentExtension">
+        <entryFlavorKey>IsekaiDungeons.Env.Abyss.Flavor</entryFlavorKey>
+        <titleSubtitleKey>IsekaiDungeons.Env.Abyss.Subtitle</titleSubtitleKey>
+        <roomNounKey>IsekaiDungeons.Env.Abyss.RoomNoun</roomNounKey>
+      </li>
+    </modExtensions>
+    <label>dungeon abyss</label>
+    <isUnderground>true</isUnderground>
+    <forceCaves>true</forceCaves>
+    <ignoreAreaRevealedLetter>true</ignoreAreaRevealedLetter>
+    <disableCallAid>true</disableCallAid>
+    <customMapComponents>
+      <li>IsekaiDungeons.DungeonMapComponent</li>
+    </customMapComponents>
+    <pocketMapProperties>
+      <biome>IsekaiDungeons_Dungeon</biome>
+      <temperature>40</temperature>
+    </pocketMapProperties>
+    <genSteps>
+      <li>IsekaiDungeons_TowerWhiteout</li>
+      <li>ElevationFertility</li>
+      <li>IsekaiDungeons_Underground_RocksFromGrid</li>
+      <li>IsekaiDungeons_ManaOre</li>
+      <li>Terrain</li>
+      <li>IsekaiDungeons_Layout</li>
+      <li>IsekaiDungeons_Entrance</li>
+      <li>IsekaiDungeons_Decor</li>
+      <li>IsekaiDungeons_Population</li>
+      <li>Plants</li>
+      <li>Fog</li>
+    </genSteps>
+  </MapGeneratorDef>
+
+  <!-- ══════════════════ OPEN ENVIRONMENTS ══════════════════ -->
+  <!-- All six: isUnderground false, forceCaves false (both are the field
+       defaults, written out anyway because "surface" is the whole point of this
+       family and a silent default is easy to misread as an oversight). -->
+
+  <!--
+    SNOWFIELD — an open ice plain under an open sky. Nothing is built on it:
+    the plain itself is the dungeon, and the only things standing are the decor
+    scattered below.
+    Biome IceSheet: plantDensity 0 and allowRivers false, so the plain stays
+    blank white and nothing grows across it. -15°C keeps snow falling
+    and makes cold protection a real requirement without instantly freezing an
+    unprepared party. (The core Snow gen step is not listed: the map's own
+    weather lays snow down at runtime, and pre-seeded depth would only slow the
+    approach march.)
+    Catalogue: 7 Frostmite Crevasse, 15 Glacier Tomb, 18 Wolf Pack Hollow,
+    32 Frozen Wyrm Lair, 36 Duskwyrm Eyrie, 52 The Mist Trench.
+  -->
+  <MapGeneratorDef>
+    <defName>IsekaiDungeons_Snowfield</defName>
+    <!-- Narrative flavour for the arrival letter and the title card.
+         Lives on the ENVIRONMENT so all its dungeons describe the same
+         place consistently, and so a modder can attach the same
+         extension to their own generator. -->
+    <modExtensions>
+      <li Class="IsekaiDungeons.DungeonEnvironmentExtension">
+        <entryFlavorKey>IsekaiDungeons.Env.Snowfield.Flavor</entryFlavorKey>
+        <titleSubtitleKey>IsekaiDungeons.Env.Snowfield.Subtitle</titleSubtitleKey>
+        <roomNounKey>IsekaiDungeons.Env.Snowfield.RoomNoun</roomNounKey>
+      </li>
+    </modExtensions>
+    <label>dungeon snowfield</label>
+    <isUnderground>false</isUnderground>
+    <forceCaves>false</forceCaves>
+    <ignoreAreaRevealedLetter>true</ignoreAreaRevealedLetter>
+    <disableCallAid>true</disableCallAid>
+    <customMapComponents>
+      <li>IsekaiDungeons.DungeonMapComponent</li>
+    </customMapComponents>
+    <pocketMapProperties>
+      <biome>IceSheet</biome>
+      <temperature>-15</temperature>
+    </pocketMapProperties>
+    <genSteps>
+      <li>IsekaiDungeons_TowerVillage</li>
+      <li>ElevationFertility</li>
+      <li>Terrain</li>
+      <li>IsekaiDungeons_Palette_Snowfield</li>
+      <!-- DECOR. Sparsest of the six: an ice plain should read as an ice
+           plain. A handful of half-buried ruins for landmarks, plus granite
+           erratics — the dark boulders a glacier drops on white ground, which
+           are the only thing giving the eye a fix while crossing between
+           encounter zones. No vanilla RockChunks: its density is a private
+           const (0.006/cell) and would carpet the plain. -->
+      <li>IsekaiDungeons_ScatterRuins_Sparse</li>
+      <li>IsekaiDungeons_GlacialErratics</li>
+      <li>IsekaiDungeons_Layout</li>
+      <li>IsekaiDungeons_Entrance</li>
+      <li>IsekaiDungeons_Decor</li>
+      <li>IsekaiDungeons_Population</li>
+      <li>Plants</li>
+      <li>Fog</li>
+    </genSteps>
+  </MapGeneratorDef>
+
+  <!--
+    VERDANT — overgrown forest under an open sky, with no walls anywhere in it.
+    Biome TemperateForest: plantDensity 0.65, and since nothing is floored or
+    cleared, the whole field grows into real woodland — encounter zones
+    included. That is the intended look for a goblin camp or a treant grove:
+    the party fights through the wood itself, not through rooms cut into it.
+    Catalogue: 6 Goblin Camp, 10 Boarpit Thicket, 12 Orc Warcamp,
+    17 Poisonbog Warren, 22 Treant Grove, 24 Thrumbo Vale.
+  -->
+  <MapGeneratorDef>
+    <defName>IsekaiDungeons_Verdant</defName>
+    <!-- Narrative flavour for the arrival letter and the title card.
+         Lives on the ENVIRONMENT so all its dungeons describe the same
+         place consistently, and so a modder can attach the same
+         extension to their own generator. -->
+    <modExtensions>
+      <li Class="IsekaiDungeons.DungeonEnvironmentExtension">
+        <entryFlavorKey>IsekaiDungeons.Env.Verdant.Flavor</entryFlavorKey>
+        <titleSubtitleKey>IsekaiDungeons.Env.Verdant.Subtitle</titleSubtitleKey>
+        <roomNounKey>IsekaiDungeons.Env.Verdant.RoomNoun</roomNounKey>
+      </li>
+    </modExtensions>
+    <label>dungeon wildwood</label>
+    <isUnderground>false</isUnderground>
+    <forceCaves>false</forceCaves>
+    <ignoreAreaRevealedLetter>true</ignoreAreaRevealedLetter>
+    <disableCallAid>true</disableCallAid>
+    <customMapComponents>
+      <li>IsekaiDungeons.DungeonMapComponent</li>
+    </customMapComponents>
+    <pocketMapProperties>
+      <biome>TemperateForest</biome>
+      <temperature>21</temperature>
+    </pocketMapProperties>
+    <genSteps>
+      <li>IsekaiDungeons_TowerVillage</li>
+      <li>ElevationFertility</li>
+      <li>Terrain</li>
+      <!-- DECOR. The forest itself does most of the work here (Plants at 900
+           seeds real woodland), so decor stays light: a few overgrown ruins
+           and mossy boulders. RockChunks is the vanilla surface scatter and
+           reads exactly right under trees. -->
+      <li>IsekaiDungeons_ScatterRuins_Light</li>
+      <li>IsekaiDungeons_RockChunks</li>
+      <li>IsekaiDungeons_Layout</li>
+      <li>IsekaiDungeons_Entrance</li>
+      <li>IsekaiDungeons_Decor</li>
+      <li>IsekaiDungeons_Population</li>
+      <li>Plants</li>
+      <li>Fog</li>
+    </genSteps>
+  </MapGeneratorDef>
+
+  <!--
+    ASHLAND — an open volcanic ash plain under a hot sky, unbuilt and unwalled.
+    Biome ExtremeDesert: plantDensity 0.002 and forageability 0, the most barren
+    surface biome in Core — nothing green ever intrudes on a dragon's ash waste.
+    42°C makes it the surface counterpart of the Abyss: heat is part of the
+    fight, and these are all A-rank and up, so the party can afford to plan for
+    it.
+    Catalogue: 34 Elephant Graveyard, 35 Flamewyrm Roost,
+    41 True Dragon's Hoard, 45 Ancient Dragon's Peak, 49 Dragonspire Apex.
+  -->
+  <MapGeneratorDef>
+    <defName>IsekaiDungeons_Ashland</defName>
+    <!-- Narrative flavour for the arrival letter and the title card.
+         Lives on the ENVIRONMENT so all its dungeons describe the same
+         place consistently, and so a modder can attach the same
+         extension to their own generator. -->
+    <modExtensions>
+      <li Class="IsekaiDungeons.DungeonEnvironmentExtension">
+        <entryFlavorKey>IsekaiDungeons.Env.Ashland.Flavor</entryFlavorKey>
+        <titleSubtitleKey>IsekaiDungeons.Env.Ashland.Subtitle</titleSubtitleKey>
+        <roomNounKey>IsekaiDungeons.Env.Ashland.RoomNoun</roomNounKey>
+      </li>
+    </modExtensions>
+    <label>dungeon ashland</label>
+    <isUnderground>false</isUnderground>
+    <forceCaves>false</forceCaves>
+    <ignoreAreaRevealedLetter>true</ignoreAreaRevealedLetter>
+    <disableCallAid>true</disableCallAid>
+    <customMapComponents>
+      <li>IsekaiDungeons.DungeonMapComponent</li>
+    </customMapComponents>
+    <pocketMapProperties>
+      <biome>ExtremeDesert</biome>
+      <temperature>42</temperature>
+    </pocketMapProperties>
+    <genSteps>
+      <li>IsekaiDungeons_TowerVillage</li>
+      <li>ElevationFertility</li>
+      <li>Terrain</li>
+      <li>IsekaiDungeons_Palette_Ashland</li>
+      <!-- DECOR. ExtremeDesert grows nothing, so ROCK is the whole silhouette
+           of this environment: heavy boulder fields (RockChunks) broken by a
+           few scorched ruins. Reads as a lava field gone cold, which is the
+           dragon-waste look the kind defs theme on top. -->
+      <li>IsekaiDungeons_ScatterRuins_Light</li>
+      <li>IsekaiDungeons_RockChunks</li>
+      <li>IsekaiDungeons_Layout</li>
+      <li>IsekaiDungeons_Entrance</li>
+      <li>IsekaiDungeons_Decor</li>
+      <li>IsekaiDungeons_Population</li>
+      <li>Plants</li>
+      <li>Fog</li>
+    </genSteps>
+  </MapGeneratorDef>
+
+  <!--
+    RUINS — an open field of ancient sandstone under an open sky. The only
+    masonry here is the scattered decor; nothing of ours is built.
+    Biome AridShrubland rather than a bare desert: its light scrub (plantDensity
+    0.24) creeps over the ruin shells and sells "abandoned a very long time ago"
+    instead of "buried". 30°C — hot, but survivable in armour.
+    Catalogue: 23 Ancient Vault, 27 Orc Warlord's Fortress,
+    31 Minotaur Labyrinth, 39 Titan Labyrinth.
+  -->
+  <MapGeneratorDef>
+    <defName>IsekaiDungeons_Ruins</defName>
+    <!-- Narrative flavour for the arrival letter and the title card.
+         Lives on the ENVIRONMENT so all its dungeons describe the same
+         place consistently, and so a modder can attach the same
+         extension to their own generator. -->
+    <modExtensions>
+      <li Class="IsekaiDungeons.DungeonEnvironmentExtension">
+        <entryFlavorKey>IsekaiDungeons.Env.Ruins.Flavor</entryFlavorKey>
+        <titleSubtitleKey>IsekaiDungeons.Env.Ruins.Subtitle</titleSubtitleKey>
+        <roomNounKey>IsekaiDungeons.Env.Ruins.RoomNoun</roomNounKey>
+      </li>
+    </modExtensions>
+    <label>dungeon ruins</label>
+    <isUnderground>false</isUnderground>
+    <forceCaves>false</forceCaves>
+    <ignoreAreaRevealedLetter>true</ignoreAreaRevealedLetter>
+    <disableCallAid>true</disableCallAid>
+    <customMapComponents>
+      <li>IsekaiDungeons.DungeonMapComponent</li>
+    </customMapComponents>
+    <pocketMapProperties>
+      <biome>AridShrubland</biome>
+      <temperature>30</temperature>
+    </pocketMapProperties>
+    <genSteps>
+      <li>IsekaiDungeons_TowerVillage</li>
+      <li>ElevationFertility</li>
+      <li>Terrain</li>
+      <li>IsekaiDungeons_Palette_Ruins</li>
+      <!-- DECOR. The one environment whose decor IS its identity: this is a
+           ruined field, so ruins get the highest count and the largest size
+           curve in the file, and collapsed masonry (RockChunks) fills the gaps
+           between them. Ruins never overlap (see IsekaiDungeons_ScatterRuins_
+           Heavy) so "more ruins" means more scattered shells, never a maze. -->
+      <li>IsekaiDungeons_ScatterRuins_Heavy</li>
+      <li>IsekaiDungeons_RockChunks</li>
+      <li>IsekaiDungeons_Layout</li>
+      <li>IsekaiDungeons_Entrance</li>
+      <li>IsekaiDungeons_Decor</li>
+      <li>IsekaiDungeons_Population</li>
+      <li>Plants</li>
+      <li>Fog</li>
+    </genSteps>
+  </MapGeneratorDef>
+
+  <!--
+    FOUNDRY — a sterile machine yard under open sky. No roof and no shell (the
+    kind defs state roofed false like every other Open environment), so the
+    biome is fully in view: Desert is picked for being flat, dry and
+    near-lifeless, ground that already reads as a stripped industrial floor and
+    that no water breaks up. 18°C is far milder than a desert should be — the
+    hint that something here is still holding the air its builders left.
+    Catalogue: 16 Scrap Foundry, 30 Mechanoid Outpost,
+    38 Mechanoid Command Node, 44 Mechanoid Hive Cluster.
+  -->
+  <MapGeneratorDef>
+    <defName>IsekaiDungeons_Foundry</defName>
+    <!-- Narrative flavour for the arrival letter and the title card.
+         Lives on the ENVIRONMENT so all its dungeons describe the same
+         place consistently, and so a modder can attach the same
+         extension to their own generator. -->
+    <modExtensions>
+      <li Class="IsekaiDungeons.DungeonEnvironmentExtension">
+        <entryFlavorKey>IsekaiDungeons.Env.Foundry.Flavor</entryFlavorKey>
+        <titleSubtitleKey>IsekaiDungeons.Env.Foundry.Subtitle</titleSubtitleKey>
+        <roomNounKey>IsekaiDungeons.Env.Foundry.RoomNoun</roomNounKey>
+      </li>
+    </modExtensions>
+    <label>dungeon foundry</label>
+    <isUnderground>false</isUnderground>
+    <forceCaves>false</forceCaves>
+    <ignoreAreaRevealedLetter>true</ignoreAreaRevealedLetter>
+    <disableCallAid>true</disableCallAid>
+    <customMapComponents>
+      <li>IsekaiDungeons.DungeonMapComponent</li>
+    </customMapComponents>
+    <pocketMapProperties>
+      <biome>Desert</biome>
+      <temperature>18</temperature>
+    </pocketMapProperties>
+    <genSteps>
+      <li>IsekaiDungeons_TowerVillage</li>
+      <li>ElevationFertility</li>
+      <li>Terrain</li>
+      <li>IsekaiDungeons_Palette_Foundry</li>
+      <!-- DECOR. Mechanical, not geological: NO RockChunks (natural boulders
+           on a machine floor read as a different dungeon). Instead steel slag
+           with machine-bit filth around it, plus a few ruin shells that pass
+           for collapsed machine housings. -->
+      <li>IsekaiDungeons_ScatterRuins_Light</li>
+      <li>IsekaiDungeons_FoundryDebris</li>
+      <li>IsekaiDungeons_Layout</li>
+      <li>IsekaiDungeons_Entrance</li>
+      <li>IsekaiDungeons_Decor</li>
+      <li>IsekaiDungeons_Population</li>
+      <li>Plants</li>
+      <li>Fog</li>
+    </genSteps>
+  </MapGeneratorDef>
+
+  <!--
+    CELESTIAL — a pale empty field in soft light under an open sky; the "hall"
+    is the horizon, not a building. Shares ExtremeDesert with the Ashland on
+    purpose: it is the only Core biome that is truly empty, and emptiness is
+    exactly what a hall of valkyries should stand in. The two read nothing
+    alike because the climate is inverted (20°C against 42°C) and because their
+    decor is opposite — bare ground here, boulder fields there.
+    Catalogue: 46 Valkyrie Hall, 48 Archangel's Sanctum, 51 Corcera's Domain.
+  -->
+  <MapGeneratorDef>
+    <defName>IsekaiDungeons_Celestial</defName>
+    <!-- Narrative flavour for the arrival letter and the title card.
+         Lives on the ENVIRONMENT so all its dungeons describe the same
+         place consistently, and so a modder can attach the same
+         extension to their own generator. -->
+    <modExtensions>
+      <li Class="IsekaiDungeons.DungeonEnvironmentExtension">
+        <entryFlavorKey>IsekaiDungeons.Env.Celestial.Flavor</entryFlavorKey>
+        <titleSubtitleKey>IsekaiDungeons.Env.Celestial.Subtitle</titleSubtitleKey>
+        <roomNounKey>IsekaiDungeons.Env.Celestial.RoomNoun</roomNounKey>
+      </li>
+    </modExtensions>
+    <label>dungeon sanctum</label>
+    <isUnderground>false</isUnderground>
+    <forceCaves>false</forceCaves>
+    <ignoreAreaRevealedLetter>true</ignoreAreaRevealedLetter>
+    <disableCallAid>true</disableCallAid>
+    <customMapComponents>
+      <li>IsekaiDungeons.DungeonMapComponent</li>
+    </customMapComponents>
+    <pocketMapProperties>
+      <biome>ExtremeDesert</biome>
+      <temperature>20</temperature>
+    </pocketMapProperties>
+    <genSteps>
+      <li>IsekaiDungeons_TowerVillage</li>
+      <li>ElevationFertility</li>
+      <li>Terrain</li>
+      <li>IsekaiDungeons_Palette_Celestial</li>
+      <!-- DECOR. Deliberately the emptiest generator in the file: no chunks,
+           no rubble, no debris. A hall of valkyries is defined by the space
+           around it, and on an open field that space IS the whole effect —
+           there is no floor or wall theme left to carry it, since Open reads
+           neither. The one concession is a rare fragment ruin
+           (destroyChanceExp 0.6 — heaviest collapse setting here), so what
+           survives is a stub of standing wall, never a building. -->
+      <li>IsekaiDungeons_ScatterRuins_Fragments</li>
+      <li>IsekaiDungeons_Layout</li>
+      <li>IsekaiDungeons_Entrance</li>
+      <li>IsekaiDungeons_Decor</li>
+      <li>IsekaiDungeons_Population</li>
+      <li>Plants</li>
+      <li>Fog</li>
+    </genSteps>
+  </MapGeneratorDef>
+
+  <!--
+    THE SUMMIT - floor 100 only. The Celestial field with everything that
+    stands on it taken away: no ruin fragments, no plants, no tower-village
+    pass. Just the pale ground, flat to every horizon, and Elijah on it. A
+    separate generator rather than an edit to Celestial, because Valkyrie Hall,
+    the Archangel's Sanctum and the other Celestial floors keep their ruin
+    stubs. Same environment extension, so the arrival text and title card
+    still name it the Pale Reach. Decor stays in the list; the summit's own
+    kind-level decor set is empty, so it dresses nothing.
+  -->
+  <MapGeneratorDef>
+    <defName>IsekaiDungeons_Summit</defName>
+    <modExtensions>
+      <li Class="IsekaiDungeons.DungeonEnvironmentExtension">
+        <entryFlavorKey>IsekaiDungeons.Env.Celestial.Flavor</entryFlavorKey>
+        <titleSubtitleKey>IsekaiDungeons.Env.Celestial.Subtitle</titleSubtitleKey>
+        <roomNounKey>IsekaiDungeons.Env.Celestial.RoomNoun</roomNounKey>
+      </li>
+    </modExtensions>
+    <label>dungeon summit</label>
+    <isUnderground>false</isUnderground>
+    <forceCaves>false</forceCaves>
+    <ignoreAreaRevealedLetter>true</ignoreAreaRevealedLetter>
+    <disableCallAid>true</disableCallAid>
+    <customMapComponents>
+      <li>IsekaiDungeons.DungeonMapComponent</li>
+    </customMapComponents>
+    <pocketMapProperties>
+      <biome>ExtremeDesert</biome>
+      <temperature>20</temperature>
+    </pocketMapProperties>
+    <genSteps>
+      <li>ElevationFertility</li>
+      <li>Terrain</li>
+      <li>IsekaiDungeons_Palette_Celestial</li>
+      <li>IsekaiDungeons_Layout</li>
+      <li>IsekaiDungeons_Entrance</li>
+      <li>IsekaiDungeons_Decor</li>
+      <li>IsekaiDungeons_Population</li>
+      <li>Fog</li>
+    </genSteps>
+  </MapGeneratorDef>
+
+  <!-- ══════════════════ GEN STEPS ══════════════════ -->
+  <!-- Shared by every environment above. Orders are absolute across the whole
+       pipeline, so they are chosen to land between core Terrain (210) and core
+       Plants (900). -->
+
+  <!-- Carves the room/corridor layout and places the doors on Carve maps; on
+       the OPEN environments above it touches the map not at all. Either way it
+       registers the plan's rooms — encounter zones on an Open map — with
+       DungeonMapComponent, which is what Entrance and Population read. -->
+  <GenStepDef>
+    <defName>IsekaiDungeons_Layout</defName>
+    <order>410</order>
+    <genStep Class="IsekaiDungeons.GenStep_DungeonLayout" />
+  </GenStepDef>
+
+  <!-- Spawns the return exit in the entry room and sets the player start spot
+       (pattern: core PlaceCaveExit, order 400). -->
+  <GenStepDef>
+    <defName>IsekaiDungeons_Entrance</defName>
+    <order>420</order>
+    <genStep Class="IsekaiDungeons.GenStep_DungeonEntrance" />
+  </GenStepDef>
+
+  <!-- Fills combat rooms — combat zones on an Open map — with rank-scaled
+       creatures, treasure rooms with loot, and the boss room with the boss. -->
+  <GenStepDef>
+    <defName>IsekaiDungeons_Population</defName>
+    <order>430</order>
+    <genStep Class="IsekaiDungeons.GenStep_DungeonPopulation" />
+  </GenStepDef>
+
+  <!-- Dresses the dungeon for its rank from the environment's
+       DungeonDecorSetDef (Defs/DecorDefs): refined floors and smoothed walls on
+       carved maps, rank-scaled pieces in every room, torches along corridors.
+       425 puts it after the exit is down, so it can keep clear of it, and before
+       population, so creatures and chests take the floor that is left. An
+       environment with no set - Voidscape, by design - is left untouched. -->
+  <GenStepDef>
+    <defName>IsekaiDungeons_Decor</defName>
+    <order>425</order>
+    <genStep Class="IsekaiDungeons.GenStep_DungeonDecor" />
+  </GenStepDef>
+
+  <!-- ══════════════════ SURFACE DECOR ══════════════════ -->
+  <!--
+    Used by the six SURFACE generators only. The underground four are already
+    full of rock and get nothing from this section.
+
+    WHY THESE EXIST AT ALL. In DungeonLayoutMode.Open the layout step touches
+    NOTHING: no walls, no corridors, no doors, terrain untouched. The biome IS
+    the dungeon and difficulty comes only from where the creature groups stand.
+    That is the right design, and it is also why an open field needs scatter:
+    without it a snowfield is a featureless white square and the player has no
+    landmarks to read progress against. Decor is allowed to be anything that
+    breaks up the ground. It is NOT allowed to create enclosed paths — the
+    moment ruins start chaining into corridors we are back to the room dungeon
+    the design rejected.
+
+    WHY ORDER 300-320, i.e. BEFORE our Layout (410) / Entrance (420) /
+    Population (430), and NOT at the vanilla 700-970 junk band:
+
+      1. GenStep_ScatterRuinsSimple.CanPlaceAncientBuildingInRange (decompiled)
+         only refuses a cell for an ARTIFICIAL EDIFICE or a registered UsedRect.
+         It does not look at pawns and it does not look at items. Run it after
+         430 and a ruin can materialise on top of a creature group or bury a
+         treasure pile under a wall. Run it before, and the dependency reverses
+         into checks that already exist: GenStep_DungeonEntrance.ClearArea
+         destroys everything within radius 3 of the exit portal, and
+         GenStep_DungeonPopulation picks spawn cells with IntVec3.Standable,
+         which rejects ruin walls outright.
+
+      2. These six generators can also be pointed at by a
+         DungeonLayoutMode.Build kind — no shipped dungeon is one, but the mode
+         is kept for a future walled-compound archetype. Build CLEARS its room
+         cells and rings the complex with a wall shell; decor placed first is
+         simply demolished by ClearCell where it is in the way. Decor placed at
+         750 would instead drop ruins inside a sealed room or straddling the
+         shell, breaking the fog boundary Build depends on. Before-410 is the
+         only order that is correct for both modes.
+
+      3. Both steps are pocket-map safe at any order: Map.TileInfo returns
+         pocketTileInfo for pocket maps, and World.NaturalRockTypesIn falls
+         back to random natural rock when the tile is invalid. Anomaly's
+         Undercave (a pocket map) ships RockChunks and a ScatterRuinsSimple
+         variant, which is the precedent.
+
+    CAN RUINS ENCLOSE? YES — say so plainly. SketchResolver_MonumentRuin runs
+    SketchResolver_Monument, which for sizes above ~8 always builds a closed
+    wall outline (with one door) and then damages it. So an individual ruin
+    CAN come out as a small sealed box. Four things keep that from mattering,
+    and all four are settings below rather than hope:
+
+      - ignoreUsedRects false. The step registers each placed ruin in the
+        UsedRects map var and rejects any later ruin overlapping one (plus a
+        2-cell pad). Ruins therefore never merge into a larger structure, so
+        "more ruins" only ever means more separate shells on open ground — a
+        party can always walk around one.
+      - destroyChanceExp is set LOW. Verified from SketchResolver_DamageBuildings:
+        destroy chance is Pow(positionFraction, exp), so a SMALLER exponent
+        destroys MORE (core's intact underground ruins use 3). At 0.6-1.2 the
+        step removes up to its 65% hard cap, which reliably punches the walls
+        open. Core's own surface default is 1.32.
+      - size curves are capped (10 for most, 16 for the Ruins field). A shell
+        that small cannot wall off any route across a 150-240 cell map.
+      - canBeOnEdge false, so no ruin is clipped by the map border into a
+        wall that runs off the edge.
+
+    The residual risk is a creature or a treasure stack rolled into the
+    interior of a sealed shell. It is bounded — Standable cells inside a
+    <=16-cell shell are a small fraction of a 20-32 cell encounter zone, the
+    zone's fallback cell scan finds open ground first, and shell walls are
+    attackable — but it is not zero, and it is the thing to watch for in
+    playtest.
+
+    RockChunks note: GenStep_RockChunks has NO configurable fields at all (its
+    density, rubble chance and thresholds are all private consts). The only
+    levers are include/exclude and ORDER, so IsekaiDungeons_RockChunks below is
+    a bare re-declaration of the vanilla class at our order. Per-environment
+    stone density therefore has to come from GenStep_ScatterThings instead —
+    which is what the Snowfield and Foundry steps use.
+  -->
+
+  <!-- SPARSE ruins — Snowfield. Barely there: landmarks, not architecture. -->
+  <GenStepDef>
+    <defName>IsekaiDungeons_ScatterRuins_Sparse</defName>
+    <order>300</order>
+    <genStep Class="GenStep_ScatterRuinsSimple">
+      <allowInWaterBiome>false</allowInWaterBiome>
+      <countPer10kCellsRange>0.4~1</countPer10kCellsRange>
+      <mustBeStandable>true</mustBeStandable>
+      <canBeOnEdge>false</canBeOnEdge>
+      <ignoreUsedRects>false</ignoreUsedRects>
+      <minEdgeDist>8</minEdgeDist>
+      <minSpacing>25</minSpacing>
+      <destroyChanceExp>1.0</destroyChanceExp>
+      <ruinSizeChanceCurve>
+        <points>
+          <li>(6, 0)</li>
+          <li>(6.001, 4)</li>
+          <li>(10, 0)</li>
+        </points>
+      </ruinSizeChanceCurve>
+    </genStep>
+  </GenStepDef>
+
+  <!-- LIGHT ruins — Verdant, Ashland, Foundry. Enough to break the horizon. -->
+  <GenStepDef>
+    <defName>IsekaiDungeons_ScatterRuins_Light</defName>
+    <order>300</order>
+    <genStep Class="GenStep_ScatterRuinsSimple">
+      <allowInWaterBiome>false</allowInWaterBiome>
+      <countPer10kCellsRange>1~2.5</countPer10kCellsRange>
+      <mustBeStandable>true</mustBeStandable>
+      <canBeOnEdge>false</canBeOnEdge>
+      <ignoreUsedRects>false</ignoreUsedRects>
+      <minEdgeDist>8</minEdgeDist>
+      <minSpacing>20</minSpacing>
+      <destroyChanceExp>1.0</destroyChanceExp>
+      <ruinSizeChanceCurve>
+        <points>
+          <li>(6, 0)</li>
+          <li>(6.001, 4)</li>
+          <li>(11, 1)</li>
+          <li>(13, 0)</li>
+        </points>
+      </ruinSizeChanceCurve>
+    </genStep>
+  </GenStepDef>
+
+  <!-- HEAVY ruins — the Ruins environment. Its identity, so the biggest
+       footprints and the highest count in the file. destroyChanceExp is
+       raised slightly (1.2 against 1.0) so more wall survives and the field
+       reads as a ruined city rather than as scattered rubble; the no-overlap
+       rule is what keeps that from becoming a labyrinth. -->
+  <GenStepDef>
+    <defName>IsekaiDungeons_ScatterRuins_Heavy</defName>
+    <order>300</order>
+    <genStep Class="GenStep_ScatterRuinsSimple">
+      <allowInWaterBiome>false</allowInWaterBiome>
+      <countPer10kCellsRange>3~5</countPer10kCellsRange>
+      <mustBeStandable>true</mustBeStandable>
+      <canBeOnEdge>false</canBeOnEdge>
+      <ignoreUsedRects>false</ignoreUsedRects>
+      <minEdgeDist>8</minEdgeDist>
+      <minSpacing>16</minSpacing>
+      <destroyChanceExp>1.2</destroyChanceExp>
+      <ruinSizeChanceCurve>
+        <points>
+          <li>(6, 0)</li>
+          <li>(6.001, 3)</li>
+          <li>(12, 2)</li>
+          <li>(16, 0)</li>
+        </points>
+      </ruinSizeChanceCurve>
+    </genStep>
+  </GenStepDef>
+
+  <!-- FRAGMENT ruins — Celestial. Lowest count, lowest destroyChanceExp:
+       the collapse pass strips up to its 65% cap, so what is left is a stub
+       of standing wall, which is exactly the intended "broken hall" note. -->
+  <GenStepDef>
+    <defName>IsekaiDungeons_ScatterRuins_Fragments</defName>
+    <order>300</order>
+    <genStep Class="GenStep_ScatterRuinsSimple">
+      <allowInWaterBiome>false</allowInWaterBiome>
+      <countPer10kCellsRange>0.2~0.8</countPer10kCellsRange>
+      <mustBeStandable>true</mustBeStandable>
+      <canBeOnEdge>false</canBeOnEdge>
+      <ignoreUsedRects>false</ignoreUsedRects>
+      <minEdgeDist>10</minEdgeDist>
+      <minSpacing>30</minSpacing>
+      <destroyChanceExp>0.6</destroyChanceExp>
+      <ruinSizeChanceCurve>
+        <points>
+          <li>(6, 0)</li>
+          <li>(6.001, 4)</li>
+          <li>(10, 0)</li>
+        </points>
+      </ruinSizeChanceCurve>
+    </genStep>
+  </GenStepDef>
+
+  <!-- Vanilla rock scatter at OUR order. GenStep_RockChunks takes no settings
+       (all consts), so this def differs from core RockChunks only in running
+       at 310 instead of 970 — before our steps, per the ordering argument
+       above. Chunks are Items with passability PassThroughOnly: they cost
+       path time, they never block, and they cannot enclose anything. -->
+  <GenStepDef>
+    <defName>IsekaiDungeons_RockChunks</defName>
+    <order>310</order>
+    <genStep Class="GenStep_RockChunks" />
+  </GenStepDef>
+
+  <!-- Snowfield boulders. GenStep_RockChunks cannot be thinned out, so the
+       sparse look is built from GenStep_ScatterThings instead: small clusters
+       of granite chunks, i.e. glacial erratics on an ice plain. -->
+  <GenStepDef>
+    <defName>IsekaiDungeons_GlacialErratics</defName>
+    <order>310</order>
+    <genStep Class="IsekaiDungeons.GenStep_ScatterThingsFirstVisit">
+      <thingDef>ChunkGranite</thingDef>
+      <allowInWaterBiome>false</allowInWaterBiome>
+      <isJunk>true</isJunk>
+      <countPer10kCellsRange>4~8</countPer10kCellsRange>
+      <clusterSize>2</clusterSize>
+      <minSpacing>10</minSpacing>
+      <minEdgeDist>6</minEdgeDist>
+    </genStep>
+  </GenStepDef>
+
+  <!-- Foundry debris. Steel slag instead of stone, with machine-bit filth
+       spreading one cell around each piece — the same pairing core uses for
+       its ancient junk (AncientMiscDebris). -->
+  <GenStepDef>
+    <defName>IsekaiDungeons_FoundryDebris</defName>
+    <order>320</order>
+    <genStep Class="IsekaiDungeons.GenStep_ScatterThingsFirstVisit">
+      <thingDef>ChunkSlagSteel</thingDef>
+      <allowInWaterBiome>false</allowInWaterBiome>
+      <isJunk>true</isJunk>
+      <countPer10kCellsRange>6~12</countPer10kCellsRange>
+      <clusterSize>3</clusterSize>
+      <minSpacing>9</minSpacing>
+      <minEdgeDist>6</minEdgeDist>
+      <filthDef>Filth_MachineBits</filthDef>
+      <filthExpandBy>1</filthExpandBy>
+      <filthChance>0.4</filthChance>
+    </genStep>
+  </GenStepDef>
+
+  <!-- ══════════════════ BIOME ══════════════════ -->
+
+  <!-- Biome for the CARVE environments only (Cavern, Hive, Crypt, Abyss); the
+       open environments use real Core biomes. Biome_Underground (core,
+       concrete parent — defName Underground) already sets generatesNaturally
+       false, animalDensity 0, wildAnimalsCanWanderInto false, plantDensity 0.20
+       and a full disease table; we only override the weather because the
+       parent's "Underground" WeatherDef reads as damp cave drizzle in ambience
+       — Clear keeps the fully-roofed map silent. Weather never renders anyway. -->
+  <BiomeDef ParentName="Biome_Underground">
+    <defName>IsekaiDungeons_Dungeon</defName>
+    <label>dungeon</label>
+    <description>A pocket dimension of carved halls and mana-heavy air, connected to the world only through its gate.</description>
+    <baseWeatherCommonalities Inherit="False">
+      <Clear>1</Clear>
+    </baseWeatherCommonalities>
+  </BiomeDef>
+
+  <!-- ══════════════════ TERRAIN PALETTES ══════════════════ -->
+  <!--
+    Each Open environment borrows a vanilla biome for its RULES — plant density,
+    temperature, whether rivers may appear — and consequently inherits that
+    biome's LOOK as well. Celestial borrows ExtremeDesert because it wants a
+    bare, plantless, riverless field, so a def whose own description reads "pale
+    marble, painfully bright" rendered as ordinary orange sand.
+
+    These steps let the biome keep deciding the rules while the palette decides
+    the look. They run at order 250: after core Terrain (210) has painted the
+    biome's own ground, before our decor (300-320) and long before Layout (410).
+    ORDER IS WHAT MATTERS — the engine sorts by GenStepDef.order, not by
+    position in a generator's genSteps list.
+
+    NO PALETTE FOR VERDANT. Constructed floors have zero fertility and Plants
+    runs afterwards at 900, so painting a forest field would leave it bare —
+    which is the exact opposite of that environment's whole point.
+  -->
+
+  <!-- ARCHANGEL / VALKYRIE GROUND. White marble tile as the body, flagstone
+       marble as the weathered drift through it, pale limestone tile for the
+       veining. No sand, no soil: this is a floor somebody laid, and the
+       description promises marble stairs climbing out of ordinary dirt. -->
+  <!-- ONE TERRAIN, NO BLEND. The first attempt mixed four vanilla "marble"
+       terrains, which was wrong twice over: TileMarble is (132,135,132) and
+       FlagstoneMarble is the same — both mid GREY, not white — and blending
+       anything at all put contrasting patches across a floor whose whole point
+       is that it is unbroken. A sanctum is pure or it is not a sanctum. -->
+  <GenStepDef>
+    <defName>IsekaiDungeons_Palette_Celestial</defName>
+    <order>250</order>
+    <genStep Class="IsekaiDungeons.GenStep_DungeonTerrainPalette">
+      <terrains>
+        <li>IsekaiDungeons_SanctumStone 1.0</li>
+      </terrains>
+    </genStep>
+  </GenStepDef>
+
+  <!-- VOIDSCAPE. Black glass, faintly veined. The veining sits close enough in
+       value to read as a sheen rather than as patches. -->
+  <GenStepDef>
+    <defName>IsekaiDungeons_Palette_Voidscape</defName>
+    <order>250</order>
+    <genStep Class="IsekaiDungeons.GenStep_DungeonTerrainPalette">
+      <frequency>0.010</frequency>
+      <terrains>
+        <li>IsekaiDungeons_VoidGlass 0.82</li>
+        <li>IsekaiDungeons_VoidGlass_Veined 0.18</li>
+      </terrains>
+    </genStep>
+  </GenStepDef>
+
+  <!-- BURNED PLAIN. Ash-dark ground with slag-coloured drifts; the gravel and
+       broken asphalt read as scorched crust rather than desert. -->
+  <GenStepDef>
+    <defName>IsekaiDungeons_Palette_Ashland</defName>
+    <order>250</order>
+    <genStep Class="IsekaiDungeons.GenStep_DungeonTerrainPalette">
+      <frequency>0.020</frequency>
+      <terrains>
+        <li>Gravel 0.38</li>
+        <li>BrokenAsphalt 0.24</li>
+        <li>Soil 0.20</li>
+        <li>Sand 0.18</li>
+      </terrains>
+    </genStep>
+  </GenStepDef>
+
+  <!-- ICE PLAIN. IceSheet already paints white, so this only breaks the
+       flatness: hard ice with packed-snow drifts and the odd bare gravel scar
+       where the wind has stripped it. Kept subtle on purpose. -->
+  <GenStepDef>
+    <defName>IsekaiDungeons_Palette_Snowfield</defName>
+    <order>250</order>
+    <genStep Class="IsekaiDungeons.GenStep_DungeonTerrainPalette">
+      <frequency>0.011</frequency>
+      <terrains>
+        <li>Ice 0.62</li>
+        <li>PackedDirt 0.20</li>
+        <li>Gravel 0.18</li>
+      </terrains>
+    </genStep>
+  </GenStepDef>
+
+  <!-- SOMEBODY'S CITY, CENTURIES DOWN. Old paving showing through dirt: the
+       ground itself should say "this was built on" before a single ruin is
+       scattered on it.
+       All vanilla, and safe to pry up: FlagstoneBase sets
+       resourcesFractionWhenDeconstructed 0, and the ancient tile and concrete
+       have no cost, so none of these needs a refund-free twin. -->
+  <GenStepDef>
+    <defName>IsekaiDungeons_Palette_Ruins</defName>
+    <order>250</order>
+    <genStep Class="IsekaiDungeons.GenStep_DungeonTerrainPalette">
+      <frequency>0.017</frequency>
+      <terrains>
+        <li>PackedDirt 0.30</li>
+        <li>AncientTile 0.24</li>
+        <li>AncientConcrete 0.20</li>
+        <li>FlagstoneSandstone 0.14</li>
+        <li>Gravel 0.12</li>
+      </terrains>
+    </genStep>
+  </GenStepDef>
+
+  <!-- MACHINE GROUND. Steel plate and concrete, unbroken by anything that
+       grew. The one environment where a fully constructed floor is the honest
+       answer: nothing about a foundry was grown.
+       The plate and the concrete are the refund-free twins in DungeonTerrain.xml,
+       never vanilla MetalTile and Concrete: every palette cell is removable, and
+       the vanilla pair paid out ~34,000 steel a map, again on every Foundry Stack
+       revisit. The ancient concrete and broken asphalt carry no refund, so they
+       stay vanilla. -->
+  <GenStepDef>
+    <defName>IsekaiDungeons_Palette_Foundry</defName>
+    <order>250</order>
+    <genStep Class="IsekaiDungeons.GenStep_DungeonTerrainPalette">
+      <frequency>0.022</frequency>
+      <terrains>
+        <li>IsekaiDungeons_MetalTile 0.34</li>
+        <li>IsekaiDungeons_Concrete 0.30</li>
+        <li>AncientConcrete 0.22</li>
+        <li>BrokenAsphalt 0.14</li>
+      </terrains>
+    </genStep>
+  </GenStepDef>
+
+  <!--
+    VOIDSCAPE — SSS and Nation only.
+
+    Added because the high end looked like the low end. Every open environment
+    the player met at F through B was still what they were standing on at
+    Nation, so rank bought numbers and never a new horizon. This one is
+    deliberately unlike anything below it: black glass to the edge of sight,
+    nothing scattered on it, no landmark to steer by. Empty as a design choice
+    — the sanctum and the voidscape are the same rank band and visual
+    opposites, which is the point of having both.
+
+    Biome ExtremeDesert for its RULES only (no plants, no rivers); the palette
+    at order 250 replaces its look entirely.
+  -->
+  <MapGeneratorDef>
+    <defName>IsekaiDungeons_Voidscape</defName>
+    <modExtensions>
+      <li Class="IsekaiDungeons.DungeonEnvironmentExtension">
+        <entryFlavorKey>IsekaiDungeons.Env.Voidscape.Flavor</entryFlavorKey>
+        <titleSubtitleKey>IsekaiDungeons.Env.Voidscape.Subtitle</titleSubtitleKey>
+        <roomNounKey>IsekaiDungeons.Env.Voidscape.RoomNoun</roomNounKey>
+      </li>
+    </modExtensions>
+    <label>dungeon voidscape</label>
+    <isUnderground>false</isUnderground>
+    <forceCaves>false</forceCaves>
+    <ignoreAreaRevealedLetter>true</ignoreAreaRevealedLetter>
+    <disableCallAid>true</disableCallAid>
+    <customMapComponents>
+      <li>IsekaiDungeons.DungeonMapComponent</li>
+    </customMapComponents>
+    <pocketMapProperties>
+      <biome>ExtremeDesert</biome>
+      <temperature>-5</temperature>
+    </pocketMapProperties>
+    <genSteps>
+      <li>IsekaiDungeons_TowerVillage</li>
+      <li>ElevationFertility</li>
+      <li>Terrain</li>
+      <li>IsekaiDungeons_Palette_Voidscape</li>
+      <!-- No decor at all. Not an oversight: a scattered chunk would give the
+           eye something to fix on, and the whole effect here is that there is
+           nothing to fix on. -->
+      <li>IsekaiDungeons_Layout</li>
+      <li>IsekaiDungeons_Entrance</li>
+      <li>IsekaiDungeons_Decor</li>
+      <li>IsekaiDungeons_Population</li>
+      <li>Plants</li>
+      <li>Fog</li>
+    </genSteps>
+  </MapGeneratorDef>
+
+  <!--
+    THE TOWER OWN COLOUR. Order 190: after RockNoises.Init has built the tile
+    rock list (which happens before any gen step runs) and before
+    Underground_RocksFromGrid consumes it at 200. It no-ops on anything that is
+    not an underground tower floor, so it is safe to list on every environment.
+  -->
+  <GenStepDef>
+    <defName>IsekaiDungeons_TowerWhiteout</defName>
+    <order>190</order>
+    <genStep Class="IsekaiDungeons.GenStep_TowerWhiteout" />
+  </GenStepDef>
+
+  <!--
+    THE VILLAGE. Order 405: after the layout has settled the open ground (and
+    after vanilla would run its own settlement at 400), still far ahead of
+    Plants 900, Animals 1200 and Fog 1500 - so nothing grows inside the houses
+    and the place is not generated fogged. No-ops unless the floor is a village.
+  -->
+  <GenStepDef>
+    <defName>IsekaiDungeons_TowerVillage</defName>
+    <order>405</order>
+    <genStep Class="IsekaiDungeons.GenStep_TowerVillage" />
+  </GenStepDef>
+
+</Defs>

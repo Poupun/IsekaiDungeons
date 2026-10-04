@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModMetaData>
+    <name>ISEKAI DUNGEONS ADD-ON - Isekai RPG Leveling</name>
+    <author>Poupun</author>
+    <packageId>Poupun.IsekaiDungeonsAddon</packageId>
+    <url>https://github.com/JellyCreative/IsekaiLeveling</url>
+    <supportedVersions>
+        <li>1.6</li>
+    </supportedVersions>
+    <description><![CDATA[
+ISEKAI DUNGEONS — Gates, the Guild and the Tower of Gods
+
+Gates to parallel dungeons tear open on your map, ranked on the same F → Nation ladder as your colonists. Step through and your party lands in a sealed dungeon world: monsters that grow stronger room by room, treasure off the beaten path, and a boss guarding the final hall. Clear it for a hoard, mana cores and a surge of XP. Ignore it, and the gate breaks.
+
+
+70 DUNGEONS ACROSS 11 WORLDS
+
+- Carved caverns, hives, crypts and infernal abysses, or open worlds under a strange sky: snowfields, forests, ash plains, ruins, foundries, celestial halls and, at the very top, the Voidscape
+- Every dungeon has its own roster and its own boss: slime ranches, kobold warrens, lich catacombs, dragon roosts, demon courts, mechanoid hives, Midhir's Deep and more
+- Higher ranks branch into side wings and shortcut loops; rooms wake as you enter them, so you set the pace
+- 7 room events: rival adventurers, traps, ambushes, guarded hoards, champions, a survivor to carry out, mana springs
+- Treasure rooms, beast vaults with a tameable creature on the hoard, and mana ore veins worth mining
+
+
+GATES AND BREAKS
+
+- Local gates open on their own schedule, ranked just below your colony's strength — you choose the rate and the first day in the settings
+- Each gate carries a countdown. Let it run out and the dungeon breaches: three waves a day apart pour onto your map, weakest first
+- The gate stays open during a breach: storm in and kill the boss to stop it. Otherwise the boss walks out with the last wave, carrying the hoard as a bounty
+- Flee any time through the exit; you keep what you carry
+
+
+REWARDS
+
+- A rank-scaled hoard on every clear, guaranteed mana cores, and full clear XP for every colonist inside
+- A treasure chest of the dungeon's grade — bronze, silver, gold or jade — opened in its own reveal
+- 15 named artifact weapons, from S-rank blades to the Nation-rank gods, found only in chests
+- Gate summoning scrolls, F to SSS: read one at home to open a gate of that rank on your own terms
+
+
+GUILD CONTRACTS
+
+The Guild finds gates beyond your borders, up to Nation rank:
+- Located — a gate found before it opens. Leave it too long and it breaks
+- Broken — the breach has already happened and the monsters are loose on the site
+- Rescue — a gate broke on another faction's land. Save them for goodwill
+Every contract pays a finder's fee on top of the dungeon's own loot.
+
+
+THE TOWER OF GODS
+
+A tower rises on the world map: 100 floors, each one remembered. Cleared floors stay cleared, looted rooms stay empty.
+- Floor types: gauntlets, labyrinths, vaults, duels, rest floors, open plains and villages with a shopkeeper who trades
+- Floor 50: the mirror hall. Your party faces perfect copies of itself
+- Floor 100: Elijah the Hundredth. The colonist who brings her down ascends to Godhood: ageless, immune to disease, deathless unless the brain is destroyed, beyond mental breaks
+
+
+DEEP DUNGEONS
+
+10 multi-floor descents, posted as Guild surveys, from the 3-floor Slime Cistern to the 10-floor Titan Pit. Each has a final boss at the bottom and most bend the rules: slimes that split, survivors that retreat ahead, the dead following you down, floors that grow back, killing cold, killing heat, a hoard that waits at the bottom.
+
+
+QUALITY OF LIFE
+
+- Autopilot: a toggle that has a colonist clear the dungeon on their own and climb tower floors, pausing to eat and sleep
+- A title card on entry, gate names on hover, and five music tracks that follow rank and tower height
+- 180+ settings in 9 tabs with 6 presets, from Relaxed to Brutal to Tower only
+
+
+REQUIREMENTS
+
+- Harmony
+- Isekai RPG Leveling (base mod)
+
+OPTIONAL
+
+- Isekai Creatures add-on — strongly recommended: 45 of the dungeons draw their monsters from its bestiary
+- Guild Faction add-on — contracts also earn Guild goodwill
+- DLC dungeons for Royalty, Biotech, Anomaly and Odyssey appear when the DLC is active
+
+
+TRANSLATIONS
+
+Fully translatable — all text lives in language keys. Translators welcome.
+
+
+Made by Jelly Creative.
+    ]]></description>
+    <modDependencies>
+        <li>
+            <packageId>brrainz.harmony</packageId>
+            <displayName>Harmony</displayName>
+            <steamWorkshopUrl>steam://url/CommunityFilePage/2009463077</steamWorkshopUrl>
+            <downloadUrl>https://github.com/pardeike/HarmonyRimWorld/releases/latest</downloadUrl>
+        </li>
+        <li>
+            <packageId>JellyCreative.IsekaiLeveling</packageId>
+            <displayName>Isekai RPG Leveling</displayName>
+            <downloadUrl>https://github.com/JellyCreative/IsekaiLeveling</downloadUrl>
+        </li>
+    </modDependencies>
+    <loadAfter>
+        <li>brrainz.harmony</li>
+        <li>Ludeon.RimWorld</li>
+        <li>Ludeon.RimWorld.Royalty</li>
+        <li>Ludeon.RimWorld.Ideology</li>
+        <li>Ludeon.RimWorld.Biotech</li>
+        <li>Ludeon.RimWorld.Anomaly</li>
+        <li>Ludeon.RimWorld.Odyssey</li>
+        <li>JellyCreative.IsekaiLeveling</li>
+        <!-- Optional: load after the other add-ons so their types are resolvable
+             when our reflection-based soft-dependency probes run. If they are not
+             installed, AccessTools.TypeByName returns null and the corresponding
+             provider silently disables itself. -->
+        <li>Poupun.IsekaiCreaturesAddon</li>
+        <li>Poupun.GuildFactionAddon</li>
+    </loadAfter>
+</ModMetaData>

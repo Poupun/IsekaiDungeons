@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    DUNGEON DECOR SETS — what each environment's rooms may contain, by rank.
+
+    GenStep_DungeonDecor (order 425) reads these. A dungeon's rank index puts it
+    in a REGISTER, one step per two ranks:
+
+        F–E   Hole         somebody dug this
+        D–C   Lair         somebody lives here
+        B–A   Stronghold   somebody holds this
+        S–SS  Temple       somebody built this to be seen
+        SSS+  Wonder       no person built this
+
+    Each room spends a budget (DungeonTunables.DecorPointsByRank, scaled by the
+    room's role, depth and size) on the entries whose from..upTo range contains
+    its register. The boss room sits one register above its dungeon, so even an
+    F dungeon's last room says something is here.
+
+    LIGHT: cave plants die in any light that is not another cave plant, so a
+    room is lit by glowing plants OR by fire, never both. plantLightUpTo says
+    which registers get plants; entry and boss rooms always get fire, because the
+    exit and the stairs glow anyway.
+
+    FINISH, carved maps only: refineFloors takes the rock's own floor from rough
+    to rough-hewn to smooth with rank, and smoothWalls smooths the rock round the
+    boss room from Stronghold, every room from Temple, corridors too at Wonder.
+
+    Every thing named here must be safe in a map that rebuilds: no cost, no stuff,
+    not minifiable, no killedLeavings, no fuel. DungeonDecorSetDef.ConfigErrors
+    checks that at load. Pieces named IsekaiDungeons_Decor_* are vanilla art on
+    our own defs (Defs/ThingDefs/DungeonDecor.xml); the rest are vanilla things
+    that already pass. DLC names carry mayRequire and simply drop out without it.
+
+    Costs and weights are first guesses to tune in play.
+  -->
+
+  <!-- ══════════════════ CARVED ══════════════════ -->
+
+  <!-- CAVERN. Slimes, vermin, kobolds, goblins, trolls, and the Slime Cistern and
+       Kobold Undercity descents. Glowing fungus lights the holes; from the lair
+       up somebody has been bringing torches, and by the temple register the
+       place has columns and statues. -->
+  <IsekaiDungeons.DungeonDecorSetDef>
+    <defName>IsekaiDungeons_DecorSet_Cavern</defName>
+    <generators>
+      <li>IsekaiDungeons_Dungeon</li>
+    </generators>
+    <plantLightUpTo>Hole</plantLightUpTo>
+    <refineFloors>true</refineFloors>
+    <smoothWalls>true</smoothWalls>
+    <corridorLight>IsekaiDungeons_Decor_WallTorch</corridorLight>
+    <corridorLightFrom>Stronghold</corridorLightFrom>
+    <corridorFilth>
+      <li>Filth_RubbleRock</li>
+      <li>Filth_Dirt</li>
+    </corridorFilth>
+    <!-- Loose ground only where the kind is marked <dirty> (burrows, warrens,
+         mud). Clean caverns and every tower floor never get it. -->
+    <corridorFilthDirty>
+      <li>Filth_LooseGround</li>
+    </corridorFilthDirty>
+    <entries>
+      <li><filth>Filth_RubbleRock</filth><cost>0.3</cost><weight>3</weight><cluster>2~4</cluster><upTo>Stronghold</upTo></li>
+      <li><filth>Filth_LooseGround</filth><dirtyOnly>true</dirtyOnly><cost>0.3</cost><weight>1</weight><cluster>1~2</cluster></li>
+      <li><filth>Filth_Dirt</filth><cost>0.3</cost><weight>1.5</weight><cluster>1~3</cluster><upTo>Temple</upTo></li>
+
+      <li><plant>Glowstool</plant><patch>MossyTerrain</patch><placement>AgainstWall</placement><cost>1</cost><weight>2.5</weight><cluster>2~3</cluster><maxPerRoom>2</maxPerRoom></li>
+      <li><plant>Bryolux</plant><patch>MossyTerrain</patch><placement>Corner</placement><cost>1</cost><weight>1.5</weight><cluster>1~2</cluster><maxPerRoom>2</maxPerRoom></li>
+
+      <li><thing>IsekaiDungeons_Decor_WallTorch</thing><placement>WallAttached</placement><cost>0.8</cost><weight>3</weight><maxPerRoom>4</maxPerRoom><from>Lair</from></li>
+      <li><thing>IsekaiDungeons_Decor_Campfire</thing><placement>Centerpiece</placement><cost>2</cost><weight>1.2</weight><maxPerRoom>1</maxPerRoom><minRoomArea>64</minRoomArea><from>Lair</from><upTo>Stronghold</upTo><roles><li>Combat</li></roles></li>
+      <li><thing>IsekaiDungeons_Decor_Stool</thing><cost>0.5</cost><weight>1</weight><cluster>1~2</cluster><maxPerRoom>3</maxPerRoom><from>Lair</from><upTo>Stronghold</upTo></li>
+
+      <li><thing>IsekaiDungeons_Decor_Table</thing><placement>AgainstWall</placement><cost>1.2</cost><weight>0.8</weight><maxPerRoom>1</maxPerRoom><from>Stronghold</from><upTo>Temple</upTo></li>
+      <li><thing>IsekaiDungeons_Decor_Shelf</thing><placement>AgainstWall</placement><cost>1</cost><weight>1</weight><maxPerRoom>2</maxPerRoom><from>Stronghold</from></li>
+      <li><thing>IsekaiDungeons_Decor_Urn</thing><placement>Corner</placement><cost>0.8</cost><weight>1</weight><maxPerRoom>3</maxPerRoom><from>Stronghold</from></li>
+      <li><thing>IsekaiDungeons_Decor_Torch</thing><placement>DoorFlank</placement><cost>1.5</cost><weight>1.2</weight><maxPerRoom>1</maxPerRoom><from>Stronghold</from></li>
+      <li><thing>IsekaiDungeons_Decor_Brazier</thing><mayRequire>Ludeon.RimWorld.Royalty</mayRequire><placement>DoorFlank</placement><cost>1.5</cost><weight>2</weight><maxPerRoom>1</maxPerRoom><from>Temple</from></li>
+
+      <li><thing>IsekaiDungeons_Decor_Column</thing><placement>ColumnPairs</placement><cost>4</cost><weight>2</weight><maxPerRoom>1</maxPerRoom><minRoomArea>90</minRoomArea><from>Temple</from></li>
+      <li><thing>IsekaiDungeons_Decor_StatueSmall</thing><placement>Corner</placement><cost>2</cost><weight>1.5</weight><maxPerRoom>2</maxPerRoom><from>Temple</from></li>
+      <li><thing>IsekaiDungeons_Decor_StatueLarge</thing><placement>AgainstWall</placement><cost>3</cost><weight>1</weight><maxPerRoom>1</maxPerRoom><from>Temple</from><roles><li>Combat</li><li>Treasure</li><li>Boss</li></roles></li>
+      <li><thing>IsekaiDungeons_Decor_StatueGrand</thing><placement>Centerpiece</placement><cost>6</cost><weight>3</weight><maxPerRoom>1</maxPerRoom><minRoomArea>100</minRoomArea><from>Wonder</from><roles><li>Boss</li></roles></li>
+    </entries>
+  </IsekaiDungeons.DungeonDecorSetDef>
+
+  <!-- HIVE. Insects build nothing, so the hive never gets furniture, fire or
+       smoothed walls at any rank. It deepens instead: more glow, more slime,
+       more of what hatched. -->
+  <IsekaiDungeons.DungeonDecorSetDef>
+    <defName>IsekaiDungeons_DecorSet_Hive</defName>
+    <generators>
+      <li>IsekaiDungeons_Hive</li>
+    </generators>
+    <plantLightUpTo>Wonder</plantLightUpTo>
+    <fireLight>false</fireLight>
+    <corridorFilth>
+      <li>Filth_BloodInsect</li>
+      <li>Filth_Slime</li>
+    </corridorFilth>
+    <corridorFilthDirty>
+      <li>Filth_LooseGround</li>
+    </corridorFilthDirty>
+    <entries>
+      <li><filth>Filth_BloodInsect</filth><cost>0.3</cost><weight>3</weight><cluster>2~5</cluster></li>
+      <li><filth>Filth_Slime</filth><cost>0.3</cost><weight>2</weight><cluster>1~3</cluster></li>
+      <li><filth>Filth_CorpseBile</filth><cost>0.4</cost><weight>1</weight><cluster>1~3</cluster><from>Lair</from></li>
+      <li><filth>Filth_AmnioticFluid</filth><cost>0.4</cost><weight>1</weight><cluster>2~4</cluster><from>Stronghold</from></li>
+
+      <li><plant>Agarilux</plant><patch>MossyTerrain</patch><placement>AgainstWall</placement><cost>1</cost><weight>2</weight><cluster>2~4</cluster><maxPerRoom>3</maxPerRoom></li>
+      <li><plant>Glowstool</plant><patch>MossyTerrain</patch><placement>Corner</placement><cost>1</cost><weight>2</weight><cluster>1~3</cluster><maxPerRoom>3</maxPerRoom></li>
+      <li><plant>Bryolux</plant><patch>MossyTerrain</patch><cost>1.2</cost><weight>1</weight><cluster>2~3</cluster><maxPerRoom>2</maxPerRoom><from>Stronghold</from></li>
+    </entries>
+  </IsekaiDungeons.DungeonDecorSetDef>
+
+  <!-- CRYPT. Skeletons, liches, and the Sunken Ossuary. Dark and dirty at the
+       bottom of the ladder; graves and urns from the lair; sarcophagus rows and
+       dark colonnades from the stronghold; statues, archives and, with
+       Ideology, altars and reliquaries at the top. -->
+  <IsekaiDungeons.DungeonDecorSetDef>
+    <defName>IsekaiDungeons_DecorSet_Crypt</defName>
+    <generators>
+      <li>IsekaiDungeons_Crypt</li>
+    </generators>
+    <plantLightUpTo>Hole</plantLightUpTo>
+    <refineFloors>true</refineFloors>
+    <smoothWalls>true</smoothWalls>
+    <corridorLight>IsekaiDungeons_Decor_WallTorch</corridorLight>
+    <corridorLightFrom>Stronghold</corridorLightFrom>
+    <corridorFilth>
+      <li>Filth_Dirt</li>
+      <li>Filth_RubbleRock</li>
+    </corridorFilth>
+    <entries>
+      <li><filth>Filth_Dirt</filth><cost>0.3</cost><weight>2</weight><cluster>1~3</cluster></li>
+      <li><filth>Filth_RubbleRock</filth><cost>0.3</cost><weight>1.5</weight><cluster>1~3</cluster><upTo>Stronghold</upTo></li>
+      <li><filth>Filth_MoldyUniform</filth><cost>0.4</cost><weight>0.8</weight><maxPerRoom>2</maxPerRoom><from>Lair</from></li>
+      <li><filth>Filth_DriedBlood</filth><mayRequire>Ludeon.RimWorld.Ideology</mayRequire><cost>0.3</cost><weight>1</weight><cluster>1~2</cluster><from>Lair</from></li>
+
+      <li><plant>Glowstool</plant><patch>MossyTerrain</patch><placement>Corner</placement><cost>1</cost><weight>1.5</weight><cluster>1~2</cluster><maxPerRoom>1</maxPerRoom></li>
+
+      <li><thing>IsekaiDungeons_Decor_WallTorch</thing><placement>WallAttached</placement><cost>0.8</cost><weight>3</weight><maxPerRoom>4</maxPerRoom><from>Lair</from></li>
+      <li><thing>IsekaiDungeons_Decor_Darktorch</thing><mayRequire>Ludeon.RimWorld.Ideology</mayRequire><placement>Corner</placement><cost>1</cost><weight>2</weight><maxPerRoom>2</maxPerRoom><from>Stronghold</from></li>
+      <li><thing>IsekaiDungeons_Decor_Grave</thing><placement>AgainstWall</placement><cost>1.2</cost><weight>2</weight><maxPerRoom>3</maxPerRoom><from>Lair</from><upTo>Stronghold</upTo><roles><li>Combat</li><li>Treasure</li></roles></li>
+      <li><thing>IsekaiDungeons_Decor_Urn</thing><placement>AgainstWall</placement><cost>0.8</cost><weight>2</weight><maxPerRoom>3</maxPerRoom><from>Lair</from></li>
+
+      <li><thing>IsekaiDungeons_Decor_Sarcophagus</thing><placement>AgainstWall</placement><cost>2</cost><weight>2.5</weight><maxPerRoom>4</maxPerRoom><from>Stronghold</from></li>
+      <li><thing>IsekaiDungeons_Decor_ColumnDark</thing><placement>ColumnPairs</placement><cost>4</cost><weight>2</weight><maxPerRoom>1</maxPerRoom><minRoomArea>90</minRoomArea><from>Stronghold</from></li>
+
+      <li><thing>IsekaiDungeons_Decor_Bookcase</thing><placement>AgainstWall</placement><cost>1.5</cost><weight>1</weight><maxPerRoom>2</maxPerRoom><from>Temple</from><roles><li>Combat</li><li>Treasure</li></roles></li>
+      <li><thing>IsekaiDungeons_Decor_StatueSmallDark</thing><placement>Corner</placement><cost>2</cost><weight>1.5</weight><maxPerRoom>2</maxPerRoom><from>Temple</from></li>
+      <li><thing>IsekaiDungeons_Decor_StatueLargeDark</thing><placement>AgainstWall</placement><cost>3</cost><weight>1</weight><maxPerRoom>1</maxPerRoom><from>Temple</from></li>
+      <li><thing>IsekaiDungeons_Decor_Pew</thing><mayRequire>Ludeon.RimWorld.Ideology</mayRequire><placement>AgainstWall</placement><cost>2</cost><weight>1</weight><maxPerRoom>2</maxPerRoom><from>Temple</from></li>
+      <li><thing>IsekaiDungeons_Decor_Altar</thing><mayRequire>Ludeon.RimWorld.Ideology</mayRequire><placement>Centerpiece</placement><cost>2</cost><weight>2</weight><maxPerRoom>1</maxPerRoom><from>Temple</from><roles><li>Boss</li></roles></li>
+
+      <li><thing>IsekaiDungeons_Decor_Reliquary</thing><mayRequire>Ludeon.RimWorld.Ideology</mayRequire><placement>Centerpiece</placement><cost>4</cost><weight>2</weight><maxPerRoom>1</maxPerRoom><minRoomArea>90</minRoomArea><from>Wonder</from><roles><li>Treasure</li><li>Boss</li></roles></li>
+      <li><thing>IsekaiDungeons_Decor_StatueGrandDark</thing><placement>Centerpiece</placement><cost>6</cost><weight>3</weight><maxPerRoom>1</maxPerRoom><minRoomArea>100</minRoomArea><from>Wonder</from><roles><li>Boss</li></roles></li>
+    </entries>
+  </IsekaiDungeons.DungeonDecorSetDef>
+
+  <!-- ABYSS. Imps, demons, hell ogres, and the Hell Hole. Fire from the very
+       first register, because hell is lit. Ash and scorch at the bottom,
+       skullspikes and braziers through the middle, dark colonnades and colossi
+       at the top — and with Anomaly, voidmetal and pits in the deepest halls. -->
+  <IsekaiDungeons.DungeonDecorSetDef>
+    <defName>IsekaiDungeons_DecorSet_Abyss</defName>
+    <generators>
+      <li>IsekaiDungeons_Abyss</li>
+    </generators>
+    <plantLight>false</plantLight>
+    <refineFloors>true</refineFloors>
+    <smoothWalls>true</smoothWalls>
+    <corridorLight>IsekaiDungeons_Decor_WallTorch</corridorLight>
+    <corridorLightFrom>Stronghold</corridorLightFrom>
+    <corridorFilth>
+      <li>Filth_Ash</li>
+      <li>Filth_BlastMark</li>
+    </corridorFilth>
+    <entries>
+      <li><filth>Filth_Ash</filth><cost>0.3</cost><weight>3</weight><cluster>2~4</cluster></li>
+      <li><filth>Filth_BlastMark</filth><cost>0.3</cost><weight>1.5</weight><cluster>1~2</cluster></li>
+      <li><filth>Filth_DarkBlood</filth><mayRequire>Ludeon.RimWorld.Anomaly</mayRequire><cost>0.3</cost><weight>1.5</weight><cluster>1~3</cluster><from>Lair</from></li>
+      <li><filth>Filth_TwistedFlesh</filth><mayRequire>Ludeon.RimWorld.Anomaly</mayRequire><cost>0.4</cost><weight>0.8</weight><cluster>1~2</cluster><from>Temple</from></li>
+
+      <li><thing>IsekaiDungeons_Decor_Torch</thing><placement>Corner</placement><cost>1</cost><weight>2.5</weight><maxPerRoom>2</maxPerRoom></li>
+      <li><thing>IsekaiDungeons_Decor_BloodTorch</thing><mayRequire>Ludeon.RimWorld.Biotech</mayRequire><placement>Corner</placement><cost>1</cost><weight>3</weight><maxPerRoom>2</maxPerRoom></li>
+      <li><thing>IsekaiDungeons_Decor_WallTorch</thing><placement>WallAttached</placement><cost>0.8</cost><weight>1.5</weight><maxPerRoom>3</maxPerRoom><from>Lair</from></li>
+      <li><thing>IsekaiDungeons_Decor_Brazier</thing><mayRequire>Ludeon.RimWorld.Royalty</mayRequire><placement>Corner</placement><cost>1.2</cost><weight>1.5</weight><maxPerRoom>2</maxPerRoom><from>Lair</from></li>
+      <li><thing>CraterSmall</thing><cost>1</cost><weight>1</weight><maxPerRoom>1</maxPerRoom><from>Lair</from><upTo>Stronghold</upTo></li>
+      <li><thing>IsekaiDungeons_Decor_Skullspike</thing><mayRequire>Ludeon.RimWorld.Ideology</mayRequire><placement>AgainstWall</placement><cost>1</cost><weight>2</weight><maxPerRoom>3</maxPerRoom><from>Lair</from></li>
+
+      <li><thing>IsekaiDungeons_Decor_DarklightBrazier</thing><mayRequire>Ludeon.RimWorld.Royalty</mayRequire><placement>DoorFlank</placement><cost>1.5</cost><weight>2</weight><maxPerRoom>1</maxPerRoom><from>Stronghold</from></li>
+      <li><thing>IsekaiDungeons_Decor_ColumnDark</thing><placement>ColumnPairs</placement><cost>4</cost><weight>2</weight><maxPerRoom>1</maxPerRoom><minRoomArea>90</minRoomArea><from>Stronghold</from></li>
+
+      <li><thing>IsekaiDungeons_Decor_StatueSmallDark</thing><placement>Corner</placement><cost>2</cost><weight>1.5</weight><maxPerRoom>2</maxPerRoom><from>Temple</from></li>
+      <li><thing>IsekaiDungeons_Decor_Altar</thing><mayRequire>Ludeon.RimWorld.Ideology</mayRequire><placement>Centerpiece</placement><cost>2</cost><weight>2</weight><maxPerRoom>1</maxPerRoom><from>Temple</from><roles><li>Boss</li></roles></li>
+      <li><thing>VoidmetalMassSmall</thing><mayRequire>Ludeon.RimWorld.Anomaly</mayRequire><placement>Corner</placement><cost>1.5</cost><weight>1</weight><maxPerRoom>2</maxPerRoom><from>Temple</from></li>
+
+      <li><thing>IsekaiDungeons_Decor_StatueGrandDark</thing><placement>Centerpiece</placement><cost>6</cost><weight>3</weight><maxPerRoom>1</maxPerRoom><minRoomArea>100</minRoomArea><from>Wonder</from><roles><li>Boss</li></roles></li>
+      <li><thing>EndlessPit2x2c</thing><mayRequire>Ludeon.RimWorld.Anomaly</mayRequire><cost>3</cost><weight>1</weight><maxPerRoom>1</maxPerRoom><minRoomArea>120</minRoomArea><from>Wonder</from><roles><li>Combat</li></roles></li>
+    </entries>
+  </IsekaiDungeons.DungeonDecorSetDef>
+
+  <!-- ══════════════════ OPEN ══════════════════ -->
+  <!--
+    Open maps have no walls, so only Scatter, Centerpiece and Ring place
+    anything. The vanilla scatter steps (ruins, chunks, erratics) already dress
+    the whole field; these sets dress the ENCOUNTER ZONES, so the places where
+    groups stand read as places. Voidscape has no set: it is empty as a written
+    design choice.
+  -->
+
+  <IsekaiDungeons.DungeonDecorSetDef>
+    <defName>IsekaiDungeons_DecorSet_Snowfield</defName>
+    <generators>
+      <li>IsekaiDungeons_Snowfield</li>
+    </generators>
+    <plantLight>false</plantLight>
+    <entries>
+      <li><filth>Filth_ChippedIce</filth><mayRequire>Ludeon.RimWorld.Odyssey</mayRequire><cost>0.3</cost><weight>2</weight><cluster>2~4</cluster></li>
+      <li><thing>IsekaiDungeons_Decor_Campfire</thing><placement>Centerpiece</placement><cost>2</cost><weight>2</weight><maxPerRoom>1</maxPerRoom><from>Lair</from><upTo>Stronghold</upTo><roles><li>Combat</li></roles></li>
+      <li><thing>IsekaiDungeons_Decor_Torch</thing><placement>Ring</placement><cost>3</cost><weight>1</weight><maxPerRoom>1</maxPerRoom><from>Stronghold</from><upTo>Temple</upTo></li>
+      <li><thing>IsekaiDungeons_Decor_Column</thing><placement>Ring</placement><cost>4</cost><weight>1.5</weight><maxPerRoom>1</maxPerRoom><from>Temple</from></li>
+      <li><thing>IsekaiDungeons_Decor_StatueSmallPale</thing><cost>2</cost><weight>1</weight><maxPerRoom>2</maxPerRoom><from>Temple</from></li>
+      <li><thing>IsekaiDungeons_Decor_StatueGrandPale</thing><placement>Centerpiece</placement><cost>6</cost><weight>3</weight><maxPerRoom>1</maxPerRoom><from>Wonder</from><roles><li>Boss</li></roles></li>
+    </entries>
+  </IsekaiDungeons.DungeonDecorSetDef>
+
+  <IsekaiDungeons.DungeonDecorSetDef>
+    <defName>IsekaiDungeons_DecorSet_Verdant</defName>
+    <generators>
+      <li>IsekaiDungeons_Verdant</li>
+    </generators>
+    <plantLight>false</plantLight>
+    <entries>
+      <li><thing>IsekaiDungeons_Decor_Campfire</thing><placement>Centerpiece</placement><cost>2</cost><weight>2</weight><maxPerRoom>1</maxPerRoom><from>Lair</from><upTo>Temple</upTo><roles><li>Combat</li></roles></li>
+      <li><thing>IsekaiDungeons_Decor_Stool</thing><cost>0.5</cost><weight>1</weight><cluster>1~3</cluster><maxPerRoom>3</maxPerRoom><from>Lair</from><upTo>Stronghold</upTo></li>
+      <li><thing>IsekaiDungeons_Decor_Column</thing><placement>Ring</placement><cost>4</cost><weight>1.5</weight><maxPerRoom>1</maxPerRoom><from>Stronghold</from></li>
+      <li><thing>IsekaiDungeons_Decor_StatueSmall</thing><cost>2</cost><weight>1</weight><maxPerRoom>2</maxPerRoom><from>Temple</from></li>
+      <li><thing>IsekaiDungeons_Decor_StatueLarge</thing><placement>Centerpiece</placement><cost>3</cost><weight>1.5</weight><maxPerRoom>1</maxPerRoom><from>Temple</from><roles><li>Combat</li><li>Treasure</li></roles></li>
+      <li><thing>IsekaiDungeons_Decor_StatueGrand</thing><placement>Centerpiece</placement><cost>6</cost><weight>3</weight><maxPerRoom>1</maxPerRoom><from>Wonder</from><roles><li>Boss</li></roles></li>
+    </entries>
+  </IsekaiDungeons.DungeonDecorSetDef>
+
+  <IsekaiDungeons.DungeonDecorSetDef>
+    <defName>IsekaiDungeons_DecorSet_Ashland</defName>
+    <generators>
+      <li>IsekaiDungeons_Ashland</li>
+    </generators>
+    <plantLight>false</plantLight>
+    <entries>
+      <li><filth>Filth_Ash</filth><cost>0.3</cost><weight>3</weight><cluster>2~5</cluster></li>
+      <li><filth>Filth_BlastMark</filth><cost>0.3</cost><weight>2</weight><cluster>1~3</cluster></li>
+      <li><filth>Filth_VolcanicAsh</filth><mayRequire>Ludeon.RimWorld.Odyssey</mayRequire><cost>0.3</cost><weight>1.5</weight><cluster>2~4</cluster></li>
+      <li><thing>CraterSmall</thing><cost>1</cost><weight>2</weight><maxPerRoom>2</maxPerRoom></li>
+      <li><thing>CraterMedium</thing><cost>1.5</cost><weight>1.5</weight><maxPerRoom>1</maxPerRoom><from>Lair</from></li>
+      <li><thing>CraterLarge</thing><cost>2.5</cost><weight>1</weight><maxPerRoom>1</maxPerRoom><from>Stronghold</from></li>
+      <li><thing>IsekaiDungeons_Decor_Campfire</thing><placement>Centerpiece</placement><cost>2</cost><weight>1</weight><maxPerRoom>1</maxPerRoom><from>Lair</from><upTo>Stronghold</upTo><roles><li>Combat</li></roles></li>
+      <li><thing>IsekaiDungeons_Decor_ColumnDark</thing><placement>Ring</placement><cost>4</cost><weight>1.2</weight><maxPerRoom>1</maxPerRoom><from>Temple</from></li>
+      <li><thing>IsekaiDungeons_Decor_StatueLargeDark</thing><cost>3</cost><weight>1</weight><maxPerRoom>1</maxPerRoom><from>Temple</from></li>
+      <li><thing>IsekaiDungeons_Decor_StatueGrandDark</thing><placement>Centerpiece</placement><cost>6</cost><weight>3</weight><maxPerRoom>1</maxPerRoom><from>Wonder</from><roles><li>Boss</li></roles></li>
+    </entries>
+  </IsekaiDungeons.DungeonDecorSetDef>
+
+  <IsekaiDungeons.DungeonDecorSetDef>
+    <defName>IsekaiDungeons_DecorSet_Ruins</defName>
+    <generators>
+      <li>IsekaiDungeons_Ruins</li>
+    </generators>
+    <plantLight>false</plantLight>
+    <entries>
+      <li><filth>Filth_Trash</filth><cost>0.3</cost><weight>2</weight><cluster>1~3</cluster></li>
+      <li><filth>Filth_ScatteredDocuments</filth><cost>0.3</cost><weight>1.5</weight><cluster>1~2</cluster></li>
+      <li><filth>Filth_RubbleBuilding</filth><cost>0.3</cost><weight>2</weight><cluster>2~4</cluster></li>
+      <li><thing>RubblePile</thing><mayRequire>Ludeon.RimWorld.Odyssey</mayRequire><cost>0.8</cost><weight>1</weight><cluster>1~3</cluster><maxPerRoom>2</maxPerRoom></li>
+      <li><thing>AncientCrate</thing><cost>0.8</cost><weight>1.5</weight><cluster>1~2</cluster><maxPerRoom>3</maxPerRoom><from>Lair</from></li>
+      <li><thing>AncientBarrel</thing><cost>0.8</cost><weight>1.5</weight><cluster>1~3</cluster><maxPerRoom>3</maxPerRoom><from>Lair</from></li>
+      <li><thing>IsekaiDungeons_Decor_Campfire</thing><placement>Centerpiece</placement><cost>2</cost><weight>1</weight><maxPerRoom>1</maxPerRoom><from>Lair</from><upTo>Stronghold</upTo><roles><li>Combat</li></roles></li>
+      <li><thing>AncientLamp</thing><placement>Ring</placement><cost>3</cost><weight>1</weight><maxPerRoom>1</maxPerRoom><from>Stronghold</from></li>
+      <li><thing>IsekaiDungeons_Decor_Column</thing><placement>Ring</placement><cost>4</cost><weight>1.5</weight><maxPerRoom>1</maxPerRoom><from>Temple</from></li>
+      <li><thing>IsekaiDungeons_Decor_StatueSmall</thing><cost>2</cost><weight>1</weight><maxPerRoom>2</maxPerRoom><from>Temple</from></li>
+      <li><thing>IsekaiDungeons_Decor_StatueGrand</thing><placement>Centerpiece</placement><cost>6</cost><weight>3</weight><maxPerRoom>1</maxPerRoom><from>Wonder</from><roles><li>Boss</li></roles></li>
+    </entries>
+  </IsekaiDungeons.DungeonDecorSetDef>
+
+  <IsekaiDungeons.DungeonDecorSetDef>
+    <defName>IsekaiDungeons_DecorSet_Foundry</defName>
+    <generators>
+      <li>IsekaiDungeons_Foundry</li>
+    </generators>
+    <plantLight>false</plantLight>
+    <entries>
+      <li><filth>Filth_MachineBits</filth><cost>0.3</cost><weight>2.5</weight><cluster>2~4</cluster></li>
+      <li><filth>Filth_OilSmear</filth><cost>0.3</cost><weight>2</weight><cluster>1~3</cluster></li>
+      <li><thing>AncientBarrel</thing><cost>0.8</cost><weight>2</weight><cluster>1~3</cluster><maxPerRoom>4</maxPerRoom><from>Lair</from></li>
+      <li><thing>AncientCrate</thing><cost>0.8</cost><weight>1.5</weight><cluster>1~2</cluster><maxPerRoom>3</maxPerRoom><from>Lair</from></li>
+      <li><thing>AncientLamp</thing><cost>1.2</cost><weight>1.5</weight><maxPerRoom>2</maxPerRoom><from>Stronghold</from></li>
+      <li><thing>AncientEmergencyLight_Green</thing><mayRequire>Ludeon.RimWorld.Odyssey</mayRequire><placement>Ring</placement><cost>3</cost><weight>1.5</weight><maxPerRoom>1</maxPerRoom><from>Temple</from></li>
+      <li><thing>AncientEmergencyLight_Red</thing><mayRequire>Ludeon.RimWorld.Odyssey</mayRequire><placement>Ring</placement><cost>3</cost><weight>2</weight><maxPerRoom>1</maxPerRoom><from>Wonder</from><roles><li>Boss</li></roles></li>
+    </entries>
+  </IsekaiDungeons.DungeonDecorSetDef>
+
+  <!-- CELESTIAL. The sanctum is pure: no filth at any rank. It scales by
+       architecture alone — a pale colonnade, then statues, then fire, then
+       colossi. -->
+  <IsekaiDungeons.DungeonDecorSetDef>
+    <defName>IsekaiDungeons_DecorSet_Celestial</defName>
+    <generators>
+      <li>IsekaiDungeons_Celestial</li>
+    </generators>
+    <plantLight>false</plantLight>
+    <entries>
+      <li><thing>IsekaiDungeons_Decor_ColumnPale</thing><placement>Ring</placement><cost>4</cost><weight>2</weight><maxPerRoom>1</maxPerRoom><from>Lair</from></li>
+      <li><thing>IsekaiDungeons_Decor_StatueSmallPale</thing><cost>2</cost><weight>1.5</weight><maxPerRoom>2</maxPerRoom><from>Stronghold</from></li>
+      <li><thing>IsekaiDungeons_Decor_Torch</thing><placement>Ring</placement><cost>3</cost><weight>1</weight><maxPerRoom>1</maxPerRoom><from>Stronghold</from><upTo>Temple</upTo></li>
+      <li><thing>IsekaiDungeons_Decor_Brazier</thing><mayRequire>Ludeon.RimWorld.Royalty</mayRequire><placement>Ring</placement><cost>3</cost><weight>2</weight><maxPerRoom>1</maxPerRoom><from>Temple</from></li>
+      <li><thing>IsekaiDungeons_Decor_StatueLargePale</thing><placement>Centerpiece</placement><cost>3</cost><weight>2</weight><maxPerRoom>1</maxPerRoom><from>Temple</from><roles><li>Combat</li><li>Treasure</li></roles></li>
+      <li><thing>IsekaiDungeons_Decor_StatueGrandPale</thing><placement>Centerpiece</placement><cost>6</cost><weight>3</weight><maxPerRoom>1</maxPerRoom><from>Temple</from><roles><li>Boss</li></roles></li>
+      <li><thing>IsekaiDungeons_Decor_Reliquary</thing><mayRequire>Ludeon.RimWorld.Ideology</mayRequire><placement>Centerpiece</placement><cost>4</cost><weight>2</weight><maxPerRoom>1</maxPerRoom><from>Wonder</from><roles><li>Treasure</li></roles></li>
+    </entries>
+  </IsekaiDungeons.DungeonDecorSetDef>
+
+  <!-- THE SUMMIT stays exactly as written: Elijah alone in the middle of the
+       roof. A kind-level set beats the Celestial generator's set, and an empty
+       one dresses nothing. -->
+  <IsekaiDungeons.DungeonDecorSetDef>
+    <defName>IsekaiDungeons_DecorSet_Summit</defName>
+    <kinds>
+      <li>IsekaiDungeons_Tower_Summit_100</li>
+    </kinds>
+    <plantLight>false</plantLight>
+    <fireLight>false</fireLight>
+  </IsekaiDungeons.DungeonDecorSetDef>
+
+</Defs>

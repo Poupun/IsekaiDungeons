@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    The dungeon soundtrack.
+
+    clipPath is relative to Sounds/, so "OST/f-ddungeons" resolves to
+    Sounds/OST/f-ddungeons.mp3. All five are well over 300 KB, which means
+    RimWorld streams them from disk instead of decoding them into memory
+    (ModContentLoader.ShouldStreamAudioClipFromFile), so 26 MB of music costs
+    almost nothing in RAM.
+
+    THE PREFIX MATTERS. These are deliberately NOT named "Isekai_OST_", which is
+    the prefix the main mod uses to find its own pool. Sharing it would put a
+    dungeon theme into the colony's random rotation, and the first time a player
+    heard the tower's music while farming potatoes it would read as a bug.
+    DungeonOST claims these by its own prefix and nothing else touches them.
+
+    playOnMap false keeps them out of vanilla's ordinary selection entirely:
+    these are never picked at random, only ever placed deliberately by
+    DungeonOST when the viewed map calls for one.
+
+    commonality is irrelevant for the same reason and is left at 1.
+
+    tense is rewritten at runtime to match the danger state - see the long
+    comment on DungeonOST.SyncTense. Without that, a fight inside a dungeon
+    fades the dungeon's own theme out and leaves near-silence.
+  -->
+
+  <SongDef>
+    <defName>IsekaiDungeons_OST_LowBand</defName>
+    <label>dungeon (F-D)</label>
+    <clipPath>OST/f-ddungeons</clipPath>
+    <volume>1.0</volume>
+    <commonality>1.0</commonality>
+    <playOnMap>false</playOnMap>
+    <tense>false</tense>
+  </SongDef>
+
+  <SongDef>
+    <defName>IsekaiDungeons_OST_MidBand</defName>
+    <label>dungeon (C-A)</label>
+    <clipPath>OST/c-adungeons</clipPath>
+    <volume>1.0</volume>
+    <commonality>1.0</commonality>
+    <playOnMap>false</playOnMap>
+    <tense>false</tense>
+  </SongDef>
+
+  <SongDef>
+    <defName>IsekaiDungeons_OST_HighBand</defName>
+    <label>dungeon (S-SSS)</label>
+    <clipPath>OST/s-sssdungeons</clipPath>
+    <volume>1.0</volume>
+    <commonality>1.0</commonality>
+    <playOnMap>false</playOnMap>
+    <tense>false</tense>
+  </SongDef>
+
+  <SongDef>
+    <defName>IsekaiDungeons_OST_TowerLower</defName>
+    <label>the tower (1-50)</label>
+    <clipPath>OST/towerofgod0-50</clipPath>
+    <volume>1.0</volume>
+    <commonality>1.0</commonality>
+    <playOnMap>false</playOnMap>
+    <tense>false</tense>
+  </SongDef>
+
+  <SongDef>
+    <defName>IsekaiDungeons_OST_TowerUpper</defName>
+    <label>the tower (51-100)</label>
+    <clipPath>OST/towerofgod51-100</clipPath>
+    <volume>1.0</volume>
+    <commonality>1.0</commonality>
+    <playOnMap>false</playOnMap>
+    <tense>false</tense>
+  </SongDef>
+
+</Defs>

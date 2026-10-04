@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- 1. XML only. Inherit IsekaiDungeonBase (shipped by Isekai Dungeons) to get
+       the gate, the rank curves and the room sizing; state only what differs. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>ExampleMod_BoarDen</defName>
+    <label>boar den</label>
+    <description>A warren of root-choked tunnels where the boars of the other side breed.</description>
+    <mapGenerator>IsekaiDungeons_Dungeon</mapGenerator>
+    <minRank>F</minRank>
+    <maxRank>D</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+    <layoutMode>Carve</layoutMode>
+    <roster>
+      <li><kind>WildBoar</kind><weight>3</weight></li>
+      <li><kind>Warg</kind><weight>1</weight><minDepth>0.5</minDepth></li>
+    </roster>
+    <bosses>
+      <li>Bear_Grizzly</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- 2. A custom win condition: clear EVERY combat room, not just the boss. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>ExampleMod_PurgeTheHive</defName>
+    <label>infested hive</label>
+    <description>Killing the queen is not enough here. Nothing may be left alive.</description>
+    <mapGenerator>IsekaiDungeons_Hive</mapGenerator>
+    <minRank>C</minRank>
+    <maxRank>A</maxRank>
+    <layoutMode>Carve</layoutMode>
+    <objectiveWorkerClass>ExampleMod.ObjectiveWorker_Purge</objectiveWorkerClass>
+    <roster>
+      <li><kind>Megascarab</kind><weight>2</weight></li>
+      <li><kind>Spelopede</kind><weight>2</weight></li>
+      <li><kind>Megaspider</kind><weight>1</weight><minDepth>0.4</minDepth></li>
+    </roster>
+    <bosses>
+      <li>Megaspider</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- 3. A tower-only dungeon: the tower ladder picks it up by rank band. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>ExampleMod_Tower_Pigsty_E</defName>
+    <label>the sty floors</label>
+    <description>Someone kept animals up here once.</description>
+    <towerOnly>true</towerOnly>
+    <mapGenerator>IsekaiDungeons_Dungeon</mapGenerator>
+    <minRank>E</minRank>
+    <maxRank>C</maxRank>
+    <layoutMode>Carve</layoutMode>
+    <roster>
+      <li><kind>WildBoar</kind><weight>3</weight></li>
+    </roster>
+    <bosses>
+      <li>Bear_Grizzly</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- 4. A room event. -->
+  <IsekaiDungeons.DungeonRoomEventDef>
+    <defName>ExampleMod_Stampede</defName>
+    <label>stampede</label>
+    <workerClass>ExampleMod.RoomEventWorker_Stampede</workerClass>
+    <weight>0.5</weight>
+    <minRank>E</minRank>
+    <layoutModes><li>Carve</li></layoutModes>
+    <minDepth>0.2</minDepth>
+    <maxDepth>0.8</maxDepth>
+    <maxPerDungeon>1</maxPerDungeon>
+    <replacesEncounter>false</replacesEncounter>
+    <budgetFactor>1.0</budgetFactor>
+    <enteredMessageKey>ExampleMod.Event.Stampede.Entered</enteredMessageKey>
+  </IsekaiDungeons.DungeonRoomEventDef>
+
+</Defs>

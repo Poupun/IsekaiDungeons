@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!--
+    CATALOGUE rows 41-52 — the S / SS / SSS / Nation band. See CATALOGUE.md.
+
+    Everything shared (gateDef, the five rank curves, room/corridor sizing,
+    door settings) lives on the abstract IsekaiDungeonBase in
+    Dungeons_Low.xml. A def here only states what makes it a DIFFERENT dungeon:
+    environment (mapGenerator), rank band, layout and roster.
+
+    LAYOUT. The four underground environments (Cavern / Hive / Crypt / Abyss)
+    are Carve: rooms and corridors cut out of rock, doors keeping unexplored
+    rooms fogged, a stated floorTerrain where the floor is a LAID floor.
+
+    The six surface environments (Snowfield / Verdant / Ashland / Ruins /
+    Foundry / Celestial) are OPEN. The biome IS the dungeon: no walls, no
+    corridors, no doors, and the terrain is never touched. Difficulty comes
+    only from where the creature groups stand — escalating encounter ZONES
+    from the entry portal out to the boss, sized by openZoneRadiusRange. Open
+    defs therefore state layoutMode Open, roofed false, placeDoors false and a
+    zone radius, and state NO wallDef, NO wallStuff and NO floorTerrain,
+    because Open mode reads none of the three.
+
+    ZONE RADII IN THIS BAND are the largest in the catalogue (roughly 14~20).
+    These are the set-piece dungeons and each zone has to hold a handful of
+    the heaviest creatures in the game with room to fight; the placement rule
+    keeps a hard 3-cell separation, so they still never touch.
+
+    All twelve set requiresFullRoster true. Their identity IS their bestiary —
+    an "Archangel's Sanctum" with no archangels is not a set-piece, it is a
+    confusing empty hall — so each drops out silently when its source mod is
+    absent (Isekai Creatures, Biotech for #44, Anomaly for #47). The rosterless
+    IsekaiDungeons_BreakDungeon in DungeonKinds.xml is what keeps every rank
+    covered when they do.
+
+    Terrain/wall notes (all defNames verified against Core):
+      - NO def in this file declares a wallDef or wallStuff any more. Carve
+        dungeons never needed one (the leftover rock IS the wall shell), and
+        Open dungeons have no walls at all. The old Ashland/Snowfield/Celestial
+        wall-stuff stand-ins (BlocksSlate / BlocksMarble) are gone with them.
+      - Only Carve dungeons state a floorTerrain, and only where the floor is
+        a laid floor rather than the environment's own stone.
+  -->
+
+  <!-- ═══════════════════════ S ═══════════════════════ -->
+
+  <!-- 41 | True Dragon's Hoard | S | Ashland | wyvern broods | True Dragon
+       OPEN-FIELD dungeon: an ash plain with a hoard sitting on it. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_TrueDragonsHoard</defName>
+    <label>true dragon's hoard</label>
+    <description>An ash plain with a mountain of melted coin sitting out on it in the open, because nothing here has ever needed to hide it. The wyvern broods scattered across the approach are not the hoard's owners — they are its watchdogs, and they will scatter themselves the moment the real owner stirs. Whatever the true dragon has been counting out there, it has been counting it for centuries.</description>
+
+    <mapGenerator>IsekaiDungeons_Ashland</mapGenerator>
+    <minRank>S</minRank>
+    <maxRank>S</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+
+    <layoutMode>Open</layoutMode>
+    <roofed>false</roofed>
+    <placeDoors>false</placeDoors>
+    <!-- No floorTerrain: the Ashland biome supplies the ash and scorched rock. -->
+    <!-- Broods nest apart from each other across the plain. -->
+    <openZoneRadiusRange>13~16</openZoneRadiusRange>
+
+    <!-- Earth-toned wyverns hold the outer nest; the fire and poison broods sit
+         deeper, and a second true dragon is a rare back-half surprise. -->
+    <roster>
+      <li><kind>IsekaiWyvern_Sand</kind><weight>1.2</weight></li>
+      <li><kind>IsekaiWyvern_Rock</kind><weight>1.2</weight></li>
+      <li><kind>IsekaiWyvern_Normal</kind><weight>1.0</weight><minDepth>0.3</minDepth></li>
+      <li><kind>IsekaiWyvern_Poison</kind><weight>0.7</weight><minDepth>0.5</minDepth></li>
+      <li><kind>IsekaiDragon_True</kind><weight>0.25</weight><minDepth>0.75</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiDragon_True</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- 42 | Lich King's Necropolis | S | Crypt | liches, orc skeletons | Upper Lich -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_LichKingsNecropolis</defName>
+    <label>lich king's necropolis</label>
+    <description>Every tomb in this necropolis was dug by something that is still walking. Skeleton ranks stand in the aisles in perfect order, holding an order that was given a very long time ago and never rescinded. At the far end, on a seat of stacked coffins, the lich king is still adding to the army.</description>
+
+    <mapGenerator>IsekaiDungeons_Crypt</mapGenerator>
+    <minRank>S</minRank>
+    <maxRank>S</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+
+    <layoutMode>Carve</layoutMode>
+    <roofed>true</roofed>
+    <!-- Bone-pale cut stone: limestone flagstone reads as tomb masonry where
+         the darker slate tiles read as a dungeon floor. -->
+    <floorTerrain>FlagstoneLimestone</floorTerrain>
+
+    <roster>
+      <li><kind>IsekaiSkeleton_Common</kind><weight>1.4</weight></li>
+      <li><kind>IsekaiSkeleton_Goblin</kind><weight>1.0</weight></li>
+      <li><kind>IsekaiSkeleton_Orc</kind><weight>1.2</weight><minDepth>0.2</minDepth></li>
+      <li><kind>IsekaiLich_Adult</kind><weight>0.8</weight><minDepth>0.45</minDepth></li>
+      <li><kind>IsekaiLich_Upper</kind><weight>0.3</weight><minDepth>0.8</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiLich_Upper</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- 43 | Abyssal Throne | S | Abyss | greater demons, pyromancers | Hell Ogre -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_AbyssalThrone</defName>
+    <label>abyssal throne</label>
+    <description>The heat gets worse the deeper you go, until the stone glows through your boots. Greater demons hold the approaches while pyromancers burn the corridors clear behind them, so there is no line of retreat that stays open twice. The throne at the end was cut far too large for a demon, and the thing sitting on it has been waiting for the gate to open from your side.</description>
+
+    <mapGenerator>IsekaiDungeons_Abyss</mapGenerator>
+    <minRank>S</minRank>
+    <maxRank>S</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+
+    <layoutMode>Carve</layoutMode>
+    <roofed>true</roofed>
+    <!-- Dark speckled cut stone for a throne hall carved into infernal rock.
+         The refund-free twin of TileGranite (see DungeonTerrain.xml). -->
+    <floorTerrain>IsekaiDungeons_TileGranite</floorTerrain>
+
+    <roster>
+      <li><kind>IsekaiImp_Greater</kind><weight>1.2</weight></li>
+      <li><kind>IsekaiDemon_Common</kind><weight>1.0</weight></li>
+      <li><kind>IsekaiDemon_Greater</kind><weight>0.9</weight><minDepth>0.4</minDepth></li>
+      <li><kind>IsekaiHellOgre_Common</kind><weight>0.5</weight><minDepth>0.7</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiHellOgre_Common</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- 44 | Mechanoid Hive Cluster | S | Foundry | centipedes, diaboli | Warqueen
+       Biotech roster: the whole def drops out without the DLC.
+       OPEN-FIELD dungeon: Foundry is a surface environment, so the cluster
+       sprawls across open ground instead of sealing itself into halls. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_MechanoidHiveCluster</defName>
+    <label>mechanoid hive cluster</label>
+    <description>A mechanoid cluster spread itself across this ground the way rust spreads across a plate, and nothing has interrupted it in a very long time. Centipedes hold the open in blocks and diaboli cover the gaps between them, every one of them taking orders from a single node further out. Kill the warqueen and the whole field goes dark at once.</description>
+
+    <mapGenerator>IsekaiDungeons_Foundry</mapGenerator>
+    <minRank>S</minRank>
+    <maxRank>S</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+
+    <layoutMode>Open</layoutMode>
+    <!-- roofed false, not the old true: Open never roofs anything, so a stated
+         "roofed" would describe a sealed complex that is not generated. -->
+    <roofed>false</roofed>
+    <placeDoors>false</placeDoors>
+    <!-- No floorTerrain: the Foundry biome supplies the ground. -->
+    <!-- Tightest zones in the S pool: a cluster is dense by definition, and
+         packing centipedes close is what makes each zone a real wall of guns. -->
+    <openZoneRadiusRange>13~16</openZoneRadiusRange>
+
+    <roster>
+      <li><kind>Mech_CentipedeGunner</kind><weight>1.0</weight></li>
+      <li><kind>Mech_CentipedeBlaster</kind><weight>1.0</weight></li>
+      <li><kind>Mech_Legionary</kind><weight>0.9</weight></li>
+      <li><kind>Mech_CentipedeBurner</kind><weight>0.8</weight><minDepth>0.2</minDepth></li>
+      <li><kind>Mech_Diabolus</kind><weight>0.5</weight><minDepth>0.55</minDepth></li>
+    </roster>
+    <bosses>
+      <li>Mech_Warqueen</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- ═══════════════════════ SS ═══════════════════════ -->
+
+  <!-- 45 | Ancient Dragon's Peak | SS | Ashland | wyverns, true dragons | Ancient Dragon
+       OPEN-FIELD dungeon: a volcanic peak, open to the sky by definition. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_AncientDragonsPeak</defName>
+    <label>ancient dragon's peak</label>
+    <description>The gate opens high on a volcanic peak, above the ash line, where the air is thin and stinks of sulphur. Wyverns circle the ledges and true dragons roost in the caldera itself, and none of them is the one you came for. The ancient dragon is older than the mountain it sleeps on, and it stopped sleeping when the gate formed.</description>
+
+    <mapGenerator>IsekaiDungeons_Ashland</mapGenerator>
+    <minRank>SS</minRank>
+    <maxRank>SS</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+
+    <layoutMode>Open</layoutMode>
+    <roofed>false</roofed>
+    <placeDoors>false</placeDoors>
+    <!-- No floorTerrain: the Ashland biome supplies the ash and scorched rock. -->
+    <!-- Ledges and a caldera: the widest SS zones, and dragons need the space. -->
+    <openZoneRadiusRange>13~16</openZoneRadiusRange>
+
+    <roster>
+      <li><kind>IsekaiWyvern_Normal</kind><weight>1.2</weight></li>
+      <li><kind>IsekaiWyvern_Rock</kind><weight>1.0</weight></li>
+      <li><kind>IsekaiWyvern_Dark</kind><weight>0.8</weight><minDepth>0.3</minDepth></li>
+      <li><kind>IsekaiDragon_True</kind><weight>0.6</weight><minDepth>0.5</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiDragon_Ancient</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- 46 | Valkyrie Hall | SS | Celestial | valkyries | Valkyrie
+       OPEN-FIELD dungeon: "a hall with no ceiling" was already the brief —
+       Open mode is that literally. The Celestial biome is the hall. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_ValkyrieHall</defName>
+    <label>valkyrie hall</label>
+    <description>Marble stairs climb out of ordinary dirt and end at nothing: past them the ground runs pale and open, with no ceiling over it and no shadow on it. The valkyries out there do not raid, do not hunt and do not negotiate — they hold the ground, and that is the whole of it. They have held it long enough that nobody left alive remembers what they are holding it against.</description>
+
+    <mapGenerator>IsekaiDungeons_Celestial</mapGenerator>
+    <minRank>SS</minRank>
+    <maxRank>SS</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+
+    <layoutMode>Open</layoutMode>
+    <roofed>false</roofed>
+    <placeDoors>false</placeDoors>
+    <!-- No floorTerrain: the Celestial biome supplies the pale ground. -->
+    <!-- Ranks of soldiers holding a line: ordered and broad, but not scattered. -->
+    <openZoneRadiusRange>13~16</openZoneRadiusRange>
+
+    <!-- Deliberately a one-kind roster. Isekai Creatures ships a single
+         valkyrie kind and the set-piece is exactly that: rank after rank of
+         the same soldier. The room-tier ramp in GenStep_DungeonPopulation
+         still escalates them, so depth gating would add nothing here. -->
+    <roster>
+      <li><kind>IsekaiValkyrie_Common</kind><weight>1.0</weight></li>
+    </roster>
+    <bosses>
+      <li>IsekaiValkyrie_Common</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- 47 | Void Chimera Den | SS | Abyss | chimeras, devourers | Nociosphere
+       Anomaly roster: the whole def drops out without the DLC. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_VoidChimeraDen</defName>
+    <label>void chimera den</label>
+    <description>Something tore this pit out of the abyss and left the edges unfinished. Devourers wait under the floor filth for a boot to land wrong, and chimeras drag themselves along the walls just out of the light. At the bottom hangs a sphere of concentrated malice that never needed a body to kill anything.</description>
+
+    <mapGenerator>IsekaiDungeons_Abyss</mapGenerator>
+    <minRank>SS</minRank>
+    <maxRank>SS</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+
+    <layoutMode>Carve</layoutMode>
+    <roofed>true</roofed>
+    <!-- Raw grit, not masonry: nothing built this den. -->
+    <floorTerrain>Gravel</floorTerrain>
+
+    <roster>
+      <li><kind>Devourer</kind><weight>1.2</weight></li>
+      <li><kind>Chimera</kind><weight>1.0</weight><minDepth>0.2</minDepth></li>
+    </roster>
+    <bosses>
+      <!-- Chimera, Nociosphere and Gorehulk are LORD-DRIVEN, not
+           mental-state driven: their Anomaly think trees contain no
+           MentalState node, so DungeonMapComponent's forced
+           ManhunterPermanent is a silent no-op and they never fight.
+           (Nociosphere additionally needs 12-16 days of CompActivity to
+           wake, far longer than a gate lives.) Bosses must be kinds that
+           actually engage, so the fleshbeast family is used instead - it
+           is the one Anomaly tree that consumes mental states. Keeping
+           the passive ones as ROSTER flavour is fine; an inert BOSS is
+           not, because the boss is what gates the clear. -->
+      <li>Bulbfreak</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- ═══════════════════════ SSS ═══════════════════════ -->
+
+  <!-- 48 | Archangel's Sanctum | SSS | Celestial | valkyries | Archangel
+       OPEN-FIELD dungeon: the sanctum is ground and light, not masonry. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_ArchangelsSanctum</defName>
+    <label>archangel's sanctum</label>
+    <description>The light out here has no source and throws no shadow, and the marble runs pale to every horizon. Rank on rank of valkyries stand across it, and every one of them turns its head at the same instant you set foot on the stone. The archangel waiting at the far end does not turn at all — it already knew.</description>
+
+    <mapGenerator>IsekaiDungeons_Celestial</mapGenerator>
+    <minRank>SSS</minRank>
+    <maxRank>SSS</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+
+    <layoutMode>Open</layoutMode>
+    <roofed>false</roofed>
+    <placeDoors>false</placeDoors>
+    <!-- No floorTerrain: the Celestial biome supplies the pale ground. This
+         row used to separate itself from Valkyrie Hall by polished tile; on an
+         open field the separation is the zone scale and the roster instead. -->
+    <!-- One band above the hall, so one step wider. -->
+    <openZoneRadiusRange>13~16</openZoneRadiusRange>
+
+    <roster>
+      <li><kind>IsekaiValkyrie_Common</kind><weight>1.0</weight></li>
+    </roster>
+    <bosses>
+      <li>IsekaiArchangel_Common</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- 49 | Dragonspire Apex | SSS | Ashland | true dragons, wyverns | Ancient Dragon
+       OPEN-FIELD dungeon: ash and standing rock; the spire is scenery the
+       Ashland generator scatters, not a structure we build. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_DragonspireApex</defName>
+    <label>dragonspire apex</label>
+    <description>A single black tooth of stone stands up out of the ash, and the ground around it is open for as far as the haze allows. True dragons hold the ash beneath it; the wyverns are only the noise they travel with. The ancient dragon at the spire has eaten every party that ever crossed this far, and it is not in a hurry.</description>
+
+    <mapGenerator>IsekaiDungeons_Ashland</mapGenerator>
+    <minRank>SSS</minRank>
+    <maxRank>SSS</maxRank>
+    <selectionWeight>1.0</selectionWeight>
+
+    <layoutMode>Open</layoutMode>
+    <roofed>false</roofed>
+    <placeDoors>false</placeDoors>
+    <!-- No floorTerrain: the Ashland biome supplies the ground. What used to
+         separate this row from the other two Ashland dungeons was its cut-stone
+         paint; now it is the zone scale and the density of true dragons. -->
+    <!-- The widest zones outside the Nation band. -->
+    <openZoneRadiusRange>13~16</openZoneRadiusRange>
+
+    <roster>
+      <li><kind>IsekaiWyvern_Dark</kind><weight>1.0</weight></li>
+      <li><kind>IsekaiWyvern_Normal</kind><weight>1.0</weight></li>
+      <li><kind>IsekaiDragon_True</kind><weight>1.0</weight><minDepth>0.3</minDepth></li>
+      <li><kind>IsekaiDragon_Ancient</kind><weight>0.35</weight><minDepth>0.8</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiDragon_Ancient</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- ═══════════════════════ NATION ═══════════════════════
+
+       The three Grand Beast gates. Nation rank is only reachable through a red
+       gate rolled at an SSS colony cap, so these are the rarest content in the
+       mod; the low selectionWeight is what keeps each one feeling like a
+       specific named event rather than "another Nation dungeon". Each carries:
+         - a single unique Grand Beast boss (no candidate list to roll from);
+         - bossIsElite stated explicitly — a Grand Beast must never generate
+           without the elite override, so it is not left to the field default;
+         - no linger override: a cleared gate now closes two hours after the
+           last pawn leaves rather than on a fixed timer, so even a Nation loot
+           pile takes exactly as long to haul out as it takes.
+  -->
+
+  <!-- 50 | Midhir's Deep | Nation | Abyss | Midhir minions, greater demons | Midhir -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_MidhirsDeep</defName>
+    <!-- NATION GATE. Only a guild contract rolls Nation, and only for a
+         colony whose best fighter is Nation-rank (the contract ceiling
+         roll). Local gates never reach it. Was briefly towerOnly as the
+         tower's floor-1 "cell"; that endgame was removed 2026-09-30. -->
+    <label>midhir's deep</label>
+    <description>The abyss has a floor, and Midhir owns it. Its minions come up the shafts in numbers that make corridors pointless, and the greater demons hold the doors as though moving were beneath them. This is not a dungeon with a boss in it; it is a boss with a dungeon built around it.</description>
+
+    <mapGenerator>IsekaiDungeons_Abyss</mapGenerator>
+    <minRank>Nation</minRank>
+    <maxRank>Nation</maxRank>
+    <selectionWeight>0.3</selectionWeight>
+
+    <layoutMode>Carve</layoutMode>
+    <roofed>true</roofed>
+    <floorTerrain>IsekaiDungeons_TileSlate</floorTerrain>
+
+    <!-- Minions carry the room budget; the greater demons and hell ogres are
+         the spike. No depth gate on the minions — they are everywhere. -->
+    <roster>
+      <li><kind>IsekaiTroll_Upper</kind><weight>1.3</weight></li>
+      <li><kind>IsekaiGrandBeast_Midhir_Minion</kind><weight>1.0</weight></li>
+      <li><kind>IsekaiMinotaur_Upper</kind><weight>0.8</weight><minDepth>0.4</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiGrandBeast_Midhir</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+
+    <bossIsElite>true</bossIsElite>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- 51 | Corcera's Domain | Nation | Celestial | valkyries, archangels | Corcera
+       OPEN-FIELD dungeon: "a marble plain under a sky that is nothing but
+       light" — the description was always describing an open field. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_CorcerasDomain</defName>
+    <!-- NATION GATE. Only a guild contract rolls Nation, and only for a
+         colony whose best fighter is Nation-rank (the contract ceiling
+         roll). Local gates never reach it. Was briefly towerOnly as the
+         tower's floor-1 "cell"; that endgame was removed 2026-09-30. -->
+    <label>corcera's domain</label>
+    <description>The gate opens onto a marble plain under a sky that is nothing but light. Valkyries and archangels keep the approaches in complete silence, and not one of them will answer you. Corcera waits at the center of its own domain, and in all the time it has held this place it has never once had to leave the center.</description>
+
+    <mapGenerator>IsekaiDungeons_Celestial</mapGenerator>
+    <minRank>Nation</minRank>
+    <maxRank>Nation</maxRank>
+    <selectionWeight>0.3</selectionWeight>
+
+    <layoutMode>Open</layoutMode>
+    <roofed>false</roofed>
+    <placeDoors>false</placeDoors>
+    <!-- No floorTerrain: the Celestial biome supplies the pale ground. -->
+    <!-- The largest zones in the catalogue. Corcera "has never once had to
+         leave the center", which only lands if the approaches are vast. -->
+    <openZoneRadiusRange>13~16</openZoneRadiusRange>
+
+    <roster>
+      <li><kind>IsekaiMinotaur_Upper</kind><weight>1.2</weight></li>
+      <li><kind>IsekaiGrandBeast_Midhir_Minion</kind><weight>1.0</weight></li>
+      <li><kind>IsekaiTroll_Upper</kind><weight>0.8</weight><minDepth>0.35</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiGrandBeast_Corcera</li>
+    </bosses>
+    <requiresFullRoster>true</requiresFullRoster>
+
+    <bossIsElite>true</bossIsElite>
+  </IsekaiDungeons.DungeonKindDef>
+
+  <!-- 52 | The Mist Trench | Nation | Snowfield | valkyries, ice wyverns | Whale of the Mist
+       OPEN-FIELD dungeon: ice and standing mist, nothing built. -->
+  <IsekaiDungeons.DungeonKindDef ParentName="IsekaiDungeonBase">
+    <defName>IsekaiDungeons_MistTrench</defName>
+    <!-- NATION GATE. Only a guild contract rolls Nation, and only for a
+         colony whose best fighter is Nation-rank (the contract ceiling
+         roll). Local gates never reach it. Was briefly towerOnly as the
+         tower's floor-1 "cell"; that endgame was removed 2026-09-30. -->
+    <label>the mist trench</label>
+    <description>The snowfield runs out into a flat waste of ice and standing mist that swallows sound a few paces in. Ice wyverns hunt the near ground and valkyries patrol behind them, but every one of them keeps well clear of the far end. Something the size of a hill is circling out there, and it has been circling since before the gate opened.</description>
+
+    <mapGenerator>IsekaiDungeons_Snowfield</mapGenerator>
+    <minRank>Nation</minRank>
+    <maxRank>Nation</maxRank>
+    <selectionWeight>0.3</selectionWeight>
+
+    <layoutMode>Open</layoutMode>
+    <roofed>false</roofed>
+    <placeDoors>false</placeDoors>
+    <!-- No floorTerrain: the Snowfield generator's own ice and snow are the
+         ground, and Open mode paints nothing over them. -->
+    <!-- A trench reads narrower than Corcera's open plain, so one step tighter
+         than the other Nation gate — but still Nation-scale. -->
+    <openZoneRadiusRange>13~16</openZoneRadiusRange>
+
+    <roster>
+      <li><kind>IsekaiGrandBeast_Midhir_Minion</kind><weight>1.2</weight></li>
+      <li><kind>ColossusToad</kind><weight>1.0</weight></li>
+      <li><kind>BogHound</kind><weight>0.9</weight></li>
+      <li><kind>IsekaiTroll_Upper</kind><weight>0.8</weight><minDepth>0.4</minDepth></li>
+    </roster>
+    <bosses>
+      <li>IsekaiGrandBeast_WhaleOfTheMist</li>
+    </bosses>
+    <requiresFullRoster>false</requiresFullRoster>
+
+    <bossIsElite>true</bossIsElite>
+  </IsekaiDungeons.DungeonKindDef>
+
+</Defs>
